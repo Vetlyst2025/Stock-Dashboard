@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visser Framework — Live Watchlist Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#080c10;--surface:#0d1117;--surface2:#131920;--border:#1e2d3d;--border2:#243447;
+    --text:#cdd9e5;--muted:#6b7f94;--accent:#00d4ff;--green:#00e676;--red:#ff4444;
+    --yellow:#ffc107;--purple:#bb86fc;--tier1:#00e676;--tier2:#00d4ff;--macro:#ffc107;
+    --font-mono:'Space Mono',monospace;--font-sans:'DM Sans',sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--text);font-family:var(--font-sans);min-height:100vh;}
+  body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.015) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+  .app{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:20px;}
+  header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:10px;}
+  .header-left h1{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:0.15em;color:var(--accent);text-transform:uppercase;margin-bottom:3px;}
+  .header-left p{font-size:9px;color:var(--muted);font-family:var(--font-mono);}
+  .header-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .live-badge{display:flex;align-items:center;gap:5px;font-family:var(--font-mono);font-size:8px;color:var(--green);letter-spacing:0.1em;}
+  .live-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.7)}}
+  .btn{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:6px 11px;border-radius:5px;font-family:var(--font-mono);font-size:8px;letter-spacing:0.08em;cursor:pointer;transition:all 0.2s;text-transform:uppercase;white-space:nowrap;}
+  .btn:hover{border-color:var(--accent);color:var(--accent);}
+  .btn-accent{border-color:rgba(0,212,255,0.4);color:var(--accent);}
+  .macro-strip{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--yellow);border-radius:7px;padding:10px 14px;margin-bottom:18px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
+  .macro-label{font-family:var(--font-mono);font-size:8px;letter-spacing:0.15em;color:var(--yellow);text-transform:uppercase;flex-shrink:0;}
+  .macro-item{display:flex;align-items:center;gap:7px;}
+  .macro-item-name{font-family:var(--font-mono);font-size:8px;color:var(--muted);}
+  .macro-val{font-family:var(--font-mono);font-size:9px;font-weight:700;}
+  .trigger-warn{color:var(--yellow);}
+  .trigger-action{color:var(--red);}
+  .hyg-live{font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--text);}
+  .hyg-ok{color:var(--green);}
+  .hyg-warn{color:var(--yellow);}
+  .hyg-danger{color:var(--red);}
+  .section-label{font-family:var(--font-mono);font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;margin-top:18px;display:flex;align-items:center;gap:8px;}
+  .section-label::after{content:'';flex:1;height:1px;background:var(--border);}
+  .section-label span{padding:2px 6px;border-radius:3px;font-size:7px;}
+  .label-tier1{border:1px solid var(--tier1);color:var(--tier1);}
+  .label-tier2{border:1px solid var(--tier2);color:var(--tier2);}
+  .label-macro{border:1px solid var(--yellow);color:var(--yellow);}
+  .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:11px;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:9px;overflow:hidden;transition:border-color 0.2s,transform 0.15s;}
+  .card:hover{border-color:var(--border2);transform:translateY(-1px);}
+  .macro-card{border-color:rgba(255,193,7,0.3);}
+  .card-top{padding:11px 13px 9px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+  .card-identity{flex:1;min-width:0;}
+  .ticker-row{display:flex;align-items:center;gap:6px;margin-bottom:2px;}
+  .ticker{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--accent);letter-spacing:0.05em;}
+  .macro-card .ticker{color:var(--yellow);}
+  .tier-badge{font-family:var(--font-mono);font-size:7px;padding:2px 5px;border-radius:3px;text-transform:uppercase;flex-shrink:0;}
+  .badge-tier1{background:rgba(0,230,118,0.12);color:var(--tier1);border:1px solid rgba(0,230,118,0.3);}
+  .badge-tier2{background:rgba(0,212,255,0.1);color:var(--tier2);border:1px solid rgba(0,212,255,0.25);}
+  .badge-macro{background:rgba(255,193,7,0.1);color:var(--yellow);border:1px solid rgba(255,193,7,0.3);}
+  .badge-hold{background:rgba(187,134,252,0.1);color:var(--purple);border:1px solid rgba(187,134,252,0.3);}
+  .company-name{font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .price-block{display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex-shrink:0;}
+  .live-price{font-family:var(--font-mono);font-size:15px;font-weight:700;color:var(--text);}
+  .price-change{font-family:var(--font-mono);font-size:10px;font-weight:700;}
+  .chg-up{color:var(--green);}
+  .chg-down{color:var(--red);}
+  .chg-flat{color:var(--muted);}
+  .entry-section{padding:8px 13px;border-bottom:1px solid var(--border);background:var(--surface2);}
+  .entry-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;gap:6px;flex-wrap:wrap;}
+  .entry-label{font-family:var(--font-mono);font-size:7px;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase;}
+  .entry-target{font-family:var(--font-mono);font-size:9px;font-weight:700;color:var(--green);}
+  .entry-status{font-family:var(--font-mono);font-size:7px;padding:2px 5px;border-radius:3px;text-transform:uppercase;}
+  .status-wait{background:rgba(255,193,7,0.1);color:var(--yellow);border:1px solid rgba(255,193,7,0.2);}
+  .status-watch{background:rgba(0,212,255,0.08);color:var(--accent);border:1px solid rgba(0,212,255,0.2);}
+  .status-trigger{background:rgba(255,68,68,0.1);color:var(--red);border:1px solid rgba(255,68,68,0.2);}
+  .status-zone{background:rgba(0,230,118,0.12);color:var(--green);border:1px solid rgba(0,230,118,0.3);}
+  .distance-row{display:flex;align-items:center;gap:8px;}
+  .distance-bar-bg{flex:1;height:4px;background:var(--border2);border-radius:2px;overflow:hidden;}
+  .distance-bar-fill{height:100%;border-radius:2px;transition:width 0.5s ease;}
+  .fill-red{background:var(--red);}
+  .fill-yellow{background:var(--yellow);}
+  .fill-green{background:var(--green);}
+  .fill-accent{background:var(--accent);}
+  .distance-pct{font-family:var(--font-mono);font-size:8px;font-weight:700;white-space:nowrap;flex-shrink:0;}
+  .scores-row{padding:6px 13px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+  .score-item{display:flex;align-items:center;gap:4px;}
+  .score-dots{display:flex;gap:2px;}
+  .score-dot{width:5px;height:5px;border-radius:50%;}
+  .score-dot.on{background:var(--accent);}
+  .score-dot.off{background:var(--border2);}
+  .score-lbl{font-family:var(--font-mono);font-size:7px;color:var(--muted);}
+  .rev-badge{font-family:var(--font-mono);font-size:7px;font-weight:700;padding:1px 4px;border-radius:3px;}
+  .rev-pos{color:var(--green);background:rgba(0,230,118,0.1);}
+  .rev-neg{color:var(--red);background:rgba(255,68,68,0.1);}
+  .thesis-line{padding:7px 13px;border-bottom:1px solid var(--border);font-size:10px;color:var(--muted);line-height:1.5;}
+  .news-section{padding:9px 13px;}
+  .news-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;}
+  .news-title{font-family:var(--font-mono);font-size:7px;letter-spacing:0.12em;color:var(--muted);text-transform:uppercase;}
+  .news-btn{font-family:var(--font-mono);font-size:7px;color:var(--accent);background:transparent;border:1px solid rgba(0,212,255,0.25);padding:2px 7px;border-radius:3px;cursor:pointer;text-transform:uppercase;transition:all 0.2s;}
+  .news-btn:hover{background:rgba(0,212,255,0.08);}
+  .news-btn:disabled{opacity:0.4;cursor:not-allowed;}
+  .news-content{min-height:44px;font-size:10px;line-height:1.6;}
+  .news-placeholder{color:var(--muted);font-style:italic;font-size:10px;}
+  .news-summary{padding:4px 0 6px;font-size:10px;color:var(--accent);border-bottom:1px solid var(--border);margin-bottom:6px;line-height:1.5;}
+  .news-item{padding:6px 0;border-bottom:1px solid var(--border);}
+  .news-item:last-child{border-bottom:none;}
+  .news-headline a{font-size:10px;color:var(--text);line-height:1.4;text-decoration:none;border-bottom:1px solid rgba(205,217,229,0.2);transition:color 0.15s,border-color 0.15s;display:inline;}
+  .news-headline a:hover{color:var(--accent);border-bottom-color:var(--accent);}
+  .news-headline .no-link{font-size:10px;color:var(--text);line-height:1.4;}
+  .news-meta{display:flex;gap:5px;align-items:center;flex-wrap:wrap;margin-top:3px;}
+  .news-sent{font-family:var(--font-mono);font-size:7px;padding:1px 4px;border-radius:2px;text-transform:uppercase;}
+  .sent-bull{background:rgba(0,230,118,0.12);color:var(--green);}
+  .sent-bear{background:rgba(255,68,68,0.12);color:var(--red);}
+  .sent-neutral{background:rgba(107,127,148,0.15);color:var(--muted);}
+  .news-rel{font-family:var(--font-mono);font-size:7px;color:var(--muted);}
+  .news-source{font-family:var(--font-mono);font-size:7px;color:var(--accent);opacity:0.6;}
+  .spinner{display:inline-block;width:9px;height:9px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin 0.7s linear infinite;margin-right:5px;vertical-align:middle;}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .err{color:var(--red);font-size:9px;font-style:italic;}
+  footer{margin-top:28px;padding-top:12px;border-top:1px solid var(--border);font-family:var(--font-mono);font-size:8px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header>
+    <div class="header-left">
+      <h1>▸ Visser Framework — Live Infrastructure Watchlist</h1>
+      <p>AI Macro Nexus / Mike Brewer · <span id="today-date"></span></p>
+    </div>
+    <div class="header-right">
+      <div class="live-badge"><div class="live-dot"></div>LIVE PRICES</div>
+      <button class="btn btn-accent" onclick="refreshPrices()">↻ Prices</button>
+      <button class="btn" onclick="fetchAllNews()">⚡ All News</button>
+    </div>
+  </header>
+
+  <div class="macro-strip">
+    <span class="macro-label">⚡ Macro Triggers</span>
+    <div class="macro-item">
+      <span class="macro-item-name">HYG LIVE</span>
+      <span class="hyg-live" id="hyg-live-price">—</span>
+      <span class="hyg-live" id="hyg-live-chg" style="font-size:9px"></span>
+    </div>
+    <div class="macro-item"><span class="macro-item-name">WARN</span><span class="macro-val trigger-warn">$78.00</span></div>
+    <div class="macro-item"><span class="macro-item-name">ACTION</span><span class="macro-val trigger-action">$76.00</span></div>
+    <div class="macro-item"><span class="macro-item-name">STATUS</span><span class="macro-val" id="hyg-status">Loading...</span></div>
+    <div class="macro-item"><span class="macro-item-name">VIX WATCH</span><span class="macro-val trigger-warn">&gt;25 / &gt;35</span></div>
+    <div class="macro-item" style="margin-left:auto"><span class="macro-item-name" style="font-size:7px">ALL SIGNALS REQUIRED · NO SINGLE TRIGGER</span></div>
+  </div>
+
+  <div class="section-label">Tier 1 — High Conviction <span class="label-tier1">DCA Through Pain</span></div>
+  <div class="card-grid" id="tier1-grid"></div>
+
+  <div class="section-label">Inside the Rack — Whole Rack Framework <span class="label-tier2">Visser March 2026</span></div>
+  <div class="card-grid" id="rack-grid"></div>
+
+  <div class="section-label">Power & Grid — Original Visser Expression <span class="label-tier2">Entry on Pullbacks</span></div>
+  <div class="card-grid" id="power-grid"></div>
+
+  <div class="section-label">Macro Monitor <span class="label-macro">Deployment Trigger</span></div>
+  <div class="card-grid" id="macro-grid"></div>
+
+  <footer>
+    <span>Visser AI Macro Nexus · Personal investment reference only · Not financial advice · Prices: Finnhub</span>
+    <span id="last-refresh">Prices not loaded</span>
+  </footer>
+</div>
+
+<script>
+const API_KEY = 'd6ul7fhr01qig544vtggd6ul7fhr01qig544vth0';
+
+const WATCHLIST = {
+  tier1:[
+    {ticker:'PLTR',name:'Palantir Technologies',tier:'TIER 1',badge:'badge-tier1',entryLabel:'Under $100',entryLow:80,entryHigh:100,status:'wait',statusLabel:'WAIT FOR DIP',vTech:0,vComm:0,rev:'',thesis:'AI Operating System of the West. AIP Bootcamp flywheel (~75% conversion rate). Ontology layer moat — 20 years institutional trust, Five Eyes clearances. FY2026 guide: 61% rev growth, Rule of 40 = 127%. Tier 1 eligible — buy under $100 + weekly Larsson flip confirmed.'},
+    {ticker:'TSLA',name:'Tesla Inc.',tier:'TIER 1',badge:'badge-tier1',entryLabel:'Weekly $180 DCA · Block re-entry <$400',entryLow:300,entryHigh:400,status:'watch',statusLabel:'DCA ACTIVE',vTech:0,vComm:0,rev:'',thesis:'Musk ecosystem proxy: xAI, SpaceX, Optimus robotics, Starlink, energy. Weekly $180 DCA is single best-performing active strategy. 18.9 shares accumulated. Never stop DCA regardless of price.'},
+  ],
+  rack:[
+    {ticker:'VRT',name:'Vertiv Holdings',tier:'TOP PRIORITY',badge:'badge-tier2',entryLabel:'$150–180 after pullback + Larsson flip',entryLow:150,entryHigh:180,status:'wait',statusLabel:'DO NOT CHASE',vTech:4,vComm:4,rev:'+',thesis:'Purest power/cooling play. Liquid cooling, UPS, thermal mgmt for AI data centers. Agentic AI = always-on 24/7 load forces liquid cooling shift. Currently ~$269 retesting $280 ATH. Entry $150–180 ONLY.'},
+    {ticker:'MRVL',name:'Marvell Technology',tier:'TIER 2',badge:'badge-tier2',entryLabel:'$65–70 primary · $55–60 opportunistic',entryLow:65,entryHigh:70,status:'wait',statusLabel:'ALERT AT $70',vTech:4,vComm:4,rev:'+',thesis:'Connective tissue of AI data centers. Custom ASICs, optical interconnects, switching fabric. Co-architect on Amazon Trainium + Microsoft Maia. FY2028 guide: ~$15B rev, $5+ EPS. At $65 = ~13x FY2028 EPS.'},
+    {ticker:'MU',name:'Micron Technology',tier:'TIER 2',badge:'badge-tier2',entryLabel:'Alert at $280 · No action until then',entryLow:260,entryHigh:280,status:'wait',statusLabel:'ALERT SET $280',vTech:4,vComm:4,rev:'+',thesis:'HBM and advanced packaging — upstream choke points governing AI system availability. Agentic agents consume ultra-high-bandwidth memory at scale. No action until $280.'},
+    {ticker:'CSCO',name:'Cisco Systems',tier:'TIER 2',badge:'badge-tier2',entryLabel:'Buy on pullbacks',entryLow:60,entryHigh:72,status:'watch',statusLabel:'MONITOR',vTech:4,vComm:3,rev:'+',thesis:'Repositioning around agentic AI security and orchestration. East-west networking traffic beneficiary — agentic workflows multiply internal data center hops vs. simple chatbot inference.'},
+    {ticker:'PSTG',name:'Everpure (Pure Storage)',tier:'MONITOR',badge:'badge-hold',entryLabel:'Wait for weekly trend flip',entryLow:55,entryHigh:65,status:'watch',statusLabel:'CHART NOT READY',vTech:1,vComm:4,rev:'+',thesis:'Visser commentary 4/+. Crucial for RAG-driven agentic workflows — flash storage latency is the bottleneck for AI agents querying enterprise data. Tech score 1 = chart not confirmed. Rebranded Everpure Mar 5 2026.'},
+  ],
+  power:[
+    {ticker:'GEV',name:'GE Vernova',tier:'TIER 2',badge:'badge-tier2',entryLabel:'~$720–750 (15-20% pullback)',entryLow:720,entryHigh:750,status:'wait',statusLabel:'WAIT FOR DIP',vTech:0,vComm:0,rev:'',thesis:'Purest original Visser expression. Power generation, gas turbines, grid equipment. AI power demand play. Currently ~$880 — wait for meaningful correction to $720–750 entry zone.'},
+    {ticker:'PWR',name:'Quanta Services',tier:'TIER 2',badge:'badge-tier2',entryLabel:'~$300s (pullbacks)',entryLow:280,entryHigh:320,status:'wait',statusLabel:'WAIT FOR DIP',vTech:0,vComm:0,rev:'',thesis:'Electrical grid buildout and utility infrastructure. Direct play on grid expansion required to power AI data centers. Currently ~$576 — well above entry zone.'},
+    {ticker:'CEG',name:'Constellation Energy',tier:'TIER 2',badge:'badge-tier2',entryLabel:'~$200s (pullbacks)',entryLow:190,entryHigh:230,status:'wait',statusLabel:'WAIT FOR DIP',vTech:0,vComm:0,rev:'',thesis:'Nuclear power. Data center energy contracts including landmark Microsoft deal. Clean baseload power critical as agentic AI demands always-on power. Currently ~$314 — above entry zone.'},
+    {ticker:'VST',name:'Vistra Corp',tier:'TIER 2',badge:'badge-tier2',entryLabel:'~$150s (pullbacks)',entryLow:145,entryHigh:170,status:'watch',statusLabel:'APPROACHING',vTech:0,vComm:0,rev:'',thesis:'Power generation, natural gas + nuclear mix. Complementary to CEG. Currently ~$164 — approaching entry range. Watch closely.'},
+    {ticker:'ETN',name:'Eaton Corporation',tier:'TIER 2',badge:'badge-tier2',entryLabel:'15-20% pullbacks from highs',entryLow:290,entryHigh:320,status:'watch',statusLabel:'LOWER PRIORITY',vTech:2,vComm:3,rev:'−',thesis:'⚠️ Visser negative revision (−). Diversified industrial, loose thesis fit vs. VRT/GEV. Keep on watchlist but deprioritize relative to VRT and GEV.'},
+    {ticker:'GLW',name:'Corning Inc.',tier:'TIER 2',badge:'badge-tier2',entryLabel:'$125–130 support zone',entryLow:125,entryHigh:133,status:'watch',statusLabel:'NEAR TARGET',vTech:0,vComm:0,rev:'',thesis:'Fiber optics, specialty glass. Currently ~$133 — approaching target zone of $125–130. Monitor insider selling as concern before entry.'},
+    {ticker:'SMH',name:'VanEck Semi ETF',tier:'TIER 2',badge:'badge-tier2',entryLabel:'Buy on pullbacks',entryLow:200,entryHigh:230,status:'watch',statusLabel:'MONITOR',vTech:0,vComm:0,rev:'',thesis:'Broad ETF expression of infrastructure/hardware long thesis. Diversified semiconductor exposure for the AI buildout.'},
+  ],
+  macro:[
+    {ticker:'HYG',name:'iShares High Yield Bond ETF',tier:'MACRO',badge:'badge-macro',entryLabel:'$78 Early Warning · $76 ACTION TRIGGER',entryLow:76,entryHigh:78,status:'trigger',statusLabel:'MONITOR DAILY',vTech:0,vComm:0,rev:'',thesis:'🚨 PRIMARY DEPLOYMENT TRIGGER. $78 = early warning (TradingView alert set). $76 = action trigger — deploy dry powder. Require multiple signals simultaneously. CDX HY spread + VIX structure also required.'},
+  ],
+};
+
+const priceData = {};
+
+function getDistanceInfo(stock, price) {
+  if (!price || price <= 0) return null;
+  const {entryLow,entryHigh} = stock;
+  if (price >= entryLow && price <= entryHigh) return {label:'🎯 IN ENTRY ZONE',pct:100,color:'fill-green',textColor:'var(--green)',zone:true};
+  if (price < entryLow) {
+    const pct = ((entryLow-price)/entryLow*100).toFixed(1);
+    return {label:`${pct}% BELOW TARGET`,pct:100,color:'fill-accent',textColor:'var(--accent)',zone:false};
+  }
+  const pctNeeded = ((price-entryHigh)/price*100).toFixed(1);
+  const barFill = Math.max(2, Math.min(95, 100-parseFloat(pctNeeded)*2));
+  let color='fill-red', textColor='var(--red)';
+  if (parseFloat(pctNeeded)<10){color='fill-yellow';textColor='var(--yellow)';}
+  if (parseFloat(pctNeeded)<5){color='fill-green';textColor='var(--green)';}
+  return {label:`↓ ${pctNeeded}% to entry`,pct:barFill,color,textColor,zone:false};
+}
+
+function buildCard(st, isMacro=false) {
+  const hasScore = st.vTech > 0;
+  let scoreHtml = '';
+  if (hasScore) {
+    let td='', cd='';
+    for(let i=1;i<=4;i++) td+=`<div class="score-dot ${i<=st.vTech?'on':'off'}"></div>`;
+    for(let i=1;i<=4;i++) cd+=`<div class="score-dot ${i<=st.vComm?'on':'off'}"></div>`;
+    const rh = st.rev==='+'?`<span class="rev-badge rev-pos">▲+</span>`:st.rev==='−'?`<span class="rev-badge rev-neg">▼−</span>`:'';
+    scoreHtml=`<div class="scores-row"><div class="score-item"><div class="score-dots">${td}</div><span class="score-lbl">Tech ${st.vTech}/4</span></div><div class="score-item"><div class="score-dots">${cd}</div><span class="score-lbl">Comm ${st.vComm}/4</span></div>${rh?`<div class="score-item">${rh}</div>`:''}</div>`;
+  }
+  const sc = st.status==='wait'?'status-wait':st.status==='trigger'?'status-trigger':'status-watch';
+  return `<div class="${isMacro?'card macro-card':'card'}" id="card-${st.ticker}">
+    <div class="card-top">
+      <div class="card-identity">
+        <div class="ticker-row"><span class="ticker">${st.ticker}</span><span class="tier-badge ${st.badge}">${st.tier}</span></div>
+        <div class="company-name">${st.name}</div>
+      </div>
+      <div class="price-block">
+        <span class="live-price" id="price-${st.ticker}">—</span>
+        <span class="price-change" id="chg-${st.ticker}">—</span>
+      </div>
+    </div>
+    <div class="entry-section">
+      <div class="entry-top">
+        <span class="entry-label">Entry Target</span>
+        <span class="entry-target">${st.entryLabel}</span>
+        <span class="entry-status ${sc}" id="status-${st.ticker}">${st.statusLabel}</span>
+      </div>
+      <div class="distance-row">
+        <div class="distance-bar-bg"><div class="distance-bar-fill" id="bar-${st.ticker}" style="width:0%"></div></div>
+        <span class="distance-pct" id="dist-${st.ticker}" style="color:var(--muted)">—</span>
+      </div>
+    </div>
+    ${scoreHtml}
+    <div class="thesis-line">${st.thesis}</div>
+    <div class="news-section">
+      <div class="news-header">
+        <span class="news-title">▸ News & Thesis Impact</span>
+        <button class="news-btn" onclick="fetchNews('${st.ticker}')" id="nbtn-${st.ticker}">Fetch News</button>
+      </div>
+      <div class="news-content" id="news-${st.ticker}">
+        <span class="news-placeholder">Click "Fetch News" for AI-powered analysis →</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderAll() {
+  document.getElementById('today-date').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  document.getElementById('tier1-grid').innerHTML = WATCHLIST.tier1.map(s=>buildCard(s)).join('');
+  document.getElementById('rack-grid').innerHTML = WATCHLIST.rack.map(s=>buildCard(s)).join('');
+  document.getElementById('power-grid').innerHTML = WATCHLIST.power.map(s=>buildCard(s)).join('');
+  document.getElementById('macro-grid').innerHTML = WATCHLIST.macro.map(s=>buildCard(s,true)).join('');
+}
+
+async function fetchQuote(ticker) {
+  try {
+    const res = await fetch(`https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${API_KEY}`);
+    return await res.json();
+  } catch(e) { return null; }
+}
+
+function updateCardPrice(stock, quote) {
+  if (!quote || !quote.c) return;
+  const {c:price, d:change, dp:changePct} = quote;
+  const pe = document.getElementById(`price-${stock.ticker}`);
+  if (pe) pe.textContent = `$${price.toFixed(2)}`;
+  const ce = document.getElementById(`chg-${stock.ticker}`);
+  if (ce) {
+    const sign = change>=0?'+':'';
+    ce.textContent = `${sign}${change.toFixed(2)} (${sign}${changePct.toFixed(2)}%)`;
+    ce.className = `price-change ${change>0?'chg-up':change<0?'chg-down':'chg-flat'}`;
+  }
+  const info = getDistanceInfo(stock, price);
+  if (info) {
+    const be = document.getElementById(`bar-${stock.ticker}`);
+    const de = document.getElementById(`dist-${stock.ticker}`);
+    const se = document.getElementById(`status-${stock.ticker}`);
+    if (be) { be.className=`distance-bar-fill ${info.color}`; be.style.width=`${info.pct}%`; }
+    if (de) { de.textContent=info.label; de.style.color=info.textColor; }
+    if (se && info.zone) { se.textContent='🎯 IN ZONE'; se.className='entry-status status-zone'; }
+  }
+  priceData[stock.ticker] = {price, change, changePct};
+}
+
+function updateHYGStrip(quote) {
+  if (!quote || !quote.c) return;
+  const {c:price, d:change, dp:changePct} = quote;
+  const pe = document.getElementById('hyg-live-price');
+  const ce = document.getElementById('hyg-live-chg');
+  const se = document.getElementById('hyg-status');
+  if (pe) pe.textContent = `$${price.toFixed(2)}`;
+  if (ce) {
+    const sign = change>=0?'+':'';
+    ce.textContent = `(${sign}${changePct.toFixed(2)}%)`;
+    ce.className = `hyg-live ${change>=0?'chg-up':'chg-down'}`;
+  }
+  if (se) {
+    if (price<=76) { se.textContent='🚨 ACTION TRIGGER'; se.style.color='var(--red)'; se.style.fontWeight='700'; if(pe) pe.className='hyg-live hyg-danger'; }
+    else if (price<=78) { se.textContent='⚠️ WARNING ZONE'; se.style.color='var(--yellow)'; if(pe) pe.className='hyg-live hyg-warn'; }
+    else { se.textContent=`✓ SAFE — $${(price-78).toFixed(2)} above warn`; se.style.color='var(--green)'; if(pe) pe.className='hyg-live hyg-ok'; }
+  }
+}
+
+async function refreshPrices() {
+  const all = [...WATCHLIST.tier1,...WATCHLIST.rack,...WATCHLIST.power,...WATCHLIST.macro];
+  all.forEach(s => { const e=document.getElementById(`price-${s.ticker}`); if(e) e.textContent='...'; });
+  for (const stock of all) {
+    const quote = await fetchQuote(stock.ticker);
+    if (stock.ticker==='HYG') updateHYGStrip(quote);
+    updateCardPrice(stock, quote);
+    await new Promise(r=>setTimeout(r,120));
+  }
+  document.getElementById('last-refresh').textContent = `Prices updated: ${new Date().toLocaleTimeString()}`;
+}
+
+async function fetchNews(ticker) {
+  const btn = document.getElementById(`nbtn-${ticker}`);
+  const newsDiv = document.getElementById(`news-${ticker}`);
+  btn.disabled = true;
+  newsDiv.innerHTML = `<span class="spinner"></span><span style="color:var(--muted);font-size:10px">Searching for news...</span>`;
+  const stock = [...WATCHLIST.tier1,...WATCHLIST.rack,...WATCHLIST.power,...WATCHLIST.macro].find(s=>s.ticker===ticker);
+  const priceInfo = priceData[ticker] ? `Current price: $${priceData[ticker].price.toFixed(2)} (${priceData[ticker].changePct>=0?'+':''}${priceData[ticker].changePct.toFixed(2)}% today).` : '';
+  const prompt = `You are a financial research assistant for an investor using the Visser AI Macro Nexus Framework (long physical AI infrastructure, cautious on SaaS/software).
+
+Search the web for the 3 most recent and relevant news items for ${ticker} (${stock.name}) as of today. ${priceInfo}
+
+Investor thesis: "${stock.thesis}"
+
+IMPORTANT: For each news item you MUST include the actual URL of the source article so the investor can click through and read it.
+
+Respond ONLY with valid JSON, no markdown, no preamble, no backticks:
+{"items":[{"headline":"concise headline","url":"https://full-article-url.com/article","source":"Publication Name","sentiment":"BULLISH|BEARISH|NEUTRAL","relevance":"one sentence thesis impact"}],"summary":"one sentence overall assessment for this investor today"}`;
+  try {
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({
+        model:"claude-sonnet-4-20250514",
+        max_tokens:1200,
+        tools:[{type:"web_search_20250305",name:"web_search"}],
+        messages:[{role:"user",content:prompt}]
+      })
+    });
+    const data = await res.json();
+    const text = (data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('');
+    const clean = text.replace(/```json|```/g,'').trim();
+    const match = clean.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error('Could not parse response');
+    const parsed = JSON.parse(match[0]);
+    let html = '';
+    if (parsed.summary) html += `<div class="news-summary">${parsed.summary}</div>`;
+    (parsed.items||[]).forEach(item => {
+      const sc = item.sentiment==='BULLISH'?'sent-bull':item.sentiment==='BEARISH'?'sent-bear':'sent-neutral';
+      const hasUrl = item.url && item.url.startsWith('http');
+      const headlineHtml = hasUrl
+        ? `<a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.headline} ↗</a>`
+        : `<span class="no-link">${item.headline}</span>`;
+      html += `<div class="news-item">
+        <div class="news-headline">${headlineHtml}</div>
+        <div class="news-meta">
+          <span class="news-sent ${sc}">${item.sentiment}</span>
+          ${item.source ? `<span class="news-source">${item.source}</span>` : ''}
+          <span class="news-rel">${item.relevance}</span>
+        </div>
+      </div>`;
+    });
+    if (!parsed.items?.length) html += `<span class="news-placeholder">No recent news found.</span>`;
+    newsDiv.innerHTML = html;
+    btn.textContent = '↻ Refresh';
+    btn.disabled = false;
+  } catch(err) {
+    newsDiv.innerHTML = `<span class="err">Error: ${err.message}. Try again.</span>`;
+    btn.textContent = 'Retry';
+    btn.disabled = false;
+  }
+}
+
+async function fetchAllNews() {
+  const all = [...WATCHLIST.tier1,...WATCHLIST.rack,...WATCHLIST.power,...WATCHLIST.macro];
+  for (const s of all) { await fetchNews(s.ticker); await new Promise(r=>setTimeout(r,700)); }
+}
+
+renderAll();
+refreshPrices();
+</script>
+</body>
+</html>
