@@ -751,28 +751,35 @@ function updVIX(q){
 // ── XLF vs 200-day MA ─────────────────────────────────────────────────────────
 async function loadXLF(){
   try{
-    const q=await gq('XLF');
+    // Fetch quote and candle in parallel
+    const [q, candleRes] = await Promise.all([
+      gq('XLF'),
+      fetch(`${W}/candle?symbol=XLF&resolution=D&days=220`).then(r=>r.json()).catch(()=>null)
+    ]);
     if(!q||!q.c)return;
     const p=q.c,ch=q.d,cp=q.dp;
-    // get 200-day candle to compute MA
-    const r=await fetch(`${W}/candle?symbol=XLF&resolution=D&days=210`);
-    const d=await r.json();
-    if(d&&d.c&&d.c.length>=200){
-      const last200=d.c.slice(-200);
-      xlf200ma=last200.reduce((a,b)=>a+b,0)/200;
+
+    // Compute 200-day MA from candle data
+    let ma=0;
+    if(candleRes&&candleRes.c&&candleRes.c.length>=200){
+      const last200=candleRes.c.slice(-200);
+      ma=last200.reduce((a,b)=>a+b,0)/200;
+      xlf200ma=ma;
     }
+
     const pe=document.getElementById('xlf-price');if(pe)pe.textContent=`$${p.toFixed(2)}`;
     const ce=document.getElementById('xlf-chg');
     if(ce){const sg=ch>=0?'+':'';ce.textContent=`${sg}${ch.toFixed(2)} (${sg}${cp.toFixed(2)}%)`;ce.className=`xlf-diff ${ch>=0?'up':'dn'}`;}
-    const mae=document.getElementById('xlf-ma');if(mae&&xlf200ma)mae.textContent=`$${xlf200ma.toFixed(2)}`;
+    const mae=document.getElementById('xlf-ma');if(mae)mae.textContent=ma>0?`$${ma.toFixed(2)}`:'--';
     const vse=document.getElementById('xlf-vs-ma');
     const strip=document.getElementById('xlf-strip');
     const stripSt=document.getElementById('xlf-strip-status');
-    if(xlf200ma){
-      const diff=((p-xlf200ma)/xlf200ma*100).toFixed(1);
-      const above=p>=xlf200ma;
+    if(strip)strip.textContent=`$${p.toFixed(2)}`;
+
+    if(ma>0){
+      const diff=((p-ma)/ma*100).toFixed(1);
+      const above=p>=ma;
       if(vse){vse.textContent=`${above?'+':''}${diff}%`;vse.className=`xlf-val ${above?'c-ok':'c-d'}`;}
-      if(strip)strip.textContent=`$${p.toFixed(2)}`;
       const st=document.getElementById('xlf-status');
       const card=document.getElementById('xlf-card');
       let txt,cls;
@@ -791,7 +798,7 @@ async function loadXLF(){
         else xlfSig.innerHTML=signalBanner('ok','HEALTHY — FINANCIALS ABOVE 200-DAY MA','No systemic stress signal from financials today. This indicator is not contributing to deployment signal.');
       }
     }
-    prices['XLF']={p,ma:xlf200ma};
+    prices['XLF']={p,ma};
     updateChecklist();
   }catch(e){console.error('XLF error',e);}
 }
@@ -862,13 +869,39 @@ function updPLTRMSFT(pltrQ,msftQ){
 // ── SPX 126-day ROC ───────────────────────────────────────────────────────────
 async function loadSPXROC(){
   try{
-    const r=await fetch(`${W}/candle?symbol=SPY&resolution=D&days=140`);
+    const r=await fetch(`${W}/candle?symbol=SPY&resolution=D&days=160`);
     const d=await r.json();
-    if(!d||!d.c||d.c.length<127)return;
+    if(!d||!d.c||d.c.length<130){
+      console.warn('SPX ROC: not enough candle data, got',d?.c?.length);
+      return;
+    }
     spxCandles=d.c;
     const current=d.c[d.c.length-1];
     const past=d.c[d.c.length-127];
     const roc=((current-past)/past*100);
+    const ve=document.getElementById('spx-roc-val');
+    if(ve){ve.textContent=`${roc>=0?'+':''}${roc.toFixed(2)}%`;ve.style.color=roc>5?'var(--green)':roc>0?'var(--accent)':roc>-5?'var(--yellow)':'var(--red)';}
+    const barPct=Math.min(100,Math.max(0,50+roc*2.5));
+    const bar=document.getElementById('spx-roc-bar');
+    if(bar){bar.style.width=`${barPct}%`;bar.className=`roc-fill ${roc>0?'fg':roc>-5?'fy':'fr'}`;}
+    const st=document.getElementById('spx-roc-status');
+    const card=document.getElementById('spx-roc-card');
+    let txt,cls;
+    if(roc>5){txt=`Strong momentum — S&P up ${roc.toFixed(1)}% over 126 days`;cls='ok';}
+    else if(roc>0){txt=`Near-zero momentum — only +${roc.toFixed(1)}% over 126 days (Visser flags this as bearish)`;cls='warn';}
+    else{txt=`⚠️ Negative momentum — S&P down ${Math.abs(roc).toFixed(1)}% over 126 days`;cls='danger';}
+    if(st){st.textContent=txt;st.className=`cc-status ${cls==='ok'?'c-ok':cls==='warn'?'c-w':'c-d'}`;}
+    if(card)card.className=`cc ${cls}`;
+    const rocSig=document.getElementById('spx-roc-signal');
+    if(rocSig){
+      if(roc>5)rocSig.innerHTML=signalBanner('ok','STRONG MOMENTUM — MARKET ADVANCING','S&P 500 has real upward momentum over the past 6 months. Not a fear environment. Hold dry powder and wait for conditions to change.');
+      else if(roc>0)rocSig.innerHTML=signalBanner('warn','NEAR-ZERO MOMENTUM — STALLING','Six months of going nowhere. Visser called this out March 19 as a negative trend. Market running in place = fragile. Watch for the next catalyst.');
+      else rocSig.innerHTML=signalBanner('danger','NEGATIVE MOMENTUM — DOWNTREND CONFIRMED','S&P 500 has lost ground over 6 months. This is one of your 8 deployment triggers. Combine with other signals to time dry powder entry.');
+    }
+    prices['_spx_roc']=roc;
+    updateChecklist();
+  }catch(e){console.error('SPX ROC error',e);}
+}
     const ve=document.getElementById('spx-roc-val');if(ve){ve.textContent=`${roc>=0?'+':''}${roc.toFixed(2)}%`;ve.style.color=roc>5?'var(--green)':roc>0?'var(--accent)':roc>-5?'var(--yellow)':'var(--red)';}
     // bar: 50% = zero. +20% = 100%. -20% = 0%
     const barPct=Math.min(100,Math.max(0,50+roc*2.5));
@@ -934,18 +967,26 @@ async function loadFG(){
 // ── HYG SPARKLINE ────────────────────────────────────────────────────────────
 async function loadSparkline(){
   try{
-    const r=await fetch(`${W}/candle?symbol=HYG&resolution=D&days=35`);
+    const r=await fetch(`${W}/candle?symbol=HYG&resolution=D&days=40`);
     const d=await r.json();
-    if(d&&d.c&&d.c.length>1){hyg30=d.c;drawSpark();}
+    if(d&&d.c&&d.c.length>1){
+      hyg30=d.c;
+      drawSpark();
+      setTimeout(drawSpark,400);
+      setTimeout(drawSpark,1200);
+    }
   }catch{}
 }
 
 function drawSpark(){
   const cv=document.getElementById('hyg-spark');
   if(!cv||hyg30.length<2)return;
+  // Force layout before reading offsetWidth
+  const W2=cv.getBoundingClientRect().width||cv.parentElement?.getBoundingClientRect().width||300;
+  const H=48;
+  cv.width=Math.floor(W2);cv.height=H;
+  if(cv.width<10)return; // not yet in DOM
   const ctx=cv.getContext('2d');
-  const W2=cv.offsetWidth||300,H=48;
-  cv.width=W2;cv.height=H;
   const mn=Math.min(...hyg30,75.5),mx=Math.max(...hyg30,79);
   const xS=(W2-6)/(hyg30.length-1),yS=(H-10)/(mx-mn);
   ctx.clearRect(0,0,W2,H);
@@ -1111,7 +1152,7 @@ async function refreshAll(){
   // Parallel command center fetches
   const [btcQ,vixQ,smhQ,igvQ,pltrQ,msftQ]=await Promise.all([
     gq('BINANCE:BTCUSDT'),
-    gq('VIX'),
+    gq('^VIX'),
     gq('SMH'),
     gq('IGV'),
     gq('PLTR'),
@@ -1152,53 +1193,4 @@ Include actual article URL. JSON only:
         tools:[{type:'web_search_20250305',name:'web_search'}],
         messages:[{role:'user',content:prompt}]})});
     const data=await res.json();
-    const txt=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('');
-    const m=txt.replace(/```json|```/g,'').trim().match(/\{[\s\S]*\}/);
-    if(!m)throw new Error('Parse error');
-    const p=JSON.parse(m[0]);
-    let h='';
-    if(p.summary)h+=`<div class="nsum">${p.summary}</div>`;
-    (p.items||[]).forEach((item,i)=>{
-      const sc=item.sentiment==='BULLISH'?'nbull':item.sentiment==='BEARISH'?'nbear':'nneut';
-      const hasU=item.url&&item.url.startsWith('http');
-      const bid=`cp-${ticker}-${i}`;
-      h+=`<div class="nitem">
-        <div class="nhl">${hasU?`<a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.headline} ↗</a>`:`<span class="nl">${item.headline}</span>`}</div>
-        <div class="nmeta">
-          <span class="nb ${sc}">${item.sentiment}</span>
-          ${item.source?`<span class="nsrc">${item.source}</span>`:''}
-          ${hasU?`<button class="cpbtn" id="${bid}" onclick="cpLink('${item.url.replace(/'/g,"\\'")}','${bid}')">Copy Link</button>`:''}
-          <span class="nrel">${item.relevance}</span>
-        </div>
-      </div>`;
-    });
-    if(!(p.items||[]).length)h+=`<span class="nph">No recent news found.</span>`;
-    div.innerHTML=h;btn.textContent='↻ Refresh';btn.disabled=false;
-  }catch(e){
-    div.innerHTML=`<span class="errt">Error: ${e.message}</span>`;
-    btn.textContent='Retry';btn.disabled=false;
-  }
-}
-
-function fetchTabNews(){
-  const map={t1:WL.t1,rack:WL.rack,pwr:WL.pwr,mac:WL.mac,cmd:[]};
-  const stocks=map[activeTab]||[];
-  stocks.forEach((s,i)=>setTimeout(()=>fetchNews(s.t),i*800));
-}
-
-function cpLink(url,id){
-  const btn=document.getElementById(id);
-  const done=()=>{if(btn){const o=btn.textContent;btn.textContent='✓ Copied!';btn.classList.add('ok');setTimeout(()=>{btn.textContent=o;btn.classList.remove('ok');},2000);}};
-  if(navigator.clipboard)navigator.clipboard.writeText(url).then(done).catch(()=>{fbCopy(url);done();});
-  else{fbCopy(url);done();}
-}
-function fbCopy(url){const t=document.createElement('textarea');t.value=url;t.style.cssText='position:fixed;opacity:0';document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);}
-
-// ── INIT ─────────────────────────────────────────────────────────────────────
-renderAll();
-refreshAll();
-loadFG();
-loadEarnings();
-</script>
-</body>
-</html>
+    
