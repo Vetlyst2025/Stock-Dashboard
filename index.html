@@ -885,6 +885,7 @@ async function refreshAll(){
   ]);
   if(btcQ&&btcQ.c)updBTC(btcQ);else{const b2=await gq('BTCUSDT');if(b2&&b2.c)updBTC(b2);}
   if(vixQ&&vixQ.c)updVIX(vixQ);
+  else{for(const sym of ['CBOE:VIX','INDEX:VIX','VIX']){const v=await gq(sym);if(v&&v.c){updVIX(v);break;}}}
   updRatio(smhQ,igvQ);
   if(pltrQ&&msftQ&&pltrQ.c&&msftQ.c)updPLTRMSFT(pltrQ,msftQ);
   await loadXLF();
