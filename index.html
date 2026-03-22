@@ -108,6 +108,25 @@ canvas.spark{width:100%;height:48px;display:block;border-radius:4px;}
 .ratio-num{font-family:var(--font-mono);font-size:32px;font-weight:700;margin-top:4px;}
 .ratio-trend{font-size:13px;margin-top:4px;}
 
+/* SIGNAL BANNER — shown on every cc card */
+.signal-banner{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:8px;margin-top:10px;}
+.sb-ok{background:rgba(52,211,153,0.12);border:1px solid rgba(52,211,153,0.3);}
+.sb-warn{background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.3);}
+.sb-danger{background:rgba(248,113,113,0.12);border:1px solid rgba(248,113,113,0.3);}
+.sb-neutral{background:rgba(122,144,168,0.1);border:1px solid var(--border);}
+.sb-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.sbd-ok{background:var(--green);}
+.sbd-warn{background:var(--yellow);}
+.sbd-danger{background:var(--red);}
+.sbd-neutral{background:var(--muted);}
+.sb-content{flex:1;}
+.sb-verdict{font-family:var(--font-mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;}
+.sv-ok{color:var(--green);}
+.sv-warn{color:var(--yellow);}
+.sv-danger{color:var(--red);}
+.sv-neutral{color:var(--muted);}
+.sb-explain{font-size:12px;color:var(--muted);margin-top:2px;line-height:1.4;}
+
 /* VIX */
 .vix-zones{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
 .vix-zone{font-family:var(--font-mono);font-size:11px;padding:3px 8px;border-radius:5px;border:1px solid;}
@@ -296,6 +315,7 @@ footer{margin-top:36px;padding-top:16px;border-top:1.5px solid var(--border);fon
           <div class="btc-b-val" id="btc-rh">--</div>
         </div>
       </div>
+      <div id="btc-signal"></div>
     </div>
 
     <!-- HYG SPARKLINE -->
@@ -313,6 +333,7 @@ footer{margin-top:36px;padding-top:16px;border-top:1.5px solid var(--border);fon
         <canvas class="spark" id="hyg-spark" height="48"></canvas>
       </div>
       <div class="cc-status" id="hyg-spark-status" style="margin-top:8px;font-size:13px;"></div>
+      <div id="hyg-spark-signal"></div>
     </div>
   </div>
 
@@ -330,6 +351,7 @@ footer{margin-top:36px;padding-top:16px;border-top:1.5px solid var(--border);fon
         <span class="vix-zone vz-d">&gt;35 deploy</span>
       </div>
       <div class="cc-status" id="vix-status" style="margin-top:8px;font-size:13px;"></div>
+      <div id="vix-signal"></div>
     </div>
 
     <!-- XLF vs 200-day MA -->
@@ -352,6 +374,7 @@ footer{margin-top:36px;padding-top:16px;border-top:1.5px solid var(--border);fon
       </div>
       <div class="cc-status" id="xlf-status" style="margin-top:8px;font-size:13px;"></div>
       <div class="cc-sub" style="margin-top:4px;font-size:12px;">Visser leading indicator — Financials below 200MA = warning</div>
+      <div id="xlf-signal"></div>
     </div>
 
     <!-- IGV/SMH Ratio -->
@@ -378,6 +401,7 @@ footer{margin-top:36px;padding-top:16px;border-top:1.5px solid var(--border);fon
         <span style="color:var(--green);">Infra leading</span>
       </div>
       <div class="cc-status" id="ratio-signal" style="margin-top:8px;font-size:13px;"></div>
+      <div id="ratio-signal-banner"></div>
     </div>
 
     <!-- PLTR/MSFT Ratio -->
@@ -387,6 +411,7 @@ footer{margin-top:36px;padding-top:16px;border-top:1.5px solid var(--border);fon
       <div class="pchg" id="pltr-msft-chg" style="font-size:12px;margin-top:4px;"></div>
       <div class="ratio-trend" id="pltr-msft-trend" style="margin-top:6px;"></div>
       <div class="cc-sub" style="margin-top:6px;font-size:12px;">Confirmed uptrend since Apr 2025 (Visser March 19 chart). Above 200-day MA = bullish.</div>
+      <div id="pltr-msft-signal"></div>
     </div>
   </div>
 
@@ -412,6 +437,7 @@ footer{margin-top:36px;padding-top:16px;border-top:1.5px solid var(--border);fon
       </div>
       <div class="cc-status" id="spx-roc-status" style="margin-top:8px;font-size:13px;"></div>
       <div class="cc-sub" style="margin-top:4px;font-size:12px;">Visser March 19: ROC at zero = six months of going nowhere. Negative trend = negative macro.</div>
+      <div id="spx-roc-signal"></div>
     </div>
 
     <!-- DEPLOYMENT CHECKLIST -->
@@ -521,6 +547,20 @@ let rsiBelow30=null;
 let dvolUvol=null;
 
 function allStocks(){return[...WL.t1,...WL.rack,...WL.pwr,...WL.mac];}
+
+// ── SIGNAL BANNER HELPER ──────────────────────────────────────────────────────
+// type: 'ok' | 'warn' | 'danger' | 'neutral'
+// verdict: short ALL-CAPS label
+// explain: plain English sentence
+function signalBanner(type, verdict, explain) {
+  return `<div class="signal-banner sb-${type}">
+    <div class="sb-dot sbd-${type}"></div>
+    <div class="sb-content">
+      <div class="sb-verdict sv-${type}">${verdict}</div>
+      <div class="sb-explain">${explain}</div>
+    </div>
+  </div>`;
+}
 
 // ── TABS ──────────────────────────────────────────────────────────────────────
 function switchTab(name,btn){
@@ -644,6 +684,12 @@ function updHYG(q){
   if(stripSt)stripSt.className=`mval ${p<=76?'c-d':p<=78?'c-w':'c-ok'}`;
   const sparkSt=document.getElementById('hyg-spark-status');
   if(sparkSt){sparkSt.textContent=statusTxt;sparkSt.className=`cc-status ${p<=76?'c-d':p<=78?'c-w':'c-ok'}`;}
+  const sparkSig=document.getElementById('hyg-spark-signal');
+  if(sparkSig){
+    if(p<=76)sparkSig.innerHTML=signalBanner('danger','ACTION TRIGGER FIRED — DEPLOY DRY POWDER','HYG below $76 is your primary deployment signal. Check that Fear & Greed and VIX are also confirming before committing full position. Stage entries.');
+    else if(p<=78)sparkSig.innerHTML=signalBanner('warn','WARNING ZONE — PREPARE FOR DEPLOYMENT','HYG approaching the action trigger. Review your watchlist entries now. Have buy orders ready. Do not deploy yet — wait for $76.');
+    else sparkSig.innerHTML=signalBanner('ok','SAFE — NO HYG SIGNAL','High-yield bonds are not showing stress. Credit markets are calm. HYG is your most important single indicator — when it breaks, act.');
+  }
   const card=document.getElementById('hyg-spark-card');
   if(card)card.className=`cc ${cardCls}`;
   prices['HYG']={p,ch,cp};
@@ -663,6 +709,14 @@ function updBTC(q){
     el.textContent=`${pct>0?'+':''}${pct}%`;
     el.className=`btc-b-val ${pct>0?'up':'dn'}`;
   });
+  // BTC signal banner
+  const btcSig=document.getElementById('btc-signal');
+  if(btcSig){
+    const coldPct=((p-42000)/42000*100);
+    if(coldPct>100)btcSig.innerHTML=signalBanner('ok','COLD STORAGE 2X+ COST BASIS','Never trade this position. Patience and cold storage is the entire strategy here. Let it compound.');
+    else if(coldPct>0)btcSig.innerHTML=signalBanner('ok','ABOVE ALL COST BASES — HOLD','All three BTC positions are in profit. Cold storage never trades. Hot wallet holds. Robinhood holds until thesis changes.');
+    else btcSig.innerHTML=signalBanner('warn','ROBINHOOD BTC UNDERWATER','RH position is below $76K cost basis. This is normal volatility for BTC. Never panic sell. Scarcity thesis is multi-year — short-term price does not matter.');
+  }
 }
 
 // ── VIX ───────────────────────────────────────────────────────────────────────
@@ -682,6 +736,14 @@ function updVIX(q){
   else{cls='ok';txt=`Calm — ${(25-p).toFixed(1)} below watch level`;scls='c-ok';}
   if(st){st.textContent=txt;st.className=`cc-status ${scls}`;}
   if(card)card.className=`cc ${cls}`;
+  // VIX signal banner
+  const vixSig=document.getElementById('vix-signal');
+  if(vixSig){
+    if(p>=35)vixSig.innerHTML=signalBanner('danger','PANIC — DEPLOY TRIGGER ACTIVE','VIX above 35 signals institutional fear. This is one of your 8 deployment triggers. Check the full checklist.');
+    else if(p>=25)vixSig.innerHTML=signalBanner('warn','ELEVATED — WATCH CLOSELY','Volatility is rising. Markets pricing in uncertainty. This is the early warning zone — not yet a deploy trigger.');
+    else if(p>=18)vixSig.innerHTML=signalBanner('neutral','NORMAL RANGE','Volatility is normal. No signal in either direction from VIX today.');
+    else vixSig.innerHTML=signalBanner('ok','LOW VOLATILITY — COMPLACENCY','VIX this low often precedes a spike. Good time to verify your watchlist alerts are set.');
+  }
   prices['VIX']={p};
   updateChecklist();
 }
@@ -723,6 +785,11 @@ async function loadXLF(){
       }
       if(st){st.textContent=txt;st.className=`cc-status ${!above?'c-w':'c-ok'}`;}
       if(card)card.className=`cc ${cls}`;
+      const xlfSig=document.getElementById('xlf-signal');
+      if(xlfSig){
+        if(!above)xlfSig.innerHTML=signalBanner('warn','WARNING — FINANCIALS BELOW 200-DAY MA','Visser\'s #1 leading indicator. Financials breaking down precedes broader market stress. Confirmed firing in March 19 webinar. Watch HYG closely.');
+        else xlfSig.innerHTML=signalBanner('ok','HEALTHY — FINANCIALS ABOVE 200-DAY MA','No systemic stress signal from financials today. This indicator is not contributing to deployment signal.');
+      }
     }
     prices['XLF']={p,ma:xlf200ma};
     updateChecklist();
@@ -745,6 +812,13 @@ function updRatio(smhQ,igvQ){
     if(diff>1){rs.textContent=`✓ Infrastructure +${diff.toFixed(1)}% vs software — thesis playing out`;rs.className='cc-status c-ok';}
     else if(diff<-1){rs.textContent=`⚠️ Software +${Math.abs(diff).toFixed(1)}% vs infrastructure — thesis under pressure`;rs.className='cc-status c-d';}
     else{rs.textContent='Infrastructure and software roughly equal — neutral';rs.className='cc-status';}
+  }
+  const ratioSig=document.getElementById('ratio-signal-banner');
+  if(ratioSig){
+    if(diff>2)ratioSig.innerHTML=signalBanner('ok','THESIS CONFIRMED — INFRA LEADING','Semiconductor/infrastructure ETF outperforming software. Capital is rotating exactly as Visser predicted. Your watchlist names have macro tailwind.');
+    else if(diff>0)ratioSig.innerHTML=signalBanner('ok','THESIS INTACT — MODEST INFRA LEAD','Infrastructure slightly ahead of software. Rotation is happening but not accelerating. No change to strategy.');
+    else if(diff>-2)ratioSig.innerHTML=signalBanner('neutral','NEUTRAL — WATCH FOR DIRECTION','Infrastructure and software roughly equal. Rotation thesis is not playing out today. Monitor for trend.');
+    else ratioSig.innerHTML=signalBanner('warn','CAUTION — SOFTWARE LEADING','Capital flowing back to software/SaaS. This is against the Visser thesis. Do not add new infrastructure positions until rotation resumes.');
   }
   prices['_smh']=sd;prices['_igv']=id;
   updateChecklist();
@@ -776,6 +850,12 @@ function updPLTRMSFT(pltrQ,msftQ){
     if(te){te.textContent='Below reference levels — thesis weakening';te.className='ratio-trend c-d';}
     if(card)card.className='cc danger';
   }
+  const pltrSig=document.getElementById('pltr-msft-signal');
+  if(pltrSig){
+    if(ratio>=0.35)pltrSig.innerHTML=signalBanner('ok','UPTREND INTACT — PLTR GAINING ON MSFT','PLTR is outperforming Microsoft on a ratio basis. Visser confirmed this chart March 19 as validation that PLTR is the software exception — the orchestration layer on top of the whole rack.');
+    else if(ratio>=0.30)pltrSig.innerHTML=signalBanner('warn','APPROACHING SUPPORT — WATCH CAREFULLY','PLTR/MSFT ratio near the Visser reference level. If this breaks below 0.30, re-evaluate the $100 entry thesis.');
+    else pltrSig.innerHTML=signalBanner('danger','RATIO WEAKENING — THESIS UNDER REVIEW','PLTR losing ground to Microsoft. Review the PLTR thesis before committing to entry. Wait for ratio to stabilize.');
+  }
   prices['_pltr_msft']=ratio;
 }
 
@@ -801,6 +881,12 @@ async function loadSPXROC(){
     else{txt=`⚠️ Negative momentum — S&P down ${Math.abs(roc).toFixed(1)}% over 126 days`;cls='danger';}
     if(st){st.textContent=txt;st.className=`cc-status ${cls==='ok'?'c-ok':cls==='warn'?'c-w':'c-d'}`;}
     if(card)card.className=`cc ${cls}`;
+    const rocSig=document.getElementById('spx-roc-signal');
+    if(rocSig){
+      if(roc>5)rocSig.innerHTML=signalBanner('ok','STRONG MOMENTUM — MARKET ADVANCING','S&P 500 has real upward momentum over the past 6 months. Not a fear environment. Hold dry powder and wait for conditions to change.');
+      else if(roc>0)rocSig.innerHTML=signalBanner('warn','NEAR-ZERO MOMENTUM — STALLING','Six months of going nowhere. Visser called this out March 19 as a negative trend. Market running in place = fragile. Watch for the next catalyst.');
+      else rocSig.innerHTML=signalBanner('danger','NEGATIVE MOMENTUM — DOWNTREND CONFIRMED','S&P 500 has lost ground over 6 months. This is one of your 8 deployment triggers. Combine with other signals to time dry powder entry.');
+    }
     prices['_spx_roc']=roc;
     updateChecklist();
   }catch(e){console.error('SPX ROC error',e);}
@@ -832,6 +918,15 @@ async function loadFG(){
     }
     const card=document.getElementById('fg-card');
     if(card)card.className=`cc ${sc<=25?'danger':sc<=40?'warn':'ok'}`;
+    // Signal banner
+    const sbEl=document.getElementById('fg-signal');
+    if(sbEl){
+      if(sc<=25)sbEl.innerHTML=signalBanner('danger','EXTREME FEAR — COMPOUND SIGNAL ACTIVE','Market sentiment at capitulation levels. When HYG also fires, deploy dry powder into watchlist names.');
+      else if(sc<=40)sbEl.innerHTML=signalBanner('warn','FEAR ZONE — WATCH FOR CONFIRMATION','Sentiment is bearish. Not yet a deployment trigger alone — wait for HYG to confirm.');
+      else if(sc<=55)sbEl.innerHTML=signalBanner('neutral','NEUTRAL — WAIT','No edge in either direction. Hold dry powder until fear develops.');
+      else if(sc<=70)sbEl.innerHTML=signalBanner('warn','GREED — DO NOT DEPLOY','Market is greedy. Entries here mean buying when others are euphoric — wrong side of the trade.');
+      else sbEl.innerHTML=signalBanner('danger','EXTREME GREED — STAY OUT','Peak euphoria. Visser framework says do nothing. Wait for the inevitable reset.');
+    }
     updateChecklist();
   }catch(e){const rl=document.getElementById('fg-rating');if(rl)rl.textContent='Unable to load';}
 }
@@ -953,18 +1048,26 @@ Return ONLY valid JSON, no markdown:
     if(p.rsi_below_30){
       const v=p.rsi_below_30;
       rsiBelow30=v.value;
-      const cls=v.signal==='extreme'?'c-d':v.signal==='warn'?'c-w':'c-ok';
       if(rsiEl){rsiEl.textContent=`${v.value}%`;rsiEl.style.color=`var(--${v.signal==='extreme'?'red':v.signal==='warn'?'yellow':'green'})`;}
-      if(rsiSub){rsiSub.innerHTML=`<span class="${cls}" style="font-size:13px;">${v.interpretation}</span><br><span style="font-family:var(--font-mono);font-size:11px;color:var(--muted);">Source: ${v.source||'web'}</span>`;}
+      let rsiBanner='';
+      if(v.value>=40)rsiBanner=signalBanner('danger','CAPITULATION — DEPLOY NOW','40%+ of S&P 500 oversold. This is the panic Visser watches for. If HYG and F&G are also firing, deploy dry powder into watchlist names immediately.');
+      else if(v.value>=20)rsiBanner=signalBanner('warn','APPROACHING CAPITULATION — PREPARE','Oversold breadth rising toward deployment threshold. Stage your first entries if 3+ other signals are firing.');
+      else if(v.value>=10)rsiBanner=signalBanner('warn','STRESS BUILDING — NOT YET','More selling than normal but not at panic levels. Visser reference was 3.98% on March 19. Current reading shows more stress — keep watching.');
+      else rsiBanner=signalBanner('neutral','LOW — HOLD DRY POWDER','Very few stocks oversold. No capitulation signal here. Market is not in fear from a breadth perspective.');
+      if(rsiSub)rsiSub.innerHTML=`${rsiBanner}<div style="font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:6px;">Source: ${v.source||'web'} &nbsp;|&nbsp; ${v.interpretation||''}</div>`;
       document.getElementById('rsi30-ts').textContent=ts;
     }
     if(p.dvol_uvol){
       const v=p.dvol_uvol;
       dvolUvol=v.value;
-      const cls=v.signal==='extreme'?'c-d':v.signal==='warn'?'c-w':'c-ok';
       const ratioTxt=v.ratio_to_avg?` (${v.ratio_to_avg.toFixed(1)}x avg)`:'';
       if(dvolEl){dvolEl.textContent=`${v.value}${ratioTxt}`;dvolEl.style.color=`var(--${v.signal==='extreme'?'red':v.signal==='warn'?'yellow':'green'})`;}
-      if(dvolSub){dvolSub.innerHTML=`<span class="${cls}" style="font-size:13px;">${v.interpretation}</span><br><span style="font-family:var(--font-mono);font-size:11px;color:var(--muted);">50-day avg: ${v.avg_50day||'N/A'} &nbsp;|&nbsp; Source: ${v.source||'web'}</span>`;}
+      let dvolBanner='';
+      const rx=v.ratio_to_avg||0;
+      if(rx>=5||v.signal==='extreme')dvolBanner=signalBanner('danger','PANIC SELLING — EXTREME','Down volume overwhelming up volume at historic levels. This is what real capitulation looks like. Cross-reference with your other triggers.');
+      else if(rx>=3||v.signal==='warn')dvolBanner=signalBanner('warn','ELEVATED SELLING — BUILDING','Visser reference: 4.07 on March 18 vs 1.22 average. Significant selling pressure but not panic territory yet. Conditions developing.');
+      else dvolBanner=signalBanner('neutral','NORMAL — NO PANIC SELLING','Down/up volume ratio is normal. No unusual selling pressure. This indicator is not contributing to deployment signal.');
+      if(dvolSub)dvolSub.innerHTML=`${dvolBanner}<div style="font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:6px;">50-day avg: ${v.avg_50day||'N/A'} &nbsp;|&nbsp; Source: ${v.source||'web'} &nbsp;|&nbsp; ${v.interpretation||''}</div>`;
       document.getElementById('dvol-ts').textContent=ts;
     }
     updateChecklist();
