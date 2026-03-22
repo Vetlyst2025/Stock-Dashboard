@@ -18,8 +18,6 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-size:15px;line-height:1.6;min-height:100vh;}
 .app{max-width:1440px;margin:0 auto;padding:20px 24px;}
-
-/* HEADER */
 .hdr{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:14px;}
 .hdr-title{font-family:var(--font-mono);font-size:16px;font-weight:700;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;}
 .hdr-sub{font-size:13px;color:var(--muted);margin-top:3px;}
@@ -31,16 +29,12 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-si
 .hbtn{font-family:var(--font-mono);font-size:12px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:8px 18px;border-radius:7px;border:1.5px solid var(--border2);background:var(--surface);color:var(--text);cursor:pointer;transition:all 0.18s;}
 .hbtn:hover{border-color:var(--accent);color:var(--accent);}
 .hbtn-p{border-color:rgba(56,189,248,0.4);color:var(--accent);}
-
-/* MACRO STRIP */
 .mstrip{background:var(--surface);border:1.5px solid var(--border);border-left:4px solid var(--yellow);border-radius:10px;padding:13px 20px;margin-bottom:18px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
 .mlbl{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:0.14em;color:var(--yellow);text-transform:uppercase;flex-shrink:0;}
 .mitem{display:flex;align-items:center;gap:7px;}
 .mname{font-family:var(--font-mono);font-size:12px;color:var(--muted);}
 .mval{font-family:var(--font-mono);font-size:13px;font-weight:700;}
 .c-w{color:var(--yellow);}.c-d{color:var(--red);}.c-ok{color:var(--green);}.c-i{color:var(--accent);}
-
-/* TABS */
 .tabs{display:flex;gap:4px;margin-bottom:22px;border-bottom:1.5px solid var(--border);flex-wrap:wrap;}
 .tab{font-family:var(--font-sans);font-size:14px;font-weight:500;padding:10px 20px;border-radius:8px 8px 0 0;border:1.5px solid transparent;border-bottom:none;background:transparent;color:var(--muted);cursor:pointer;transition:all 0.18s;white-space:nowrap;position:relative;bottom:-1.5px;}
 .tab:hover{color:var(--text);background:var(--surface);}
@@ -49,40 +43,29 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-si
 .tab.active .tcnt{background:rgba(56,189,248,0.15);color:var(--accent);}
 .panel{display:none;}.panel.active{display:block;}
 .panel-desc{font-size:13px;color:var(--muted);margin-bottom:18px;padding:10px 14px;background:var(--surface);border-radius:8px;border-left:3px solid var(--border2);}
-
-/* ── COMMAND CENTER ── */
 .cc-row{display:grid;gap:12px;margin-bottom:12px;}
 .cc-row-3{grid-template-columns:repeat(3,1fr);}
 .cc-row-4{grid-template-columns:repeat(4,1fr);}
 .cc-row-2{grid-template-columns:1fr 1fr;}
 @media(max-width:900px){.cc-row-3,.cc-row-4{grid-template-columns:1fr 1fr;}.cc-row-2{grid-template-columns:1fr;}}
 @media(max-width:600px){.cc-row-3,.cc-row-4,.cc-row-2{grid-template-columns:1fr;}}
-
 .cc{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:16px 18px;position:relative;overflow:hidden;}
 .cc.danger{border-left:4px solid var(--red);}
 .cc.warn{border-left:4px solid var(--yellow);}
 .cc.ok{border-left:4px solid var(--green);}
-.cc.info{border-left:4px solid var(--accent);}
-.cc-lbl{font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;}
+.cc-lbl{font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
 .cc-big{font-family:var(--font-mono);font-size:34px;font-weight:700;line-height:1;color:var(--text);}
-.cc-med{font-family:var(--font-mono);font-size:22px;font-weight:700;line-height:1;color:var(--text);}
-.cc-sub{font-size:13px;color:var(--muted);margin-top:6px;}
+.cc-sub{font-size:12px;color:var(--muted);margin-top:6px;}
 .cc-status{font-size:13px;font-weight:600;margin-top:6px;}
 .cc-row-inline{display:flex;align-items:baseline;gap:10px;margin-top:4px;flex-wrap:wrap;}
-
-/* BTC basis grid */
 .btc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:12px;}
 .btc-b{background:var(--surface2);border-radius:7px;padding:8px 10px;}
 .btc-b-lbl{font-family:var(--font-mono);font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;}
 .btc-b-cost{font-family:var(--font-mono);font-size:11px;color:var(--muted);margin:2px 0;}
 .btc-b-val{font-family:var(--font-mono);font-size:15px;font-weight:700;}
-
-/* Sparkline */
 .spark-wrap{margin-top:10px;}
 .spark-lbl{font-size:11px;font-family:var(--font-mono);color:var(--muted);margin-bottom:4px;display:flex;justify-content:space-between;}
 canvas.spark{width:100%;height:48px;display:block;border-radius:4px;}
-
-/* Ratio bar */
 .ratio-prices{display:flex;align-items:center;gap:16px;margin-top:6px;flex-wrap:wrap;}
 .ratio-p{display:flex;flex-direction:column;}
 .ratio-sym{font-family:var(--font-mono);font-size:10px;color:var(--muted);text-transform:uppercase;margin-bottom:2px;}
@@ -90,31 +73,23 @@ canvas.spark{width:100%;height:48px;display:block;border-radius:4px;}
 .ratio-vs{font-size:16px;color:var(--muted);align-self:center;}
 .ratio-bar-bg{height:7px;background:var(--border2);border-radius:4px;overflow:hidden;margin:8px 0 4px;}
 .ratio-fill{height:100%;border-radius:4px;transition:width 0.5s;}
-
-/* SPX ROC gauge */
 .roc-gauge{display:flex;align-items:center;gap:12px;margin-top:8px;}
 .roc-val{font-family:var(--font-mono);font-size:28px;font-weight:700;}
 .roc-bar-bg{flex:1;height:7px;background:var(--border2);border-radius:4px;overflow:hidden;}
 .roc-fill{height:100%;border-radius:4px;transition:width 0.6s;}
-
-/* XLF 200MA */
 .xlf-compare{display:flex;gap:14px;margin-top:8px;flex-wrap:wrap;}
 .xlf-item{display:flex;flex-direction:column;}
 .xlf-lbl{font-family:var(--font-mono);font-size:10px;color:var(--muted);text-transform:uppercase;}
 .xlf-val{font-family:var(--font-mono);font-size:18px;font-weight:700;margin-top:2px;}
 .xlf-diff{font-family:var(--font-mono);font-size:12px;margin-top:2px;}
-
-/* PLTR/MSFT ratio */
 .ratio-num{font-family:var(--font-mono);font-size:32px;font-weight:700;margin-top:4px;}
 .ratio-trend{font-size:13px;margin-top:4px;}
-
-/* SIGNAL BANNER — shown on every cc card */
-.signal-banner{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:8px;margin-top:10px;}
+.signal-banner{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border-radius:8px;margin-top:10px;}
 .sb-ok{background:rgba(52,211,153,0.12);border:1px solid rgba(52,211,153,0.3);}
 .sb-warn{background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.3);}
 .sb-danger{background:rgba(248,113,113,0.12);border:1px solid rgba(248,113,113,0.3);}
 .sb-neutral{background:rgba(122,144,168,0.1);border:1px solid var(--border);}
-.sb-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.sb-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:2px;}
 .sbd-ok{background:var(--green);}
 .sbd-warn{background:var(--yellow);}
 .sbd-danger{background:var(--red);}
@@ -126,23 +101,17 @@ canvas.spark{width:100%;height:48px;display:block;border-radius:4px;}
 .sv-danger{color:var(--red);}
 .sv-neutral{color:var(--muted);}
 .sb-explain{font-size:12px;color:var(--muted);margin-top:2px;line-height:1.4;}
-
-/* VIX */
 .vix-zones{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
 .vix-zone{font-family:var(--font-mono);font-size:11px;padding:3px 8px;border-radius:5px;border:1px solid;}
 .vz-ok{border-color:rgba(52,211,153,0.3);color:var(--green);background:rgba(52,211,153,0.08);}
 .vz-w{border-color:rgba(251,191,36,0.3);color:var(--yellow);background:rgba(251,191,36,0.08);}
 .vz-d{border-color:rgba(248,113,113,0.3);color:var(--red);background:rgba(248,113,113,0.08);}
-
-/* Deploy checklist */
 .deploy-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px;}
 .deploy-item{display:flex;align-items:flex-start;gap:9px;padding:9px 11px;background:var(--surface2);border-radius:7px;border:1px solid var(--border);}
 .deploy-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:3px;transition:background 0.3s;}
-.dd-off{background:var(--border2);}.dd-warn{background:var(--yellow);}.dd-fire{background:var(--red);}.dd-ok{background:var(--green);}
+.dd-off{background:var(--border2);}.dd-warn{background:var(--yellow);}.dd-fire{background:var(--red);}
 .deploy-txt{font-family:var(--font-mono);font-size:11px;line-height:1.5;color:var(--text);}
 .deploy-score{font-family:var(--font-mono);font-size:13px;font-weight:700;margin-top:12px;padding:11px 14px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);}
-
-/* AI Macro fetch */
 .ai-macro-wrap{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:12px;}
 .ai-macro-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;}
 .ai-macro-title{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
@@ -157,8 +126,6 @@ canvas.spark{width:100%;height:48px;display:block;border-radius:4px;}
 .ai-ind-sub{font-size:13px;margin-top:4px;}
 .ai-ind-ts{font-family:var(--font-mono);font-size:10px;color:var(--muted);margin-top:6px;}
 .ai-ph{color:var(--muted);font-size:13px;font-style:italic;}
-
-/* WATCHLIST CARDS */
 .cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:18px;}
 .card{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color 0.2s,transform 0.15s,box-shadow 0.2s;}
 .card:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.3);}
@@ -237,8 +204,6 @@ footer{margin-top:36px;padding-top:16px;border-top:1.5px solid var(--border);fon
 </head>
 <body>
 <div class="app">
-
-<!-- HEADER -->
 <div class="hdr">
   <div>
     <div class="hdr-title">▸ Visser Framework — Live Infrastructure Watchlist</div>
@@ -252,8 +217,6 @@ footer{margin-top:36px;padding-top:16px;border-top:1.5px solid var(--border);fon
     </div>
   </div>
 </div>
-
-<!-- MACRO STRIP -->
 <div class="mstrip">
   <span class="mlbl">⚡ Triggers</span>
   <div class="mitem"><span class="mname">HYG</span><span class="mval" id="hyg-strip">--</span><span class="mval" id="hyg-strip-chg" style="font-size:12px;margin-left:3px;"></span></div>
@@ -265,8 +228,6 @@ footer{margin-top:36px;padding-top:16px;border-top:1.5px solid var(--border);fon
   <div class="mitem"><span class="mname">F&amp;G</span><span class="mval" id="fg-strip">--</span></div>
   <div class="mitem" style="margin-left:auto;"><span class="mname" style="font-size:11px;">All signals required &middot; no single trigger</span></div>
 </div>
-
-<!-- TABS -->
 <div class="tabs">
   <button class="tab active" onclick="switchTab('cmd',this)">📊 Command Center</button>
   <button class="tab" onclick="switchTab('t1',this)">High Conviction <span class="tcnt">2</span></button>
@@ -274,51 +235,27 @@ footer{margin-top:36px;padding-top:16px;border-top:1.5px solid var(--border);fon
   <button class="tab" onclick="switchTab('pwr',this)">Power &amp; Grid <span class="tcnt">7</span></button>
   <button class="tab" onclick="switchTab('mac',this)">Macro Monitor <span class="tcnt">1</span></button>
 </div>
-
-<!-- ═══ COMMAND CENTER TAB ═══ -->
 <div class="panel active" id="panel-cmd">
   <div class="panel-desc">Daily morning briefing. All indicators auto-load on open. Use "AI Macro Fetch" once daily for the indicators that require a web search.</div>
-
-  <!-- Row 1: F&G · BTC · HYG Sparkline -->
   <div class="cc-row cc-row-3">
-
-    <!-- FEAR & GREED -->
     <div class="cc" id="fg-card">
       <div class="cc-lbl">CNN Fear &amp; Greed Index</div>
       <div class="cc-big" id="fg-score">--</div>
       <div class="cc-status" id="fg-rating">Loading...</div>
-      <div class="cc-sub" style="font-family:var(--font-mono);font-size:11px;margin-top:8px;">
-        1W: <span id="fg-1w">--</span> &nbsp;|&nbsp; 1M: <span id="fg-1m">--</span> &nbsp;|&nbsp; 3M: <span id="fg-3m">--</span>
-      </div>
-      <div id="fg-signal" style="font-size:13px;font-weight:600;margin-top:8px;"></div>
+      <div style="font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:8px;">1W: <span id="fg-1w">--</span> &nbsp;|&nbsp; 1M: <span id="fg-1m">--</span> &nbsp;|&nbsp; 3M: <span id="fg-3m">--</span></div>
+      <div id="fg-signal"></div>
     </div>
-
-    <!-- BTC -->
     <div class="cc">
       <div class="cc-lbl">Bitcoin — Core Position (67% of Portfolio)</div>
       <div class="cc-big" id="btc-price">--</div>
       <div class="pchg" id="btc-chg" style="font-size:13px;margin-top:4px;">--</div>
       <div class="btc-grid">
-        <div class="btc-b">
-          <div class="btc-b-lbl">Cold Storage</div>
-          <div class="btc-b-cost">Cost $42K</div>
-          <div class="btc-b-val" id="btc-cold">--</div>
-        </div>
-        <div class="btc-b">
-          <div class="btc-b-lbl">Hot Wallet</div>
-          <div class="btc-b-cost">Cost $40K</div>
-          <div class="btc-b-val" id="btc-hot">--</div>
-        </div>
-        <div class="btc-b">
-          <div class="btc-b-lbl">Robinhood</div>
-          <div class="btc-b-cost">Cost $76K</div>
-          <div class="btc-b-val" id="btc-rh">--</div>
-        </div>
+        <div class="btc-b"><div class="btc-b-lbl">Cold Storage</div><div class="btc-b-cost">Cost $42K</div><div class="btc-b-val" id="btc-cold">--</div></div>
+        <div class="btc-b"><div class="btc-b-lbl">Hot Wallet</div><div class="btc-b-cost">Cost $40K</div><div class="btc-b-val" id="btc-hot">--</div></div>
+        <div class="btc-b"><div class="btc-b-lbl">Robinhood</div><div class="btc-b-cost">Cost $76K</div><div class="btc-b-val" id="btc-rh">--</div></div>
       </div>
       <div id="btc-signal"></div>
     </div>
-
-    <!-- HYG SPARKLINE -->
     <div class="cc" id="hyg-spark-card">
       <div class="cc-lbl">HYG — 30-Day Trend</div>
       <div class="cc-row-inline">
@@ -326,21 +263,14 @@ footer{margin-top:36px;padding-top:16px;border-top:1.5px solid var(--border);fon
         <div class="pchg" id="hyg-spark-chg" style="font-size:13px;"></div>
       </div>
       <div class="spark-wrap">
-        <div class="spark-lbl">
-          <span>30-day price history</span>
-          <span><span style="color:var(--yellow);">— $78 warn</span> &nbsp;<span style="color:var(--red);">— $76 action</span></span>
-        </div>
+        <div class="spark-lbl"><span>30-day price history</span><span><span style="color:var(--yellow);">— $78 warn</span> &nbsp;<span style="color:var(--red);">— $76 action</span></span></div>
         <canvas class="spark" id="hyg-spark" height="48"></canvas>
       </div>
       <div class="cc-status" id="hyg-spark-status" style="margin-top:8px;font-size:13px;"></div>
       <div id="hyg-spark-signal"></div>
     </div>
   </div>
-
-  <!-- Row 2: VIX · XLF vs 200MA · IGV/SMH Ratio · PLTR/MSFT Ratio -->
   <div class="cc-row cc-row-4">
-
-    <!-- VIX -->
     <div class="cc" id="vix-card">
       <div class="cc-lbl">VIX — Volatility Index</div>
       <div class="cc-big" id="vix-val">--</div>
@@ -353,94 +283,53 @@ footer{margin-top:36px;padding-top:16px;border-top:1.5px solid var(--border);fon
       <div class="cc-status" id="vix-status" style="margin-top:8px;font-size:13px;"></div>
       <div id="vix-signal"></div>
     </div>
-
-    <!-- XLF vs 200-day MA -->
     <div class="cc" id="xlf-card">
       <div class="cc-lbl">XLF Financials — vs 200-day MA</div>
       <div class="xlf-compare">
-        <div class="xlf-item">
-          <div class="xlf-lbl">Price</div>
-          <div class="xlf-val" id="xlf-price">--</div>
-          <div class="xlf-diff" id="xlf-chg"></div>
-        </div>
-        <div class="xlf-item">
-          <div class="xlf-lbl">200-day MA</div>
-          <div class="xlf-val" id="xlf-ma">--</div>
-        </div>
-        <div class="xlf-item">
-          <div class="xlf-lbl">vs MA</div>
-          <div class="xlf-val" id="xlf-vs-ma">--</div>
-        </div>
+        <div class="xlf-item"><div class="xlf-lbl">Price</div><div class="xlf-val" id="xlf-price">--</div><div class="xlf-diff" id="xlf-chg"></div></div>
+        <div class="xlf-item"><div class="xlf-lbl">200-day MA</div><div class="xlf-val" id="xlf-ma">--</div></div>
+        <div class="xlf-item"><div class="xlf-lbl">vs MA</div><div class="xlf-val" id="xlf-vs-ma">--</div></div>
       </div>
       <div class="cc-status" id="xlf-status" style="margin-top:8px;font-size:13px;"></div>
-      <div class="cc-sub" style="margin-top:4px;font-size:12px;">Visser leading indicator — Financials below 200MA = warning</div>
+      <div class="cc-sub">Visser leading indicator — Financials below 200MA = warning</div>
       <div id="xlf-signal"></div>
     </div>
-
-    <!-- IGV/SMH Ratio -->
     <div class="cc">
       <div class="cc-lbl">IGV / SMH — Rotation Signal</div>
       <div class="ratio-prices">
-        <div class="ratio-p">
-          <div class="ratio-sym">SMH (Infra)</div>
-          <div class="ratio-pval" id="smh-p">--</div>
-          <div class="pchg" id="smh-c" style="font-size:12px;"></div>
-        </div>
+        <div class="ratio-p"><div class="ratio-sym">SMH (Infra)</div><div class="ratio-pval" id="smh-p">--</div><div class="pchg" id="smh-c" style="font-size:12px;"></div></div>
         <div class="ratio-vs">vs</div>
-        <div class="ratio-p">
-          <div class="ratio-sym">IGV (Software)</div>
-          <div class="ratio-pval" id="igv-p">--</div>
-          <div class="pchg" id="igv-c" style="font-size:12px;"></div>
-        </div>
+        <div class="ratio-p"><div class="ratio-sym">IGV (Software)</div><div class="ratio-pval" id="igv-p">--</div><div class="pchg" id="igv-c" style="font-size:12px;"></div></div>
       </div>
-      <div class="ratio-bar-bg">
-        <div class="ratio-fill fg" id="ratio-fill" style="width:50%"></div>
-      </div>
-      <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:10px;">
-        <span style="color:var(--red);">Software leading</span>
-        <span style="color:var(--green);">Infra leading</span>
-      </div>
+      <div class="ratio-bar-bg"><div class="ratio-fill fg" id="ratio-fill" style="width:50%"></div></div>
+      <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:10px;"><span style="color:var(--red);">Software leading</span><span style="color:var(--green);">Infra leading</span></div>
       <div class="cc-status" id="ratio-signal" style="margin-top:8px;font-size:13px;"></div>
       <div id="ratio-signal-banner"></div>
     </div>
-
-    <!-- PLTR/MSFT Ratio -->
     <div class="cc" id="pltr-ratio-card">
       <div class="cc-lbl">PLTR / MSFT — Visser Validation</div>
       <div class="ratio-num" id="pltr-msft-ratio">--</div>
       <div class="pchg" id="pltr-msft-chg" style="font-size:12px;margin-top:4px;"></div>
-      <div class="ratio-trend" id="pltr-msft-trend" style="margin-top:6px;"></div>
-      <div class="cc-sub" style="margin-top:6px;font-size:12px;">Confirmed uptrend since Apr 2025 (Visser March 19 chart). Above 200-day MA = bullish.</div>
+      <div id="pltr-msft-trend" style="font-size:13px;margin-top:4px;"></div>
+      <div class="cc-sub">Confirmed uptrend since Apr 2025 (Visser March 19). Above 0.34 = bullish.</div>
       <div id="pltr-msft-signal"></div>
     </div>
   </div>
-
-  <!-- Row 3: SPX 126-day ROC · Deployment Checklist -->
   <div class="cc-row cc-row-2">
-
-    <!-- SPX 126-DAY ROC -->
     <div class="cc" id="spx-roc-card">
       <div class="cc-lbl">SPX 126-Day Rate of Change — Momentum</div>
       <div class="roc-gauge">
         <div class="roc-val" id="spx-roc-val">--</div>
         <div style="flex:1;">
           <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);margin-bottom:4px;">0% = no momentum. Negative = momentum lost. Positive = advancing.</div>
-          <div class="roc-bar-bg">
-            <div class="roc-fill fg" id="spx-roc-bar" style="width:50%"></div>
-          </div>
-          <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:10px;margin-top:3px;">
-            <span style="color:var(--red);">Bearish</span>
-            <span style="color:var(--muted);">Zero</span>
-            <span style="color:var(--green);">Bullish</span>
-          </div>
+          <div class="roc-bar-bg"><div class="roc-fill fg" id="spx-roc-bar" style="width:50%"></div></div>
+          <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:10px;margin-top:3px;"><span style="color:var(--red);">Bearish</span><span style="color:var(--muted);">Zero</span><span style="color:var(--green);">Bullish</span></div>
         </div>
       </div>
       <div class="cc-status" id="spx-roc-status" style="margin-top:8px;font-size:13px;"></div>
-      <div class="cc-sub" style="margin-top:4px;font-size:12px;">Visser March 19: ROC at zero = six months of going nowhere. Negative trend = negative macro.</div>
+      <div class="cc-sub">Visser March 19: ROC at zero = six months of going nowhere. Negative = negative macro.</div>
       <div id="spx-roc-signal"></div>
     </div>
-
-    <!-- DEPLOYMENT CHECKLIST -->
     <div class="cc">
       <div class="cc-lbl">Dry Powder Deployment Checklist — $25K USDC</div>
       <div class="deploy-grid">
@@ -456,8 +345,6 @@ footer{margin-top:36px;padding-top:16px;border-top:1.5px solid var(--border);fon
       <div class="deploy-score" id="deploy-score">Loading triggers...</div>
     </div>
   </div>
-
-  <!-- AI MACRO FETCH — % RSI<30 and DVOL/UVOL -->
   <div class="ai-macro-wrap">
     <div class="ai-macro-hdr">
       <span class="ai-macro-title">⚡ AI Macro Indicators — Requires Web Search (Fetch Once Daily)</span>
@@ -469,21 +356,18 @@ footer{margin-top:36px;padding-top:16px;border-top:1.5px solid var(--border);fon
         <div class="ai-ind-val" id="rsi30-val">--</div>
         <div class="ai-ind-sub" id="rsi30-sub"><span class="ai-ph">Click "Fetch Indicators" →</span></div>
         <div class="ai-ind-ts" id="rsi30-ts"></div>
-        <div class="cc-sub" style="margin-top:6px;font-size:11px;">Visser: currently 3.98% — need 40-80% for capitulation. Most important deployment timing signal.</div>
+        <div class="cc-sub" style="margin-top:6px;">Visser: 3.98% on March 19 — need 40-80% for capitulation. Most important deployment timing signal.</div>
       </div>
       <div class="ai-indicator">
         <div class="ai-ind-lbl">DVOL / UVOL — Down vs Up Volume Ratio</div>
         <div class="ai-ind-val" id="dvol-val">--</div>
         <div class="ai-ind-sub" id="dvol-sub"><span class="ai-ph">Click "Fetch Indicators" →</span></div>
         <div class="ai-ind-ts" id="dvol-ts"></div>
-        <div class="cc-sub" style="margin-top:6px;font-size:11px;">Visser: currently 4.07 vs avg 1.22. Elevated selling pressure indicator. Above 5x avg = panic.</div>
+        <div class="cc-sub" style="margin-top:6px;">Visser: 4.07 vs avg 1.22 on March 18. Above 5x average = panic selling.</div>
       </div>
     </div>
   </div>
-
-</div><!-- end cmd panel -->
-
-<!-- WATCHLIST TABS -->
+</div>
 <div class="panel" id="panel-t1">
   <div class="panel-desc">Tier 1 — Deep conviction positions. DCA through pain. Never stop the weekly TSLA DCA regardless of price.</div>
   <div class="cgrid" id="g-t1"></div>
@@ -500,16 +384,13 @@ footer{margin-top:36px;padding-top:16px;border-top:1.5px solid var(--border);fon
   <div class="panel-desc">Macro Monitor — HYG is the primary deployment trigger. All signals must fire simultaneously before deploying dry powder.</div>
   <div class="cgrid" id="g-mac"></div>
 </div>
-
 <footer>
   <span>Visser AI Macro Nexus &middot; Personal reference only &middot; Not financial advice &middot; Prices: Finnhub &middot; Sentiment: CNN</span>
   <span id="vd-ref">Not refreshed</span>
 </footer>
 </div>
-
 <script>
 const W='https://financialdashboard.practicemanager.workers.dev';
-
 const WL={
   t1:[
     {t:'PLTR',n:'Palantir Technologies',tier:'TIER 1',bc:'bt1',el:'Under $100',lo:80,hi:100,st:'wait',sl:'Wait for Dip',vt:0,vc:0,rv:'',th:'AI Operating System of the West. AIP Bootcamp flywheel — ~75% conversion rate, 5-day sales cycle. Ontology layer moat — 20 years institutional trust, Five Eyes clearances. PLTR/MSFT ratio in confirmed uptrend (Visser March 19 validation). FY2026 guide: 61% revenue growth, Rule of 40 = 127%.'},
@@ -518,7 +399,7 @@ const WL={
   rack:[
     {t:'VRT',n:'Vertiv Holdings',tier:'TOP PRIORITY',bc:'bt2',el:'$150–180 after pullback + Larsson flip',lo:150,hi:180,st:'wait',sl:'Do Not Chase',vt:4,vc:4,rv:'+',th:'Purest power/cooling play. Liquid cooling, UPS, thermal management for AI data centers. Agentic AI runs 24/7 — forces wholesale shift to liquid cooling. OpenClaw at 797B tokens/day proves always-on demand. Currently ~$269. DO NOT CHASE.'},
     {t:'MRVL',n:'Marvell Technology',tier:'TIER 2',bc:'bt2',el:'$65–70 primary · $55–60 opportunistic',lo:65,hi:70,st:'wait',sl:'Alert at $70',vt:4,vc:4,rv:'+',th:'Connective tissue of AI data centers. Custom ASICs, optical interconnects, switching fabric. Co-architect on Amazon Trainium and Microsoft Maia. FY2028 guide: ~$15B revenue, $5+ EPS. At $65 = ~13x FY2028 EPS.'},
-    {t:'MU',n:'Micron Technology',tier:'TIER 2',bc:'bt2',el:'Price alert at $280 — no action until then',lo:260,hi:280,st:'wait',sl:'Alert Set $280',vt:4,vc:4,rv:'+',th:'HBM and advanced packaging — upstream choke points governing AI system availability. Agentic agents consume ultra-high-bandwidth memory continuously at scale. No action until price reaches $280.'},
+    {t:'MU',n:'Micron Technology',tier:'TIER 2',bc:'bt2',el:'Price alert at $280 — no action until then',lo:260,hi:280,st:'wait',sl:'Alert Set $280',vt:4,vc:4,rv:'+',th:'HBM and advanced packaging — upstream choke points governing AI system availability. No action until price reaches $280.'},
     {t:'CSCO',n:'Cisco Systems',tier:'TIER 2',bc:'bt2',el:'Buy on meaningful pullbacks',lo:60,hi:72,st:'watch',sl:'Monitor',vt:4,vc:3,rv:'+',th:'Repositioning around agentic AI security and network orchestration. East-west networking traffic beneficiary — agentic workflows multiply internal data center hops dramatically.'},
     {t:'PSTG',n:'Everpure (Pure Storage)',tier:'MONITOR',bc:'bh',el:'Wait for confirmed weekly trend flip',lo:55,hi:65,st:'watch',sl:'Chart Not Ready',vt:1,vc:4,rv:'+',th:'Visser commentary 4/4 with positive revision. Crucial for RAG-driven agentic workflows — flash storage latency is the bottleneck for AI agents. Technical score 1/4 means chart not confirmed. Rebranded March 2026.'},
   ],
@@ -535,7 +416,6 @@ const WL={
     {t:'HYG',n:'iShares High Yield Bond ETF',tier:'MACRO',bc:'bm',el:'$78 Early Warning · $76 Action Trigger',lo:76,hi:78,st:'trigger',sl:'Monitor Daily',vt:0,vc:0,rv:'',th:'Primary deployment trigger for $25K dry powder. $78 = early warning. $76 = action trigger. Require multiple signals simultaneously.'},
   ]
 };
-
 const prices={};
 const earningDates={};
 let hyg30=[];
@@ -548,21 +428,10 @@ let dvolUvol=null;
 
 function allStocks(){return[...WL.t1,...WL.rack,...WL.pwr,...WL.mac];}
 
-// ── SIGNAL BANNER HELPER ──────────────────────────────────────────────────────
-// type: 'ok' | 'warn' | 'danger' | 'neutral'
-// verdict: short ALL-CAPS label
-// explain: plain English sentence
-function signalBanner(type, verdict, explain) {
-  return `<div class="signal-banner sb-${type}">
-    <div class="sb-dot sbd-${type}"></div>
-    <div class="sb-content">
-      <div class="sb-verdict sv-${type}">${verdict}</div>
-      <div class="sb-explain">${explain}</div>
-    </div>
-  </div>`;
+function sb(type,verdict,explain){
+  return`<div class="signal-banner sb-${type}"><div class="sb-dot sbd-${type}"></div><div class="sb-content"><div class="sb-verdict sv-${type}">${verdict}</div><div class="sb-explain">${explain}</div></div></div>`;
 }
 
-// ── TABS ──────────────────────────────────────────────────────────────────────
 function switchTab(name,btn){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
@@ -572,7 +441,6 @@ function switchTab(name,btn){
   if(name==='cmd'&&hyg30.length>1)setTimeout(drawSpark,100);
 }
 
-// ── DISTANCE ──────────────────────────────────────────────────────────────────
 function dist(s,p){
   if(!p||p<=0)return null;
   if(p>=s.lo&&p<=s.hi)return{lbl:'In entry zone',pct:100,cls:'fg',tc:'var(--green)',zone:true};
@@ -586,8 +454,7 @@ function dist(s,p){
 }
 
 function earnBadge(ticker){
-  const d=earningDates[ticker];
-  if(!d)return'';
+  const d=earningDates[ticker];if(!d)return'';
   const days=Math.ceil((new Date(d)-new Date())/(86400000));
   if(days<0)return`<span class="earn-badge eb-ok">Earnings past</span>`;
   if(days<=7)return`<span class="earn-badge eb-close">Earnings ${days}d ⚠</span>`;
@@ -596,8 +463,7 @@ function earnBadge(ticker){
 }
 
 function mkCard(s,macro=false){
-  const hs=s.vt>0;
-  let sc='';
+  const hs=s.vt>0;let sc='';
   if(hs){
     let td='',cd='';
     for(let i=1;i<=4;i++)td+=`<div class="sdot ${i<=s.vt?'son':'soff'}"></div>`;
@@ -608,18 +474,11 @@ function mkCard(s,macro=false){
   const scls=s.st==='wait'?'sw':s.st==='trigger'?'st':'swt';
   return`<div class="${macro?'card mcard':'card'}" id="cd-${s.t}">
     <div class="ctop">
-      <div class="cid">
-        <div class="trow"><span class="ticker">${s.t}</span><span class="cbadge ${s.bc}">${s.tier}</span><span id="eb-${s.t}"></span></div>
-        <div class="coname">${s.n}</div>
-      </div>
+      <div class="cid"><div class="trow"><span class="ticker">${s.t}</span><span class="cbadge ${s.bc}">${s.tier}</span><span id="eb-${s.t}"></span></div><div class="coname">${s.n}</div></div>
       <div class="pblock"><span class="lprice" id="pr-${s.t}">--</span><span class="pchg" id="ch-${s.t}">--</span></div>
     </div>
     <div class="esec">
-      <div class="etop">
-        <span class="elbl">Entry Target</span>
-        <span class="eval">${s.el}</span>
-        <span class="estatus ${scls}" id="es-${s.t}">${s.sl}</span>
-      </div>
+      <div class="etop"><span class="elbl">Entry Target</span><span class="eval">${s.el}</span><span class="estatus ${scls}" id="es-${s.t}">${s.sl}</span></div>
       <div class="drow"><div class="dbg"><div class="dfill" id="db-${s.t}" style="width:0%"></div></div><span class="dpct" id="dp-${s.t}" style="color:var(--muted)">--</span></div>
     </div>
     ${sc}
@@ -639,7 +498,6 @@ function renderAll(){
   document.getElementById('g-mac').innerHTML=WL.mac.map(s=>mkCard(s,true)).join('');
 }
 
-// ── QUOTE ─────────────────────────────────────────────────────────────────────
 async function gq(sym){
   try{const r=await fetch(`${W}/quote?symbol=${sym}`);return await r.json();}catch{return null;}
 }
@@ -652,9 +510,7 @@ function updCard(s,q){
   if(ce){const sg=ch>=0?'+':'';ce.textContent=`${sg}${ch.toFixed(2)} (${sg}${cp.toFixed(2)}%)`;ce.className=`pchg ${ch>0?'up':ch<0?'dn':'fl'}`;}
   const di=dist(s,p);
   if(di){
-    const be=document.getElementById(`db-${s.t}`);
-    const de=document.getElementById(`dp-${s.t}`);
-    const se=document.getElementById(`es-${s.t}`);
+    const be=document.getElementById(`db-${s.t}`);const de=document.getElementById(`dp-${s.t}`);const se=document.getElementById(`es-${s.t}`);
     if(be){be.className=`dfill ${di.cls}`;be.style.width=`${di.pct}%`;}
     if(de){de.textContent=di.lbl;de.style.color=di.tc;}
     if(se&&di.zone){se.textContent='In Entry Zone';se.className='estatus sz';}
@@ -662,41 +518,33 @@ function updCard(s,q){
   prices[s.t]={p,ch,cp};
 }
 
-// ── HYG ───────────────────────────────────────────────────────────────────────
 function updHYG(q){
   if(!q||!q.c)return;
   const{c:p,d:ch,dp:cp}=q;
   const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
-  set('hyg-strip',`$${p.toFixed(2)}`);
-  set('hyg-spark-price',`$${p.toFixed(2)}`);
-  const chEl=document.getElementById('hyg-strip-chg');
-  const spChEl=document.getElementById('hyg-spark-chg');
-  const sg=ch>=0?'+':'';
-  const chTxt=`(${sg}${cp.toFixed(2)}%)`;
-  if(chEl){chEl.textContent=chTxt;chEl.className=`mval ${ch>=0?'c-ok':'c-d'}`;}
-  if(spChEl){spChEl.textContent=`${sg}${ch.toFixed(2)} ${chTxt}`;spChEl.className=`pchg ${ch>=0?'up':'dn'}`;}
-  let statusTxt,statusCls,cardCls;
-  if(p<=76){statusTxt='🚨 ACTION TRIGGER — Deploy Dry Powder';statusCls='mval c-d';cardCls='danger';}
-  else if(p<=78){statusTxt='⚠️ Warning Zone — Prepare';statusCls='mval c-w';cardCls='warn';}
-  else{statusTxt=`✓ Safe — $${(p-78).toFixed(2)} above warn`;statusCls='mval c-ok';cardCls='ok';}
-  set('hyg-strip-status',p<=76?'🚨 ACTION':p<=78?'⚠️ WARN':'✓ SAFE');
+  set('hyg-strip',`$${p.toFixed(2)}`);set('hyg-spark-price',`$${p.toFixed(2)}`);
+  const sg=ch>=0?'+':'';const chTxt=`(${sg}${cp.toFixed(2)}%)`;
+  const chEl=document.getElementById('hyg-strip-chg');if(chEl){chEl.textContent=chTxt;chEl.className=`mval ${ch>=0?'c-ok':'c-d'}`;}
+  const spChEl=document.getElementById('hyg-spark-chg');if(spChEl){spChEl.textContent=`${sg}${ch.toFixed(2)} ${chTxt}`;spChEl.className=`pchg ${ch>=0?'up':'dn'}`;}
+  let statusTxt,cardCls;
+  if(p<=76){statusTxt='🚨 ACTION TRIGGER — Deploy Dry Powder';cardCls='danger';}
+  else if(p<=78){statusTxt='⚠️ Warning Zone — Prepare';cardCls='warn';}
+  else{statusTxt=`✓ Safe — $${(p-78).toFixed(2)} above warn`;cardCls='ok';}
   const stripSt=document.getElementById('hyg-strip-status');
-  if(stripSt)stripSt.className=`mval ${p<=76?'c-d':p<=78?'c-w':'c-ok'}`;
+  if(stripSt){stripSt.textContent=p<=76?'🚨 ACTION':p<=78?'⚠️ WARN':'✓ SAFE';stripSt.className=`mval ${p<=76?'c-d':p<=78?'c-w':'c-ok'}`;}
   const sparkSt=document.getElementById('hyg-spark-status');
   if(sparkSt){sparkSt.textContent=statusTxt;sparkSt.className=`cc-status ${p<=76?'c-d':p<=78?'c-w':'c-ok'}`;}
   const sparkSig=document.getElementById('hyg-spark-signal');
   if(sparkSig){
-    if(p<=76)sparkSig.innerHTML=signalBanner('danger','ACTION TRIGGER FIRED — DEPLOY DRY POWDER','HYG below $76 is your primary deployment signal. Check that Fear & Greed and VIX are also confirming before committing full position. Stage entries.');
-    else if(p<=78)sparkSig.innerHTML=signalBanner('warn','WARNING ZONE — PREPARE FOR DEPLOYMENT','HYG approaching the action trigger. Review your watchlist entries now. Have buy orders ready. Do not deploy yet — wait for $76.');
-    else sparkSig.innerHTML=signalBanner('ok','SAFE — NO HYG SIGNAL','High-yield bonds are not showing stress. Credit markets are calm. HYG is your most important single indicator — when it breaks, act.');
+    if(p<=76)sparkSig.innerHTML=sb('danger','ACTION TRIGGER FIRED — DEPLOY DRY POWDER','HYG below $76 is your primary deployment signal. Check that Fear & Greed and VIX are also confirming before committing full position. Stage entries.');
+    else if(p<=78)sparkSig.innerHTML=sb('warn','WARNING ZONE — PREPARE FOR DEPLOYMENT','HYG approaching the action trigger. Review your watchlist entries now. Have buy orders ready. Do not deploy yet — wait for $76.');
+    else sparkSig.innerHTML=sb('ok','SAFE — NO HYG SIGNAL','High-yield bonds are not showing stress. Credit markets are calm. HYG is your most important single indicator — when it breaks, act.');
   }
-  const card=document.getElementById('hyg-spark-card');
-  if(card)card.className=`cc ${cardCls}`;
+  const card=document.getElementById('hyg-spark-card');if(card)card.className=`cc ${cardCls}`;
   prices['HYG']={p,ch,cp};
   updateChecklist();
 }
 
-// ── BTC ───────────────────────────────────────────────────────────────────────
 function updBTC(q){
   if(!q||!q.c)return;
   const p=q.c,ch=q.d,cp=q.dp;
@@ -706,87 +554,70 @@ function updBTC(q){
   [{id:'btc-cold',cost:42000},{id:'btc-hot',cost:40000},{id:'btc-rh',cost:76000}].forEach(b=>{
     const el=document.getElementById(b.id);if(!el)return;
     const pct=((p-b.cost)/b.cost*100).toFixed(1);
-    el.textContent=`${pct>0?'+':''}${pct}%`;
-    el.className=`btc-b-val ${pct>0?'up':'dn'}`;
+    el.textContent=`${pct>0?'+':''}${pct}%`;el.className=`btc-b-val ${pct>0?'up':'dn'}`;
   });
-  // BTC signal banner
   const btcSig=document.getElementById('btc-signal');
   if(btcSig){
-    const coldPct=((p-42000)/42000*100);
-    if(coldPct>100)btcSig.innerHTML=signalBanner('ok','COLD STORAGE 2X+ COST BASIS','Never trade this position. Patience and cold storage is the entire strategy here. Let it compound.');
-    else if(coldPct>0)btcSig.innerHTML=signalBanner('ok','ABOVE ALL COST BASES — HOLD','All three BTC positions are in profit. Cold storage never trades. Hot wallet holds. Robinhood holds until thesis changes.');
-    else btcSig.innerHTML=signalBanner('warn','ROBINHOOD BTC UNDERWATER','RH position is below $76K cost basis. This is normal volatility for BTC. Never panic sell. Scarcity thesis is multi-year — short-term price does not matter.');
+    const coldPct=(p-42000)/42000*100;
+    if(coldPct>100)btcSig.innerHTML=sb('ok','COLD STORAGE 2X+ COST BASIS','Never trade this position. Patience and cold storage is the entire strategy. Let it compound.');
+    else if(p>=42000)btcSig.innerHTML=sb('ok','ABOVE ALL COST BASES — HOLD','All three BTC positions are in profit. Cold storage never trades. Hold until thesis changes.');
+    else btcSig.innerHTML=sb('warn','ROBINHOOD BTC UNDERWATER','RH position below $76K cost basis. Normal BTC volatility. Never panic sell. Scarcity thesis is multi-year.');
   }
 }
 
-// ── VIX ───────────────────────────────────────────────────────────────────────
 function updVIX(q){
   if(!q||!q.c)return;
   const p=q.c,ch=q.d,cp=q.dp;
   const ve=document.getElementById('vix-val');if(ve)ve.textContent=p.toFixed(2);
   const ce=document.getElementById('vix-chg');
   if(ce){const sg=ch>=0?'+':'';ce.textContent=`${sg}${ch.toFixed(2)} (${sg}${cp.toFixed(2)}%)`;ce.className=`pchg ${ch>0?'up':'dn'}`;}
-  const st=document.getElementById('vix-status');
-  const card=document.getElementById('vix-card');
-  const strip=document.getElementById('vix-strip');
-  if(strip)strip.textContent=`${p.toFixed(1)}`;
-  let cls='ok',txt,scls;
+  const strip=document.getElementById('vix-strip');if(strip)strip.textContent=p.toFixed(1);
+  let cls,txt,scls;
   if(p>=35){cls='danger';txt='🚨 Extreme fear — deploy trigger active';scls='c-d';}
   else if(p>=25){cls='warn';txt='⚠️ Elevated — monitor closely';scls='c-w';}
   else{cls='ok';txt=`Calm — ${(25-p).toFixed(1)} below watch level`;scls='c-ok';}
-  if(st){st.textContent=txt;st.className=`cc-status ${scls}`;}
-  if(card)card.className=`cc ${cls}`;
-  // VIX signal banner
+  const st=document.getElementById('vix-status');if(st){st.textContent=txt;st.className=`cc-status ${scls}`;}
+  const card=document.getElementById('vix-card');if(card)card.className=`cc ${cls}`;
   const vixSig=document.getElementById('vix-signal');
   if(vixSig){
-    if(p>=35)vixSig.innerHTML=signalBanner('danger','PANIC — DEPLOY TRIGGER ACTIVE','VIX above 35 signals institutional fear. This is one of your 8 deployment triggers. Check the full checklist.');
-    else if(p>=25)vixSig.innerHTML=signalBanner('warn','ELEVATED — WATCH CLOSELY','Volatility is rising. Markets pricing in uncertainty. This is the early warning zone — not yet a deploy trigger.');
-    else if(p>=18)vixSig.innerHTML=signalBanner('neutral','NORMAL RANGE','Volatility is normal. No signal in either direction from VIX today.');
-    else vixSig.innerHTML=signalBanner('ok','LOW VOLATILITY — COMPLACENCY','VIX this low often precedes a spike. Good time to verify your watchlist alerts are set.');
+    if(p>=35)vixSig.innerHTML=sb('danger','PANIC — DEPLOY TRIGGER ACTIVE','VIX above 35 signals institutional fear. One of your 8 deployment triggers. Check the full checklist.');
+    else if(p>=25)vixSig.innerHTML=sb('warn','ELEVATED — WATCH CLOSELY','Volatility rising. Markets pricing in uncertainty. Early warning zone — not yet a deploy trigger.');
+    else if(p>=18)vixSig.innerHTML=sb('neutral','NORMAL RANGE','Volatility is normal. No signal from VIX today.');
+    else vixSig.innerHTML=sb('ok','LOW VOLATILITY — COMPLACENCY','VIX this low often precedes a spike. Good time to verify your watchlist alerts are set.');
   }
   prices['VIX']={p};
   updateChecklist();
 }
 
-// ── XLF vs 200-day MA ─────────────────────────────────────────────────────────
 async function loadXLF(){
   try{
-    // Fetch quote and candle in parallel
-    const [q, candleRes] = await Promise.all([
+    const[q,candleRes]=await Promise.all([
       gq('XLF'),
       fetch(`${W}/candle?symbol=XLF&resolution=D&days=220`).then(r=>r.json()).catch(()=>null)
     ]);
     if(!q||!q.c)return;
     const p=q.c,ch=q.d,cp=q.dp;
-
-    // Compute 200-day MA from candle data
     let ma=0;
     if(candleRes&&candleRes.c&&candleRes.c.length>=200){
       const last200=candleRes.c.slice(-200);
       ma=last200.reduce((a,b)=>a+b,0)/200;
       xlf200ma=ma;
     }
-
     const pe=document.getElementById('xlf-price');if(pe)pe.textContent=`$${p.toFixed(2)}`;
     const ce=document.getElementById('xlf-chg');
     if(ce){const sg=ch>=0?'+':'';ce.textContent=`${sg}${ch.toFixed(2)} (${sg}${cp.toFixed(2)}%)`;ce.className=`xlf-diff ${ch>=0?'up':'dn'}`;}
     const mae=document.getElementById('xlf-ma');if(mae)mae.textContent=ma>0?`$${ma.toFixed(2)}`:'--';
-    const vse=document.getElementById('xlf-vs-ma');
-    const strip=document.getElementById('xlf-strip');
-    const stripSt=document.getElementById('xlf-strip-status');
-    if(strip)strip.textContent=`$${p.toFixed(2)}`;
-
+    const strip=document.getElementById('xlf-strip');if(strip)strip.textContent=`$${p.toFixed(2)}`;
     if(ma>0){
-      const diff=((p-ma)/ma*100).toFixed(1);
-      const above=p>=ma;
-      if(vse){vse.textContent=`${above?'+':''}${diff}%`;vse.className=`xlf-val ${above?'c-ok':'c-d'}`;}
-      const st=document.getElementById('xlf-status');
-      const card=document.getElementById('xlf-card');
+      const diff=((p-ma)/ma*100).toFixed(1);const above=p>=ma;
+      const vse=document.getElementById('xlf-vs-ma');if(vse){vse.textContent=`${above?'+':''}${diff}%`;vse.className=`xlf-val ${above?'c-ok':'c-d'}`;}
+      const stripSt=document.getElementById('xlf-strip-status');
+      const st=document.getElementById('xlf-status');const card=document.getElementById('xlf-card');
       let txt,cls;
       if(!above){
-        txt='⚠️ BELOW 200-day MA — Visser leading warning ACTIVE';cls='warn';
+        txt='⚠️ BELOW 200-day MA — Visser warning ACTIVE';cls='warn';
         if(stripSt){stripSt.textContent='BELOW MA';stripSt.className='mname c-w';}
-      } else {
+      }else{
         txt=`✓ Above 200-day MA by ${diff}%`;cls='ok';
         if(stripSt){stripSt.textContent='above MA';stripSt.className='mname c-ok';}
       }
@@ -794,8 +625,8 @@ async function loadXLF(){
       if(card)card.className=`cc ${cls}`;
       const xlfSig=document.getElementById('xlf-signal');
       if(xlfSig){
-        if(!above)xlfSig.innerHTML=signalBanner('warn','WARNING — FINANCIALS BELOW 200-DAY MA','Visser\'s #1 leading indicator. Financials breaking down precedes broader market stress. Confirmed firing in March 19 webinar. Watch HYG closely.');
-        else xlfSig.innerHTML=signalBanner('ok','HEALTHY — FINANCIALS ABOVE 200-DAY MA','No systemic stress signal from financials today. This indicator is not contributing to deployment signal.');
+        if(!above)xlfSig.innerHTML=sb('warn','WARNING — FINANCIALS BELOW 200-DAY MA','Visser\'s #1 leading indicator. Financials breaking down precedes broader market stress. Confirmed firing in March 19 webinar. Watch HYG closely.');
+        else xlfSig.innerHTML=sb('ok','HEALTHY — FINANCIALS ABOVE 200-DAY MA','No systemic stress signal from financials today. Not contributing to deployment signal.');
       }
     }
     prices['XLF']={p,ma};
@@ -803,7 +634,6 @@ async function loadXLF(){
   }catch(e){console.error('XLF error',e);}
 }
 
-// ── IGV/SMH ───────────────────────────────────────────────────────────────────
 function updRatio(smhQ,igvQ){
   if(!smhQ||!igvQ||!smhQ.c||!igvQ.c)return;
   const sp=smhQ.c,ip=igvQ.c,sd=smhQ.dp,id=igvQ.dp;
@@ -822,116 +652,69 @@ function updRatio(smhQ,igvQ){
   }
   const ratioSig=document.getElementById('ratio-signal-banner');
   if(ratioSig){
-    if(diff>2)ratioSig.innerHTML=signalBanner('ok','THESIS CONFIRMED — INFRA LEADING','Semiconductor/infrastructure ETF outperforming software. Capital is rotating exactly as Visser predicted. Your watchlist names have macro tailwind.');
-    else if(diff>0)ratioSig.innerHTML=signalBanner('ok','THESIS INTACT — MODEST INFRA LEAD','Infrastructure slightly ahead of software. Rotation is happening but not accelerating. No change to strategy.');
-    else if(diff>-2)ratioSig.innerHTML=signalBanner('neutral','NEUTRAL — WATCH FOR DIRECTION','Infrastructure and software roughly equal. Rotation thesis is not playing out today. Monitor for trend.');
-    else ratioSig.innerHTML=signalBanner('warn','CAUTION — SOFTWARE LEADING','Capital flowing back to software/SaaS. This is against the Visser thesis. Do not add new infrastructure positions until rotation resumes.');
+    if(diff>2)ratioSig.innerHTML=sb('ok','THESIS CONFIRMED — INFRA LEADING','Semiconductor ETF outperforming software. Capital rotating exactly as Visser predicted. Your watchlist names have macro tailwind.');
+    else if(diff>0)ratioSig.innerHTML=sb('ok','THESIS INTACT — MODEST INFRA LEAD','Infrastructure slightly ahead of software. Rotation happening but not accelerating. No change to strategy.');
+    else if(diff>-2)ratioSig.innerHTML=sb('neutral','NEUTRAL — WATCH FOR DIRECTION','Infrastructure and software roughly equal. Rotation thesis not playing out today. Monitor for trend.');
+    else ratioSig.innerHTML=sb('warn','CAUTION — SOFTWARE LEADING','Capital flowing back to software/SaaS. Against the Visser thesis. Do not add infrastructure positions until rotation resumes.');
   }
   prices['_smh']=sd;prices['_igv']=id;
   updateChecklist();
 }
 
-// ── PLTR/MSFT RATIO ───────────────────────────────────────────────────────────
 function updPLTRMSFT(pltrQ,msftQ){
   if(!pltrQ||!msftQ||!pltrQ.c||!msftQ.c)return;
-  const ratio=(pltrQ.c/msftQ.c);
+  const ratio=pltrQ.c/msftQ.c;
   const ratioDayAgo=(pltrQ.c-pltrQ.d)/(msftQ.c-msftQ.d);
   const ratioChg=((ratio-ratioDayAgo)/ratioDayAgo*100).toFixed(2);
   const re=document.getElementById('pltr-msft-ratio');if(re)re.textContent=ratio.toFixed(4);
   const ce=document.getElementById('pltr-msft-chg');
-  if(ce){
-    const sg=ratioChg>=0?'+':'';
-    ce.textContent=`${sg}${ratioChg}% today`;
-    ce.className=`pchg ${ratioChg>=0?'up':'dn'}`;
-  }
-  const te=document.getElementById('pltr-msft-trend');
-  const card=document.getElementById('pltr-ratio-card');
-  // Visser reference: ratio was 0.339 on 200-day MA, current uptrend
-  if(ratio>=0.35){
-    if(te){te.textContent='✓ Above Visser reference level (~0.34) — uptrend intact';te.className='ratio-trend c-ok';}
-    if(card)card.className='cc ok';
-  } else if(ratio>=0.30){
-    if(te){te.textContent='Approaching support — watch for Larsson Line on PLTR';te.className='ratio-trend c-w';}
-    if(card)card.className='cc warn';
-  } else {
-    if(te){te.textContent='Below reference levels — thesis weakening';te.className='ratio-trend c-d';}
-    if(card)card.className='cc danger';
-  }
-  const pltrSig=document.getElementById('pltr-msft-signal');
-  if(pltrSig){
-    if(ratio>=0.35)pltrSig.innerHTML=signalBanner('ok','UPTREND INTACT — PLTR GAINING ON MSFT','PLTR is outperforming Microsoft on a ratio basis. Visser confirmed this chart March 19 as validation that PLTR is the software exception — the orchestration layer on top of the whole rack.');
-    else if(ratio>=0.30)pltrSig.innerHTML=signalBanner('warn','APPROACHING SUPPORT — WATCH CAREFULLY','PLTR/MSFT ratio near the Visser reference level. If this breaks below 0.30, re-evaluate the $100 entry thesis.');
-    else pltrSig.innerHTML=signalBanner('danger','RATIO WEAKENING — THESIS UNDER REVIEW','PLTR losing ground to Microsoft. Review the PLTR thesis before committing to entry. Wait for ratio to stabilize.');
+  if(ce){const sg=ratioChg>=0?'+':'';ce.textContent=`${sg}${ratioChg}% today`;ce.className=`pchg ${ratioChg>=0?'up':'dn'}`;}
+  const te=document.getElementById('pltr-msft-trend');const card=document.getElementById('pltr-ratio-card');
+  if(ratio>=0.35){if(te){te.textContent='✓ Above Visser reference (~0.34) — uptrend intact';te.className='c-ok';}if(card)card.className='cc ok';}
+  else if(ratio>=0.30){if(te){te.textContent='Approaching support — watch closely';te.className='c-w';}if(card)card.className='cc warn';}
+  else{if(te){te.textContent='Below reference — thesis weakening';te.className='c-d';}if(card)card.className='cc danger';}
+  const sig=document.getElementById('pltr-msft-signal');
+  if(sig){
+    if(ratio>=0.35)sig.innerHTML=sb('ok','UPTREND INTACT — PLTR GAINING ON MSFT','PLTR outperforming Microsoft on a ratio basis. Visser validated this chart March 19 as the software exception — orchestration layer on top of the whole rack.');
+    else if(ratio>=0.30)sig.innerHTML=sb('warn','APPROACHING SUPPORT — WATCH CAREFULLY','PLTR/MSFT ratio near Visser reference level. If breaks below 0.30, re-evaluate the $100 entry thesis.');
+    else sig.innerHTML=sb('danger','RATIO WEAKENING — THESIS UNDER REVIEW','PLTR losing ground to Microsoft. Review thesis before committing to entry. Wait for ratio to stabilize.');
   }
   prices['_pltr_msft']=ratio;
 }
 
-// ── SPX 126-day ROC ───────────────────────────────────────────────────────────
 async function loadSPXROC(){
   try{
     const r=await fetch(`${W}/candle?symbol=SPY&resolution=D&days=160`);
     const d=await r.json();
-    if(!d||!d.c||d.c.length<130){
-      console.warn('SPX ROC: not enough candle data, got',d?.c?.length);
-      return;
-    }
+    if(!d||!d.c||d.c.length<130){console.warn('SPX ROC: not enough data, got',d?.c?.length);return;}
     spxCandles=d.c;
-    const current=d.c[d.c.length-1];
-    const past=d.c[d.c.length-127];
-    const roc=((current-past)/past*100);
+    const roc=((d.c[d.c.length-1]-d.c[d.c.length-127])/d.c[d.c.length-127]*100);
     const ve=document.getElementById('spx-roc-val');
     if(ve){ve.textContent=`${roc>=0?'+':''}${roc.toFixed(2)}%`;ve.style.color=roc>5?'var(--green)':roc>0?'var(--accent)':roc>-5?'var(--yellow)':'var(--red)';}
-    const barPct=Math.min(100,Math.max(0,50+roc*2.5));
     const bar=document.getElementById('spx-roc-bar');
-    if(bar){bar.style.width=`${barPct}%`;bar.className=`roc-fill ${roc>0?'fg':roc>-5?'fy':'fr'}`;}
-    const st=document.getElementById('spx-roc-status');
-    const card=document.getElementById('spx-roc-card');
+    if(bar){bar.style.width=`${Math.min(100,Math.max(0,50+roc*2.5))}%`;bar.className=`roc-fill ${roc>0?'fg':roc>-5?'fy':'fr'}`;}
     let txt,cls;
     if(roc>5){txt=`Strong momentum — S&P up ${roc.toFixed(1)}% over 126 days`;cls='ok';}
-    else if(roc>0){txt=`Near-zero momentum — only +${roc.toFixed(1)}% over 126 days (Visser flags this as bearish)`;cls='warn';}
+    else if(roc>0){txt=`Near-zero momentum — only +${roc.toFixed(1)}% over 126 days (Visser flags as bearish)`;cls='warn';}
     else{txt=`⚠️ Negative momentum — S&P down ${Math.abs(roc).toFixed(1)}% over 126 days`;cls='danger';}
-    if(st){st.textContent=txt;st.className=`cc-status ${cls==='ok'?'c-ok':cls==='warn'?'c-w':'c-d'}`;}
-    if(card)card.className=`cc ${cls}`;
-    const rocSig=document.getElementById('spx-roc-signal');
-    if(rocSig){
-      if(roc>5)rocSig.innerHTML=signalBanner('ok','STRONG MOMENTUM — MARKET ADVANCING','S&P 500 has real upward momentum over the past 6 months. Not a fear environment. Hold dry powder and wait for conditions to change.');
-      else if(roc>0)rocSig.innerHTML=signalBanner('warn','NEAR-ZERO MOMENTUM — STALLING','Six months of going nowhere. Visser called this out March 19 as a negative trend. Market running in place = fragile. Watch for the next catalyst.');
-      else rocSig.innerHTML=signalBanner('danger','NEGATIVE MOMENTUM — DOWNTREND CONFIRMED','S&P 500 has lost ground over 6 months. This is one of your 8 deployment triggers. Combine with other signals to time dry powder entry.');
-    }
-    prices['_spx_roc']=roc;
-    updateChecklist();
-  }catch(e){console.error('SPX ROC error',e);}
-}
-    const ve=document.getElementById('spx-roc-val');if(ve){ve.textContent=`${roc>=0?'+':''}${roc.toFixed(2)}%`;ve.style.color=roc>5?'var(--green)':roc>0?'var(--accent)':roc>-5?'var(--yellow)':'var(--red)';}
-    // bar: 50% = zero. +20% = 100%. -20% = 0%
-    const barPct=Math.min(100,Math.max(0,50+roc*2.5));
-    const bar=document.getElementById('spx-roc-bar');if(bar){bar.style.width=`${barPct}%`;bar.className=`roc-fill ${roc>0?'fg':roc>-5?'fy':'fr'}`;}
-    const st=document.getElementById('spx-roc-status');
-    const card=document.getElementById('spx-roc-card');
-    let txt,cls;
-    if(roc>5){txt=`Strong momentum — S&P up ${roc.toFixed(1)}% over 126 days`;cls='ok';}
-    else if(roc>0){txt=`Weak momentum — only ${roc.toFixed(1)}% over 126 days (near-zero is bearish)`;cls='warn';}
-    else{txt=`⚠️ Negative momentum — S&P down ${Math.abs(roc).toFixed(1)}% over 126 days`;cls='danger';}
-    if(st){st.textContent=txt;st.className=`cc-status ${cls==='ok'?'c-ok':cls==='warn'?'c-w':'c-d'}`;}
-    if(card)card.className=`cc ${cls}`;
-    const rocSig=document.getElementById('spx-roc-signal');
-    if(rocSig){
-      if(roc>5)rocSig.innerHTML=signalBanner('ok','STRONG MOMENTUM — MARKET ADVANCING','S&P 500 has real upward momentum over the past 6 months. Not a fear environment. Hold dry powder and wait for conditions to change.');
-      else if(roc>0)rocSig.innerHTML=signalBanner('warn','NEAR-ZERO MOMENTUM — STALLING','Six months of going nowhere. Visser called this out March 19 as a negative trend. Market running in place = fragile. Watch for the next catalyst.');
-      else rocSig.innerHTML=signalBanner('danger','NEGATIVE MOMENTUM — DOWNTREND CONFIRMED','S&P 500 has lost ground over 6 months. This is one of your 8 deployment triggers. Combine with other signals to time dry powder entry.');
+    const st=document.getElementById('spx-roc-status');if(st){st.textContent=txt;st.className=`cc-status ${cls==='ok'?'c-ok':cls==='warn'?'c-w':'c-d'}`;}
+    const card=document.getElementById('spx-roc-card');if(card)card.className=`cc ${cls}`;
+    const sig=document.getElementById('spx-roc-signal');
+    if(sig){
+      if(roc>5)sig.innerHTML=sb('ok','STRONG MOMENTUM — MARKET ADVANCING','S&P has real upward momentum over 6 months. Not a fear environment. Hold dry powder and wait for conditions to change.');
+      else if(roc>0)sig.innerHTML=sb('warn','NEAR-ZERO MOMENTUM — STALLING','Six months of going nowhere. Visser flagged this March 19 as a negative trend. Market fragile — watch for next catalyst.');
+      else sig.innerHTML=sb('danger','NEGATIVE MOMENTUM — DOWNTREND CONFIRMED','S&P 500 has lost ground over 6 months. One of your 8 deployment triggers. Combine with other signals to time entry.');
     }
     prices['_spx_roc']=roc;
     updateChecklist();
   }catch(e){console.error('SPX ROC error',e);}
 }
 
-// ── FEAR & GREED (fixed) ──────────────────────────────────────────────────────
 async function loadFG(){
   try{
     const r=await fetch(`${W}/feargreed`);
     const d=await r.json();
-    const cur=d.fear_and_greed;
-    if(!cur)return;
+    const cur=d.fear_and_greed;if(!cur)return;
     fgData={score:cur.score,rating:cur.rating};
     const sc=Math.round(cur.score);
     const rating=(cur.rating||'').replace(/_/g,' ');
@@ -942,50 +725,33 @@ async function loadFG(){
     const s1=document.getElementById('fg-1w');if(s1)s1.textContent=Math.round(cur.previous_1_week||0);
     const s2=document.getElementById('fg-1m');if(s2)s2.textContent=Math.round(cur.previous_1_month||0);
     const s3=document.getElementById('fg-3m');if(s3)s3.textContent=Math.round(cur.previous_3_months||0);
-    const sg=document.getElementById('fg-signal');
-    if(sg){
-      if(sc<=25){sg.textContent='Extreme fear — compound signal may be active';sg.style.color='var(--red)';}
-      else if(sc<=40){sg.textContent='Fear zone — watch for HYG to confirm';sg.style.color='var(--yellow)';}
-      else if(sc>=60){sg.textContent='Do not deploy — greed elevated';sg.style.color='var(--accent)';}
-      else{sg.textContent='Neutral — wait for fear to develop';sg.style.color='var(--muted)';}
-    }
-    const card=document.getElementById('fg-card');
-    if(card)card.className=`cc ${sc<=25?'danger':sc<=40?'warn':'ok'}`;
-    // Signal banner
+    const card=document.getElementById('fg-card');if(card)card.className=`cc ${sc<=25?'danger':sc<=40?'warn':'ok'}`;
     const sbEl=document.getElementById('fg-signal');
     if(sbEl){
-      if(sc<=25)sbEl.innerHTML=signalBanner('danger','EXTREME FEAR — COMPOUND SIGNAL ACTIVE','Market sentiment at capitulation levels. When HYG also fires, deploy dry powder into watchlist names.');
-      else if(sc<=40)sbEl.innerHTML=signalBanner('warn','FEAR ZONE — WATCH FOR CONFIRMATION','Sentiment is bearish. Not yet a deployment trigger alone — wait for HYG to confirm.');
-      else if(sc<=55)sbEl.innerHTML=signalBanner('neutral','NEUTRAL — WAIT','No edge in either direction. Hold dry powder until fear develops.');
-      else if(sc<=70)sbEl.innerHTML=signalBanner('warn','GREED — DO NOT DEPLOY','Market is greedy. Entries here mean buying when others are euphoric — wrong side of the trade.');
-      else sbEl.innerHTML=signalBanner('danger','EXTREME GREED — STAY OUT','Peak euphoria. Visser framework says do nothing. Wait for the inevitable reset.');
+      if(sc<=25)sbEl.innerHTML=sb('danger','EXTREME FEAR — COMPOUND SIGNAL ACTIVE','Market sentiment at capitulation levels. When HYG also fires, deploy dry powder into watchlist names.');
+      else if(sc<=40)sbEl.innerHTML=sb('warn','FEAR ZONE — WATCH FOR CONFIRMATION','Sentiment is bearish. Not yet a deployment trigger alone — wait for HYG to confirm.');
+      else if(sc<=55)sbEl.innerHTML=sb('neutral','NEUTRAL — WAIT','No edge in either direction. Hold dry powder until fear develops.');
+      else sbEl.innerHTML=sb('warn','GREED — DO NOT DEPLOY','Market is greedy. Wrong side of the trade. Wait for the reset.');
     }
     updateChecklist();
   }catch(e){const rl=document.getElementById('fg-rating');if(rl)rl.textContent='Unable to load';}
 }
 
-// ── HYG SPARKLINE ────────────────────────────────────────────────────────────
 async function loadSparkline(){
   try{
     const r=await fetch(`${W}/candle?symbol=HYG&resolution=D&days=40`);
     const d=await r.json();
     if(d&&d.c&&d.c.length>1){
       hyg30=d.c;
-      drawSpark();
-      setTimeout(drawSpark,400);
-      setTimeout(drawSpark,1200);
+      drawSpark();setTimeout(drawSpark,400);setTimeout(drawSpark,1200);
     }
   }catch{}
 }
 
 function drawSpark(){
-  const cv=document.getElementById('hyg-spark');
-  if(!cv||hyg30.length<2)return;
-  // Force layout before reading offsetWidth
+  const cv=document.getElementById('hyg-spark');if(!cv||hyg30.length<2)return;
   const W2=cv.getBoundingClientRect().width||cv.parentElement?.getBoundingClientRect().width||300;
-  const H=48;
-  cv.width=Math.floor(W2);cv.height=H;
-  if(cv.width<10)return; // not yet in DOM
+  const H=48;cv.width=Math.floor(W2);cv.height=H;if(cv.width<10)return;
   const ctx=cv.getContext('2d');
   const mn=Math.min(...hyg30,75.5),mx=Math.max(...hyg30,79);
   const xS=(W2-6)/(hyg30.length-1),yS=(H-10)/(mx-mn);
@@ -1001,32 +767,19 @@ function drawSpark(){
   ctx.strokeStyle=last<=76?'#f87171':last<=78?'#fbbf24':'#34d399';
   ctx.lineWidth=2.5;ctx.lineJoin='round';ctx.lineCap='round';
   ctx.beginPath();
-  hyg30.forEach((v,i)=>{
-    const x=3+i*xS,y=H-5-(v-mn)*yS;
-    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
-  });
+  hyg30.forEach((v,i)=>{const x=3+i*xS,y=H-5-(v-mn)*yS;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});
   ctx.stroke();
 }
 
-// ── DEPLOYMENT CHECKLIST ──────────────────────────────────────────────────────
 function updateChecklist(){
-  const hyg=prices['HYG']?.p;
-  const fg=fgData?.score;
-  const smhp=prices['_smh'];
-  const igvp=prices['_igv'];
-  const vix=prices['VIX']?.p;
-  const xlf=prices['XLF'];
-  const roc=prices['_spx_roc'];
+  const hyg=prices['HYG']?.p,fg=fgData?.score,smhp=prices['_smh'],igvp=prices['_igv'];
+  const vix=prices['VIX']?.p,xlf=prices['XLF'],roc=prices['_spx_roc'];
   let fired=0;
-
   function setT(dotId,txtId,active,warn,txt){
-    const d=document.getElementById(dotId);
-    const t=document.getElementById(txtId);
+    const d=document.getElementById(dotId),t=document.getElementById(txtId);
     if(d)d.className=`deploy-dot ${active?'dd-fire':warn?'dd-warn':'dd-off'}`;
-    if(t)t.textContent=txt;
-    if(active)fired++;
+    if(t)t.textContent=txt;if(active)fired++;
   }
-
   if(hyg!==undefined){
     setT('dot-hyg78','txt-hyg78',hyg<=76,hyg<=78,`HYG $${hyg.toFixed(2)} — ${hyg<=76?'ACTION FIRED':hyg<=78?'WARNING':'safe'}`);
     setT('dot-hyg76','txt-hyg76',hyg<=76,false,`HYG < $76 — ${hyg<=76?'FIRED':'not yet'}`);
@@ -1037,7 +790,6 @@ function updateChecklist(){
   if(xlf&&xlf.ma)setT('dot-xlf','txt-xlf',xlf.p<xlf.ma,false,`XLF $${xlf.p.toFixed(2)} ${xlf.p<xlf.ma?'BELOW':'above'} 200MA $${xlf.ma.toFixed(2)}`);
   if(rsiBelow30!==null)setT('dot-rsi','txt-rsi',rsiBelow30>=20,rsiBelow30>=10,`% SPX RSI<30: ${rsiBelow30.toFixed(1)}% — ${rsiBelow30>=40?'CAPITULATION':rsiBelow30>=20?'elevating':'low'}`);
   if(roc!==undefined)setT('dot-roc','txt-roc',roc<0,roc<2,`SPX 126-day ROC: ${roc>=0?'+':''}${roc.toFixed(2)}% — ${roc<0?'NEGATIVE':'positive'}`);
-
   const sc=document.getElementById('deploy-score');
   if(sc){
     const total=8;
@@ -1051,29 +803,18 @@ function updateChecklist(){
   }
 }
 
-// ── AI MACRO FETCH (% RSI<30 + DVOL/UVOL) ────────────────────────────────────
 async function fetchAIMacro(){
-  const btn=document.getElementById('ai-macro-btn');
-  btn.disabled=true;
-  btn.textContent='Searching...';
-  const rsiEl=document.getElementById('rsi30-val');
-  const rsiSub=document.getElementById('rsi30-sub');
-  const dvolEl=document.getElementById('dvol-val');
-  const dvolSub=document.getElementById('dvol-sub');
-  if(rsiEl)rsiEl.textContent='--';
+  const btn=document.getElementById('ai-macro-btn');btn.disabled=true;btn.textContent='Searching...';
+  const rsiEl=document.getElementById('rsi30-val'),rsiSub=document.getElementById('rsi30-sub');
+  const dvolEl=document.getElementById('dvol-val'),dvolSub=document.getElementById('dvol-sub');
+  if(rsiEl)rsiEl.textContent='--';if(dvolEl)dvolEl.textContent='--';
   if(rsiSub)rsiSub.innerHTML='<span class="spin"></span><span style="font-size:13px;color:var(--muted)">Searching...</span>';
-  if(dvolEl)dvolEl.textContent='--';
   if(dvolSub)dvolSub.innerHTML='<span class="spin"></span><span style="font-size:13px;color:var(--muted)">Searching...</span>';
-
   const prompt=`Search the web for two specific market indicators as of today:
-
-1. The percentage of S&P 500 members (stocks) currently trading with a 14-day RSI below 30. This is sometimes called "% of SPX with RSI below 30" or "oversold breadth". Look on StockCharts, Barchart, or financial data sites. The Visser reference: as of March 19, 2026 it was 3.98%. Capitulation typically requires 40-80%.
-
-2. The DVOL/UVOL ratio — NYSE down volume divided by up volume. Current day or most recent value. The Visser reference: as of March 18, 2026 it was 4.07 vs a 50-day average of 1.22. Above 5x average = panic selling.
-
-Return ONLY valid JSON, no markdown:
-{"rsi_below_30":{"value":3.98,"interpretation":"brief description","source":"site name","signal":"ok|warn|extreme"},"dvol_uvol":{"value":4.07,"avg_50day":1.22,"ratio_to_avg":3.3,"interpretation":"brief description","source":"site name","signal":"ok|warn|extreme"}}`;
-
+1. The percentage of S&P 500 members with 14-day RSI below 30. Look on StockCharts, Barchart. Visser reference: 3.98% on March 19, 2026. Capitulation requires 40-80%.
+2. The DVOL/UVOL ratio — NYSE down volume divided by up volume. Visser reference: 4.07 vs 50-day avg 1.22 on March 18, 2026. Above 5x avg = panic.
+Return ONLY valid JSON:
+{"rsi_below_30":{"value":3.98,"interpretation":"brief","source":"site","signal":"ok|warn|extreme"},"dvol_uvol":{"value":4.07,"avg_50day":1.22,"ratio_to_avg":3.3,"interpretation":"brief","source":"site","signal":"ok|warn|extreme"}}`;
   try{
     const res=await fetch(`${W}/news`,{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:800,
@@ -1085,34 +826,29 @@ Return ONLY valid JSON, no markdown:
     if(!m)throw new Error('Parse error');
     const p=JSON.parse(m[0]);
     const ts=`Fetched: ${new Date().toLocaleTimeString()}`;
-
     if(p.rsi_below_30){
-      const v=p.rsi_below_30;
-      rsiBelow30=v.value;
+      const v=p.rsi_below_30;rsiBelow30=v.value;
       if(rsiEl){rsiEl.textContent=`${v.value}%`;rsiEl.style.color=`var(--${v.signal==='extreme'?'red':v.signal==='warn'?'yellow':'green'})`;}
-      let rsiBanner='';
-      if(v.value>=40)rsiBanner=signalBanner('danger','CAPITULATION — DEPLOY NOW','40%+ of S&P 500 oversold. This is the panic Visser watches for. If HYG and F&G are also firing, deploy dry powder into watchlist names immediately.');
-      else if(v.value>=20)rsiBanner=signalBanner('warn','APPROACHING CAPITULATION — PREPARE','Oversold breadth rising toward deployment threshold. Stage your first entries if 3+ other signals are firing.');
-      else if(v.value>=10)rsiBanner=signalBanner('warn','STRESS BUILDING — NOT YET','More selling than normal but not at panic levels. Visser reference was 3.98% on March 19. Current reading shows more stress — keep watching.');
-      else rsiBanner=signalBanner('neutral','LOW — HOLD DRY POWDER','Very few stocks oversold. No capitulation signal here. Market is not in fear from a breadth perspective.');
-      if(rsiSub)rsiSub.innerHTML=`${rsiBanner}<div style="font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:6px;">Source: ${v.source||'web'} &nbsp;|&nbsp; ${v.interpretation||''}</div>`;
+      let banner='';
+      if(v.value>=40)banner=sb('danger','CAPITULATION — DEPLOY NOW','40%+ of S&P 500 oversold. If HYG and F&G also firing, deploy dry powder into watchlist names immediately.');
+      else if(v.value>=20)banner=sb('warn','APPROACHING CAPITULATION — PREPARE','Oversold breadth rising. Stage first entries if 3+ other signals firing.');
+      else if(v.value>=10)banner=sb('warn','STRESS BUILDING — NOT YET','More selling than normal. Visser reference was 3.98% on March 19. Current reading shows more stress.');
+      else banner=sb('neutral','LOW — HOLD DRY POWDER','Very few stocks oversold. No capitulation signal. Hold dry powder.');
+      if(rsiSub)rsiSub.innerHTML=`${banner}<div style="font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:6px;">Source: ${v.source||'web'} | ${v.interpretation||''}</div>`;
       document.getElementById('rsi30-ts').textContent=ts;
     }
     if(p.dvol_uvol){
-      const v=p.dvol_uvol;
-      dvolUvol=v.value;
+      const v=p.dvol_uvol;dvolUvol=v.value;
       const ratioTxt=v.ratio_to_avg?` (${v.ratio_to_avg.toFixed(1)}x avg)`:'';
       if(dvolEl){dvolEl.textContent=`${v.value}${ratioTxt}`;dvolEl.style.color=`var(--${v.signal==='extreme'?'red':v.signal==='warn'?'yellow':'green'})`;}
-      let dvolBanner='';
-      const rx=v.ratio_to_avg||0;
-      if(rx>=5||v.signal==='extreme')dvolBanner=signalBanner('danger','PANIC SELLING — EXTREME','Down volume overwhelming up volume at historic levels. This is what real capitulation looks like. Cross-reference with your other triggers.');
-      else if(rx>=3||v.signal==='warn')dvolBanner=signalBanner('warn','ELEVATED SELLING — BUILDING','Visser reference: 4.07 on March 18 vs 1.22 average. Significant selling pressure but not panic territory yet. Conditions developing.');
-      else dvolBanner=signalBanner('neutral','NORMAL — NO PANIC SELLING','Down/up volume ratio is normal. No unusual selling pressure. This indicator is not contributing to deployment signal.');
-      if(dvolSub)dvolSub.innerHTML=`${dvolBanner}<div style="font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:6px;">50-day avg: ${v.avg_50day||'N/A'} &nbsp;|&nbsp; Source: ${v.source||'web'} &nbsp;|&nbsp; ${v.interpretation||''}</div>`;
+      const rx=v.ratio_to_avg||0;let banner='';
+      if(rx>=5||v.signal==='extreme')banner=sb('danger','PANIC SELLING — EXTREME','Down volume overwhelming up volume. This is what capitulation looks like. Cross-reference with other triggers.');
+      else if(rx>=3||v.signal==='warn')banner=sb('warn','ELEVATED SELLING — BUILDING','Visser reference: 4.07 vs avg 1.22. Significant selling pressure. Conditions developing.');
+      else banner=sb('neutral','NORMAL — NO PANIC SELLING','Down/up volume ratio is normal. Not contributing to deployment signal.');
+      if(dvolSub)dvolSub.innerHTML=`${banner}<div style="font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:6px;">50-day avg: ${v.avg_50day||'N/A'} | Source: ${v.source||'web'} | ${v.interpretation||''}</div>`;
       document.getElementById('dvol-ts').textContent=ts;
     }
-    updateChecklist();
-    btn.textContent='↻ Refresh';btn.disabled=false;
+    updateChecklist();btn.textContent='↻ Refresh';btn.disabled=false;
   }catch(e){
     if(rsiSub)rsiSub.innerHTML=`<span class="errt">Error: ${e.message}</span>`;
     if(dvolSub)dvolSub.innerHTML=`<span class="errt">Try again</span>`;
@@ -1120,7 +856,6 @@ Return ONLY valid JSON, no markdown:
   }
 }
 
-// ── EARNINGS ─────────────────────────────────────────────────────────────────
 async function loadEarnings(){
   try{
     const today=new Date().toISOString().split('T')[0];
@@ -1135,48 +870,31 @@ async function loadEarnings(){
   }catch{}
 }
 
-// ── REFRESH ALL ───────────────────────────────────────────────────────────────
 async function refreshAll(){
   document.getElementById('vd-date').textContent=new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
   const all=allStocks();
   all.forEach(s=>{const e=document.getElementById(`pr-${s.t}`);if(e)e.textContent='...'});
-
-  // Watchlist stocks
   for(const s of all){
     const q=await gq(s.t);
     if(s.t==='HYG')updHYG(q);
     updCard(s,q);
     await new Promise(r=>setTimeout(r,120));
   }
-
-  // Parallel command center fetches
-  const [btcQ,vixQ,smhQ,igvQ,pltrQ,msftQ]=await Promise.all([
-    gq('BINANCE:BTCUSDT'),
-    gq('^VIX'),
-    gq('SMH'),
-    gq('IGV'),
-    gq('PLTR'),
-    gq('MSFT'),
+  const[btcQ,vixQ,smhQ,igvQ,pltrQ,msftQ]=await Promise.all([
+    gq('BINANCE:BTCUSDT'),gq('^VIX'),gq('SMH'),gq('IGV'),gq('PLTR'),gq('MSFT'),
   ]);
-
-  if(btcQ&&btcQ.c)updBTC(btcQ);
-  else{const b2=await gq('BTCUSDT');if(b2&&b2.c)updBTC(b2);}
+  if(btcQ&&btcQ.c)updBTC(btcQ);else{const b2=await gq('BTCUSDT');if(b2&&b2.c)updBTC(b2);}
   if(vixQ&&vixQ.c)updVIX(vixQ);
   updRatio(smhQ,igvQ);
   if(pltrQ&&msftQ&&pltrQ.c&&msftQ.c)updPLTRMSFT(pltrQ,msftQ);
-
-  // Sequential heavy fetches
   await loadXLF();
   await loadSPXROC();
   await loadSparkline();
-
   document.getElementById('vd-ref').textContent=`Updated: ${new Date().toLocaleTimeString()}`;
 }
 
-// ── NEWS ─────────────────────────────────────────────────────────────────────
 async function fetchNews(ticker){
-  const btn=document.getElementById(`nb-${ticker}`);
-  const div=document.getElementById(`nw-${ticker}`);
+  const btn=document.getElementById(`nb-${ticker}`),div=document.getElementById(`nw-${ticker}`);
   btn.disabled=true;
   div.innerHTML=`<span class="spin"></span><span style="color:var(--muted);font-size:14px">Searching for recent news...</span>`;
   const s=allStocks().find(x=>x.t===ticker);
@@ -1193,4 +911,43 @@ Include actual article URL. JSON only:
         tools:[{type:'web_search_20250305',name:'web_search'}],
         messages:[{role:'user',content:prompt}]})});
     const data=await res.json();
-    
+    const txt=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('');
+    const m=txt.replace(/```json|```/g,'').trim().match(/\{[\s\S]*\}/);
+    if(!m)throw new Error('Parse error');
+    const p=JSON.parse(m[0]);let h='';
+    if(p.summary)h+=`<div class="nsum">${p.summary}</div>`;
+    (p.items||[]).forEach((item,i)=>{
+      const sc=item.sentiment==='BULLISH'?'nbull':item.sentiment==='BEARISH'?'nbear':'nneut';
+      const hasU=item.url&&item.url.startsWith('http');
+      const bid=`cp-${ticker}-${i}`;
+      h+=`<div class="nitem">
+        <div class="nhl">${hasU?`<a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.headline} ↗</a>`:`<span class="nl">${item.headline}</span>`}</div>
+        <div class="nmeta"><span class="nb ${sc}">${item.sentiment}</span>${item.source?`<span class="nsrc">${item.source}</span>`:''}${hasU?`<button class="cpbtn" id="${bid}" onclick="cpLink('${item.url.replace(/'/g,"\\'")}','${bid}')">Copy Link</button>`:''}<span class="nrel">${item.relevance}</span></div>
+      </div>`;
+    });
+    if(!(p.items||[]).length)h+=`<span class="nph">No recent news found.</span>`;
+    div.innerHTML=h;btn.textContent='↻ Refresh';btn.disabled=false;
+  }catch(e){div.innerHTML=`<span class="errt">Error: ${e.message}</span>`;btn.textContent='Retry';btn.disabled=false;}
+}
+
+function fetchTabNews(){
+  const map={t1:WL.t1,rack:WL.rack,pwr:WL.pwr,mac:WL.mac,cmd:[]};
+  (map[activeTab]||[]).forEach((s,i)=>setTimeout(()=>fetchNews(s.t),i*800));
+}
+
+function cpLink(url,id){
+  const btn=document.getElementById(id);
+  const done=()=>{if(btn){const o=btn.textContent;btn.textContent='✓ Copied!';btn.classList.add('ok');setTimeout(()=>{btn.textContent=o;btn.classList.remove('ok');},2000);}};
+  if(navigator.clipboard)navigator.clipboard.writeText(url).then(done).catch(()=>{fbCopy(url);done();});
+  else{fbCopy(url);done();}
+}
+function fbCopy(url){const t=document.createElement('textarea');t.value=url;t.style.cssText='position:fixed;opacity:0';document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);}
+
+window.addEventListener('resize',()=>{if(hyg30.length>1)drawSpark();});
+renderAll();
+refreshAll();
+loadFG();
+loadEarnings();
+</script>
+</body>
+</html>
