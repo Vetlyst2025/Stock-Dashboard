@@ -16,33 +16,41 @@
   --font-sans:'Inter',system-ui,sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-size:15px;line-height:1.6;min-height:100vh;}
+/* FIX 1: Base font bumped to 17px — minimum 16px everywhere */
+body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-size:17px;line-height:1.6;min-height:100vh;}
 .app{max-width:1440px;margin:0 auto;padding:20px 24px;}
 .hdr{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:14px;}
-.hdr-title{font-family:var(--font-mono);font-size:16px;font-weight:700;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;}
-.hdr-sub{font-size:13px;color:var(--muted);margin-top:3px;}
+.hdr-title{font-family:var(--font-mono);font-size:17px;font-weight:700;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;}
+.hdr-sub{font-size:14px;color:var(--muted);margin-top:3px;}
 .hdr-right{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
-.live-pill{display:flex;align-items:center;gap:7px;font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--green);letter-spacing:0.08em;}
+.live-pill{display:flex;align-items:center;gap:7px;font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--green);letter-spacing:0.08em;}
 .ldot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:blink 2s infinite;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
 .hdr-btns{display:flex;gap:10px;flex-wrap:wrap;}
-.hbtn{font-family:var(--font-mono);font-size:12px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:8px 18px;border-radius:7px;border:1.5px solid var(--border2);background:var(--surface);color:var(--text);cursor:pointer;transition:all 0.18s;}
+.hbtn{font-family:var(--font-mono);font-size:13px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:8px 18px;border-radius:7px;border:1.5px solid var(--border2);background:var(--surface);color:var(--text);cursor:pointer;transition:all 0.18s;}
 .hbtn:hover{border-color:var(--accent);color:var(--accent);}
 .hbtn-p{border-color:rgba(56,189,248,0.4);color:var(--accent);}
 .mstrip{background:var(--surface);border:1.5px solid var(--border);border-left:4px solid var(--yellow);border-radius:10px;padding:13px 20px;margin-bottom:18px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
-.mlbl{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:0.14em;color:var(--yellow);text-transform:uppercase;flex-shrink:0;}
+.mlbl{font-family:var(--font-mono);font-size:12px;font-weight:700;letter-spacing:0.14em;color:var(--yellow);text-transform:uppercase;flex-shrink:0;}
 .mitem{display:flex;align-items:center;gap:7px;}
-.mname{font-family:var(--font-mono);font-size:12px;color:var(--muted);}
-.mval{font-family:var(--font-mono);font-size:13px;font-weight:700;}
+.mname{font-family:var(--font-mono);font-size:13px;color:var(--muted);}
+.mval{font-family:var(--font-mono);font-size:14px;font-weight:700;}
 .c-w{color:var(--yellow);}.c-d{color:var(--red);}.c-ok{color:var(--green);}.c-i{color:var(--accent);}
 .tabs{display:flex;gap:4px;margin-bottom:22px;border-bottom:1.5px solid var(--border);flex-wrap:wrap;}
-.tab{font-family:var(--font-sans);font-size:14px;font-weight:500;padding:10px 20px;border-radius:8px 8px 0 0;border:1.5px solid transparent;border-bottom:none;background:transparent;color:var(--muted);cursor:pointer;transition:all 0.18s;white-space:nowrap;position:relative;bottom:-1.5px;}
+/* FIX 3: Tab alert badge styles */
+.tab{font-family:var(--font-sans);font-size:15px;font-weight:500;padding:10px 20px;border-radius:8px 8px 0 0;border:1.5px solid transparent;border-bottom:none;background:transparent;color:var(--muted);cursor:pointer;transition:all 0.18s;white-space:nowrap;position:relative;bottom:-1.5px;}
 .tab:hover{color:var(--text);background:var(--surface);}
 .tab.active{color:var(--accent);background:var(--surface);border-color:var(--border);border-bottom-color:var(--surface);}
-.tcnt{display:inline-flex;align-items:center;justify-content:center;background:var(--surface2);color:var(--muted);font-family:var(--font-mono);font-size:11px;font-weight:700;width:20px;height:20px;border-radius:50%;margin-left:6px;vertical-align:middle;}
+.tcnt{display:inline-flex;align-items:center;justify-content:center;background:var(--surface2);color:var(--muted);font-family:var(--font-mono);font-size:12px;font-weight:700;width:22px;height:22px;border-radius:50%;margin-left:6px;vertical-align:middle;}
 .tab.active .tcnt{background:rgba(56,189,248,0.15);color:var(--accent);}
+/* Alert badge on tab — pulsing dot + ! for in-zone, yellow for approaching */
+.tab-alert{display:inline-flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:11px;font-weight:700;width:20px;height:20px;border-radius:50%;margin-left:5px;vertical-align:middle;position:relative;top:-1px;}
+.tab-alert-fire{background:rgba(248,113,113,0.2);color:var(--red);border:1.5px solid rgba(248,113,113,0.5);animation:pulse-red 1.4s ease-in-out infinite;}
+.tab-alert-warn{background:rgba(251,191,36,0.15);color:var(--yellow);border:1.5px solid rgba(251,191,36,0.4);animation:pulse-yellow 1.8s ease-in-out infinite;}
+@keyframes pulse-red{0%,100%{box-shadow:0 0 0 0 rgba(248,113,113,0.5);opacity:1;}50%{box-shadow:0 0 0 5px rgba(248,113,113,0);opacity:0.85;}}
+@keyframes pulse-yellow{0%,100%{box-shadow:0 0 0 0 rgba(251,191,36,0.45);opacity:1;}50%{box-shadow:0 0 0 5px rgba(251,191,36,0);opacity:0.85;}}
 .panel{display:none;}.panel.active{display:block;}
-.panel-desc{font-size:13px;color:var(--muted);margin-bottom:18px;padding:10px 14px;background:var(--surface);border-radius:8px;border-left:3px solid var(--border2);}
+.panel-desc{font-size:14px;color:var(--muted);margin-bottom:18px;padding:10px 14px;background:var(--surface);border-radius:8px;border-left:3px solid var(--border2);}
 .cc-row{display:grid;gap:12px;margin-bottom:12px;}
 .cc-row-3{grid-template-columns:repeat(3,1fr);}
 .cc-row-4{grid-template-columns:repeat(4,1fr);}
@@ -53,22 +61,22 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-si
 .cc.danger{border-left:4px solid var(--red);}
 .cc.warn{border-left:4px solid var(--yellow);}
 .cc.ok{border-left:4px solid var(--green);}
-.cc-lbl{font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.cc-lbl{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
 .cc-big{font-family:var(--font-mono);font-size:34px;font-weight:700;line-height:1;color:var(--text);}
-.cc-sub{font-size:12px;color:var(--muted);margin-top:6px;}
-.cc-status{font-size:13px;font-weight:600;margin-top:6px;}
+.cc-sub{font-size:13px;color:var(--muted);margin-top:6px;}
+.cc-status{font-size:14px;font-weight:600;margin-top:6px;}
 .cc-row-inline{display:flex;align-items:baseline;gap:10px;margin-top:4px;flex-wrap:wrap;}
 .btc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:12px;}
 .btc-b{background:var(--surface2);border-radius:7px;padding:8px 10px;}
-.btc-b-lbl{font-family:var(--font-mono);font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;}
-.btc-b-cost{font-family:var(--font-mono);font-size:11px;color:var(--muted);margin:2px 0;}
-.btc-b-val{font-family:var(--font-mono);font-size:15px;font-weight:700;}
+.btc-b-lbl{font-family:var(--font-mono);font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;}
+.btc-b-cost{font-family:var(--font-mono);font-size:12px;color:var(--muted);margin:2px 0;}
+.btc-b-val{font-family:var(--font-mono);font-size:16px;font-weight:700;}
 .spark-wrap{margin-top:10px;}
-.spark-lbl{font-size:11px;font-family:var(--font-mono);color:var(--muted);margin-bottom:4px;display:flex;justify-content:space-between;}
+.spark-lbl{font-size:12px;font-family:var(--font-mono);color:var(--muted);margin-bottom:4px;display:flex;justify-content:space-between;}
 canvas.spark{width:100%;height:48px;display:block;border-radius:4px;}
 .ratio-prices{display:flex;align-items:center;gap:16px;margin-top:6px;flex-wrap:wrap;}
 .ratio-p{display:flex;flex-direction:column;}
-.ratio-sym{font-family:var(--font-mono);font-size:10px;color:var(--muted);text-transform:uppercase;margin-bottom:2px;}
+.ratio-sym{font-family:var(--font-mono);font-size:11px;color:var(--muted);text-transform:uppercase;margin-bottom:2px;}
 .ratio-pval{font-family:var(--font-mono);font-size:18px;font-weight:700;}
 .ratio-vs{font-size:16px;color:var(--muted);align-self:center;}
 .ratio-bar-bg{height:7px;background:var(--border2);border-radius:4px;overflow:hidden;margin:8px 0 4px;}
@@ -79,11 +87,11 @@ canvas.spark{width:100%;height:48px;display:block;border-radius:4px;}
 .roc-fill{height:100%;border-radius:4px;transition:width 0.6s;}
 .xlf-compare{display:flex;gap:14px;margin-top:8px;flex-wrap:wrap;}
 .xlf-item{display:flex;flex-direction:column;}
-.xlf-lbl{font-family:var(--font-mono);font-size:10px;color:var(--muted);text-transform:uppercase;}
+.xlf-lbl{font-family:var(--font-mono);font-size:11px;color:var(--muted);text-transform:uppercase;}
 .xlf-val{font-family:var(--font-mono);font-size:18px;font-weight:700;margin-top:2px;}
-.xlf-diff{font-family:var(--font-mono);font-size:12px;margin-top:2px;}
+.xlf-diff{font-family:var(--font-mono);font-size:13px;margin-top:2px;}
 .ratio-num{font-family:var(--font-mono);font-size:32px;font-weight:700;margin-top:4px;}
-.ratio-trend{font-size:13px;margin-top:4px;}
+.ratio-trend{font-size:14px;margin-top:4px;}
 .signal-banner{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border-radius:8px;margin-top:10px;}
 .sb-ok{background:rgba(52,211,153,0.12);border:1px solid rgba(52,211,153,0.3);}
 .sb-warn{background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.3);}
@@ -100,9 +108,9 @@ canvas.spark{width:100%;height:48px;display:block;border-radius:4px;}
 .sv-warn{color:var(--yellow);}
 .sv-danger{color:var(--red);}
 .sv-neutral{color:var(--muted);}
-.sb-explain{font-size:12px;color:var(--muted);margin-top:2px;line-height:1.4;}
+.sb-explain{font-size:13px;color:var(--muted);margin-top:2px;line-height:1.4;}
 .vix-zones{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
-.vix-zone{font-family:var(--font-mono);font-size:11px;padding:3px 8px;border-radius:5px;border:1px solid;}
+.vix-zone{font-family:var(--font-mono);font-size:12px;padding:3px 8px;border-radius:5px;border:1px solid;}
 .vz-ok{border-color:rgba(52,211,153,0.3);color:var(--green);background:rgba(52,211,153,0.08);}
 .vz-w{border-color:rgba(251,191,36,0.3);color:var(--yellow);background:rgba(251,191,36,0.08);}
 .vz-d{border-color:rgba(248,113,113,0.3);color:var(--red);background:rgba(248,113,113,0.08);}
@@ -110,22 +118,22 @@ canvas.spark{width:100%;height:48px;display:block;border-radius:4px;}
 .deploy-item{display:flex;align-items:flex-start;gap:9px;padding:9px 11px;background:var(--surface2);border-radius:7px;border:1px solid var(--border);}
 .deploy-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:3px;transition:background 0.3s;}
 .dd-off{background:var(--border2);}.dd-warn{background:var(--yellow);}.dd-fire{background:var(--red);}
-.deploy-txt{font-family:var(--font-mono);font-size:11px;line-height:1.5;color:var(--text);}
-.deploy-score{font-family:var(--font-mono);font-size:13px;font-weight:700;margin-top:12px;padding:11px 14px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);}
+.deploy-txt{font-family:var(--font-mono);font-size:12px;line-height:1.5;color:var(--text);}
+.deploy-score{font-family:var(--font-mono);font-size:14px;font-weight:700;margin-top:12px;padding:11px 14px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);}
 .ai-macro-wrap{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:12px;}
 .ai-macro-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;}
-.ai-macro-title{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
-.ai-macro-btn{font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--accent);background:transparent;border:1.5px solid rgba(56,189,248,0.3);padding:5px 14px;border-radius:6px;cursor:pointer;text-transform:uppercase;letter-spacing:0.06em;transition:all 0.18s;}
+.ai-macro-title{font-family:var(--font-mono);font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
+.ai-macro-btn{font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--accent);background:transparent;border:1.5px solid rgba(56,189,248,0.3);padding:5px 14px;border-radius:6px;cursor:pointer;text-transform:uppercase;letter-spacing:0.06em;transition:all 0.18s;}
 .ai-macro-btn:hover{background:rgba(56,189,248,0.08);}
 .ai-macro-btn:disabled{opacity:0.4;cursor:not-allowed;}
 .ai-macro-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 @media(max-width:600px){.ai-macro-grid{grid-template-columns:1fr;}}
 .ai-indicator{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px 14px;}
-.ai-ind-lbl{font-family:var(--font-mono);font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;}
+.ai-ind-lbl{font-family:var(--font-mono);font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;}
 .ai-ind-val{font-family:var(--font-mono);font-size:24px;font-weight:700;}
-.ai-ind-sub{font-size:13px;margin-top:4px;}
-.ai-ind-ts{font-family:var(--font-mono);font-size:10px;color:var(--muted);margin-top:6px;}
-.ai-ph{color:var(--muted);font-size:13px;font-style:italic;}
+.ai-ind-sub{font-size:14px;margin-top:4px;}
+.ai-ind-ts{font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:6px;}
+.ai-ph{color:var(--muted);font-size:14px;font-style:italic;}
 .cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:18px;}
 .card{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color 0.2s,transform 0.15s,box-shadow 0.2s;}
 .card:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.3);}
@@ -140,20 +148,20 @@ canvas.spark{width:100%;height:48px;display:block;border-radius:4px;}
 .bt2{background:rgba(56,189,248,0.1);color:var(--accent);border:1.5px solid rgba(56,189,248,0.25);}
 .bm{background:rgba(251,191,36,0.1);color:var(--yellow);border:1.5px solid rgba(251,191,36,0.3);}
 .bh{background:rgba(192,132,252,0.1);color:var(--purple);border:1.5px solid rgba(192,132,252,0.3);}
-.coname{font-size:14px;color:var(--muted);}
+.coname{font-size:15px;color:var(--muted);}
 .earn-badge{font-family:var(--font-mono);font-size:10px;font-weight:700;padding:3px 8px;border-radius:5px;text-transform:uppercase;}
 .eb-ok{background:rgba(52,211,153,0.12);color:var(--green);border:1px solid rgba(52,211,153,0.3);}
 .eb-soon{background:rgba(251,191,36,0.12);color:var(--yellow);border:1px solid rgba(251,191,36,0.3);}
 .eb-close{background:rgba(248,113,113,0.12);color:var(--red);border:1px solid rgba(248,113,113,0.3);}
 .pblock{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0;}
 .lprice{font-family:var(--font-mono);font-size:26px;font-weight:700;color:var(--text);line-height:1;}
-.pchg{font-family:var(--font-mono);font-size:13px;font-weight:700;}
+.pchg{font-family:var(--font-mono);font-size:14px;font-weight:700;}
 .up{color:var(--green);}.dn{color:var(--red);}.fl{color:var(--muted);}
 .esec{padding:14px 20px;border-bottom:1.5px solid var(--border);background:var(--surface2);}
 .etop{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px;}
-.elbl{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase;}
+.elbl{font-family:var(--font-mono);font-size:12px;font-weight:700;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase;}
 .eval{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--green);}
-.estatus{font-family:var(--font-mono);font-size:11px;font-weight:700;padding:4px 10px;border-radius:5px;text-transform:uppercase;letter-spacing:0.06em;}
+.estatus{font-family:var(--font-mono);font-size:12px;font-weight:700;padding:4px 10px;border-radius:5px;text-transform:uppercase;letter-spacing:0.06em;}
 .sw{background:rgba(251,191,36,0.12);color:var(--yellow);border:1px solid rgba(251,191,36,0.25);}
 .swt{background:rgba(56,189,248,0.1);color:var(--accent);border:1px solid rgba(56,189,248,0.25);}
 .st{background:rgba(248,113,113,0.1);color:var(--red);border:1px solid rgba(248,113,113,0.25);}
@@ -162,23 +170,23 @@ canvas.spark{width:100%;height:48px;display:block;border-radius:4px;}
 .dbg{flex:1;height:6px;background:var(--border2);border-radius:3px;overflow:hidden;}
 .dfill{height:100%;border-radius:3px;transition:width 0.5s ease;}
 .fr{background:var(--red);}.fy{background:var(--yellow);}.fg{background:var(--green);}.fa{background:var(--accent);}
-.dpct{font-family:var(--font-mono);font-size:12px;font-weight:700;white-space:nowrap;}
+.dpct{font-family:var(--font-mono);font-size:13px;font-weight:700;white-space:nowrap;}
 .srow{padding:10px 20px;border-bottom:1.5px solid var(--border);display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
 .sitem{display:flex;align-items:center;gap:6px;}
 .sdots{display:flex;gap:4px;}
 .sdot{width:8px;height:8px;border-radius:50%;}
 .son{background:var(--accent);}.soff{background:var(--border2);}
-.slbl{font-family:var(--font-mono);font-size:11px;color:var(--muted);}
-.rpos{font-family:var(--font-mono);font-size:11px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(52,211,153,0.12);color:var(--green);}
-.rneg{font-family:var(--font-mono);font-size:11px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(248,113,113,0.12);color:var(--red);}
+.slbl{font-family:var(--font-mono);font-size:12px;color:var(--muted);}
+.rpos{font-family:var(--font-mono);font-size:12px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(52,211,153,0.12);color:var(--green);}
+.rneg{font-family:var(--font-mono);font-size:12px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(248,113,113,0.12);color:var(--red);}
 .thesis{padding:14px 20px;border-bottom:1.5px solid var(--border);font-size:14px;color:var(--muted);line-height:1.7;}
 .nsec{padding:14px 20px;}
 .nhdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
-.ntitle{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:0.12em;color:var(--muted);text-transform:uppercase;}
-.nbtn{font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--accent);background:transparent;border:1.5px solid rgba(56,189,248,0.3);padding:5px 14px;border-radius:6px;cursor:pointer;text-transform:uppercase;letter-spacing:0.06em;transition:all 0.18s;}
+.ntitle{font-family:var(--font-mono);font-size:12px;font-weight:700;letter-spacing:0.12em;color:var(--muted);text-transform:uppercase;}
+.nbtn{font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--accent);background:transparent;border:1.5px solid rgba(56,189,248,0.3);padding:5px 14px;border-radius:6px;cursor:pointer;text-transform:uppercase;letter-spacing:0.06em;transition:all 0.18s;}
 .nbtn:hover{background:rgba(56,189,248,0.08);}
 .nbtn:disabled{opacity:0.4;cursor:not-allowed;}
-.ncontent{font-size:14px;line-height:1.65;}
+.ncontent{font-size:15px;line-height:1.65;}
 .nph{color:var(--muted);font-style:italic;font-size:14px;}
 .nsum{padding:8px 0 12px;font-size:14px;color:var(--accent);border-bottom:1.5px solid var(--border);margin-bottom:12px;line-height:1.65;}
 .nitem{padding:10px 0;border-bottom:1px solid var(--border);}
@@ -198,8 +206,20 @@ canvas.spark{width:100%;height:48px;display:block;border-radius:4px;}
 .cpbtn.ok{color:var(--green);border-color:var(--green);}
 .spin{display:inline-block;width:13px;height:13px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin 0.7s linear infinite;margin-right:8px;vertical-align:middle;}
 @keyframes spin{to{transform:rotate(360deg)}}
-.errt{color:var(--red);font-size:13px;font-style:italic;}
-footer{margin-top:36px;padding-top:16px;border-top:1.5px solid var(--border);font-family:var(--font-mono);font-size:12px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.errt{color:var(--red);font-size:14px;font-style:italic;}
+/* FIX 2: Market-closed badge */
+.mkt-closed-badge{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border-radius:7px;background:rgba(122,144,168,0.1);border:1.5px solid rgba(122,144,168,0.25);font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--muted);letter-spacing:0.04em;margin-top:6px;}
+.mkt-closed-badge::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--muted);display:inline-block;flex-shrink:0;}
+/* FULL-WIDTH DEPLOYMENT CHECKLIST BANNER */
+.checklist-banner{background:var(--surface);border:1.5px solid var(--border);border-left:4px solid var(--accent);border-radius:12px;padding:14px 18px;margin-bottom:12px;}
+.checklist-hdr{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px;}
+.checklist-title{font-family:var(--font-mono);font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);}
+.checklist-banner .deploy-score{font-family:var(--font-mono);font-size:14px;font-weight:700;padding:6px 14px;border-radius:6px;background:var(--surface2);border:1px solid var(--border);margin-top:0;}
+.checklist-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;}
+@media(max-width:900px){.checklist-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:500px){.checklist-grid{grid-template-columns:1fr 1fr;}}
+
+footer{margin-top:36px;padding-top:16px;border-top:1.5px solid var(--border);font-family:var(--font-mono);font-size:13px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
 </style>
 </head>
 <body>
@@ -219,36 +239,56 @@ footer{margin-top:36px;padding-top:16px;border-top:1.5px solid var(--border);fon
 </div>
 <div class="mstrip">
   <span class="mlbl">⚡ Triggers</span>
-  <div class="mitem"><span class="mname">HYG</span><span class="mval" id="hyg-strip">--</span><span class="mval" id="hyg-strip-chg" style="font-size:12px;margin-left:3px;"></span></div>
+  <div class="mitem"><span class="mname">HYG</span><span class="mval" id="hyg-strip">--</span><span class="mval" id="hyg-strip-chg" style="font-size:13px;margin-left:3px;"></span></div>
   <div class="mitem"><span class="mname">WARN</span><span class="mval c-w">$78</span></div>
   <div class="mitem"><span class="mname">ACTION</span><span class="mval c-d">$76</span></div>
   <div class="mitem"><span class="mname">STATUS</span><span class="mval" id="hyg-strip-status">Loading...</span></div>
   <div class="mitem"><span class="mname">VIX</span><span class="mval" id="vix-strip">--</span></div>
   <div class="mitem"><span class="mname">XLF</span><span class="mval" id="xlf-strip">--</span><span class="mname" id="xlf-strip-status" style="margin-left:4px;"></span></div>
   <div class="mitem"><span class="mname">F&amp;G</span><span class="mval" id="fg-strip">--</span></div>
-  <div class="mitem" style="margin-left:auto;"><span class="mname" style="font-size:11px;">All signals required &middot; no single trigger</span></div>
+  <div class="mitem" style="margin-left:auto;"><span class="mname" style="font-size:12px;">All signals required &middot; no single trigger</span></div>
 </div>
 <div class="tabs">
   <button class="tab active" onclick="switchTab('cmd',this)">📊 Command Center</button>
-  <button class="tab" onclick="switchTab('t1',this)">High Conviction <span class="tcnt">2</span></button>
-  <button class="tab" onclick="switchTab('rack',this)">Inside the Rack <span class="tcnt">5</span></button>
-  <button class="tab" onclick="switchTab('pwr',this)">Power &amp; Grid <span class="tcnt">7</span></button>
+  <button class="tab" id="tab-t1" onclick="switchTab('t1',this)">High Conviction <span class="tcnt">2</span></button>
+  <button class="tab" id="tab-rack" onclick="switchTab('rack',this)">Inside the Rack <span class="tcnt">5</span></button>
+  <button class="tab" id="tab-pwr" onclick="switchTab('pwr',this)">Power &amp; Grid <span class="tcnt">7</span></button>
   <button class="tab" onclick="switchTab('mac',this)">Macro Monitor <span class="tcnt">1</span></button>
 </div>
 <div class="panel active" id="panel-cmd">
   <div class="panel-desc">Daily morning briefing. All indicators auto-load on open. Use "AI Macro Fetch" once daily for the indicators that require a web search.</div>
+
+  <!-- DEPLOYMENT CHECKLIST — full width banner -->
+  <div class="checklist-banner">
+    <div class="checklist-hdr">
+      <span class="checklist-title">⚡ DRY POWDER DEPLOYMENT CHECKLIST — $25K USDC</span>
+      <span class="deploy-score" id="deploy-score">Loading triggers...</span>
+    </div>
+    <div class="checklist-grid">
+      <div class="deploy-item"><div class="deploy-dot dd-off" id="dot-hyg78"></div><span class="deploy-txt" id="txt-hyg78">HYG below $78</span></div>
+      <div class="deploy-item"><div class="deploy-dot dd-off" id="dot-hyg76"></div><span class="deploy-txt" id="txt-hyg76">HYG below $76</span></div>
+      <div class="deploy-item"><div class="deploy-dot dd-off" id="dot-fg"></div><span class="deploy-txt" id="txt-fg">Fear &amp; Greed below 25</span></div>
+      <div class="deploy-item"><div class="deploy-dot dd-off" id="dot-ratio"></div><span class="deploy-txt" id="txt-ratio">Infrastructure leading software</span></div>
+      <div class="deploy-item"><div class="deploy-dot dd-off" id="dot-vix"></div><span class="deploy-txt" id="txt-vix">VIX above 25</span></div>
+      <div class="deploy-item"><div class="deploy-dot dd-off" id="dot-xlf"></div><span class="deploy-txt" id="txt-xlf">XLF below 200-day MA</span></div>
+      <div class="deploy-item"><div class="deploy-dot dd-off" id="dot-rsi"></div><span class="deploy-txt" id="txt-rsi">% SPX RSI&lt;30 above 20%</span></div>
+      <div class="deploy-item"><div class="deploy-dot dd-off" id="dot-roc"></div><span class="deploy-txt" id="txt-roc">SPX 126-day ROC negative</span></div>
+    </div>
+  </div>
+
+  <!-- Row 1: F&G · BTC · HYG Sparkline -->
   <div class="cc-row cc-row-3">
     <div class="cc" id="fg-card">
       <div class="cc-lbl">CNN Fear &amp; Greed Index</div>
       <div class="cc-big" id="fg-score">--</div>
       <div class="cc-status" id="fg-rating">Loading...</div>
-      <div style="font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:8px;">1W: <span id="fg-1w">--</span> &nbsp;|&nbsp; 1M: <span id="fg-1m">--</span> &nbsp;|&nbsp; 3M: <span id="fg-3m">--</span></div>
+      <div style="font-family:var(--font-mono);font-size:12px;color:var(--muted);margin-top:8px;">1W: <span id="fg-1w">--</span> &nbsp;|&nbsp; 1M: <span id="fg-1m">--</span> &nbsp;|&nbsp; 3M: <span id="fg-3m">--</span></div>
       <div id="fg-signal"></div>
     </div>
     <div class="cc">
       <div class="cc-lbl">Bitcoin — Core Position (67% of Portfolio)</div>
       <div class="cc-big" id="btc-price">--</div>
-      <div class="pchg" id="btc-chg" style="font-size:13px;margin-top:4px;">--</div>
+      <div class="pchg" id="btc-chg" style="font-size:14px;margin-top:4px;">--</div>
       <div class="btc-grid">
         <div class="btc-b"><div class="btc-b-lbl">Cold Storage</div><div class="btc-b-cost">Cost $42K</div><div class="btc-b-val" id="btc-cold">--</div></div>
         <div class="btc-b"><div class="btc-b-lbl">Hot Wallet</div><div class="btc-b-cost">Cost $40K</div><div class="btc-b-val" id="btc-hot">--</div></div>
@@ -260,13 +300,13 @@ footer{margin-top:36px;padding-top:16px;border-top:1.5px solid var(--border);fon
       <div class="cc-lbl">HYG — 30-Day Trend</div>
       <div class="cc-row-inline">
         <div class="cc-big" id="hyg-spark-price">--</div>
-        <div class="pchg" id="hyg-spark-chg" style="font-size:13px;"></div>
+        <div class="pchg" id="hyg-spark-chg" style="font-size:14px;"></div>
       </div>
       <div class="spark-wrap">
         <div class="spark-lbl"><span>30-day price history</span><span><span style="color:var(--yellow);">— $78 warn</span> &nbsp;<span style="color:var(--red);">— $76 action</span></span></div>
         <canvas class="spark" id="hyg-spark" height="48"></canvas>
       </div>
-      <div class="cc-status" id="hyg-spark-status" style="margin-top:8px;font-size:13px;"></div>
+      <div class="cc-status" id="hyg-spark-status" style="margin-top:8px;font-size:14px;"></div>
       <div id="hyg-spark-signal"></div>
     </div>
   </div>
@@ -274,13 +314,13 @@ footer{margin-top:36px;padding-top:16px;border-top:1.5px solid var(--border);fon
     <div class="cc" id="vix-card">
       <div class="cc-lbl">VIX — Volatility Index</div>
       <div class="cc-big" id="vix-val">--</div>
-      <div class="pchg" id="vix-chg" style="font-size:13px;margin-top:4px;"></div>
+      <div class="pchg" id="vix-chg" style="font-size:14px;margin-top:4px;"></div>
       <div class="vix-zones">
         <span class="vix-zone vz-ok">&lt;20 calm</span>
         <span class="vix-zone vz-w">&gt;25 watch</span>
         <span class="vix-zone vz-d">&gt;35 deploy</span>
       </div>
-      <div class="cc-status" id="vix-status" style="margin-top:8px;font-size:13px;"></div>
+      <div class="cc-status" id="vix-status" style="margin-top:8px;font-size:14px;"></div>
       <div id="vix-signal"></div>
     </div>
     <div class="cc" id="xlf-card">
@@ -290,59 +330,46 @@ footer{margin-top:36px;padding-top:16px;border-top:1.5px solid var(--border);fon
         <div class="xlf-item"><div class="xlf-lbl">200-day MA</div><div class="xlf-val" id="xlf-ma">--</div></div>
         <div class="xlf-item"><div class="xlf-lbl">vs MA</div><div class="xlf-val" id="xlf-vs-ma">--</div></div>
       </div>
-      <div class="cc-status" id="xlf-status" style="margin-top:8px;font-size:13px;"></div>
+      <div class="cc-status" id="xlf-status" style="margin-top:8px;font-size:14px;"></div>
       <div class="cc-sub">Visser leading indicator — Financials below 200MA = warning</div>
       <div id="xlf-signal"></div>
     </div>
     <div class="cc">
       <div class="cc-lbl">IGV / SMH — Rotation Signal</div>
       <div class="ratio-prices">
-        <div class="ratio-p"><div class="ratio-sym">SMH (Infra)</div><div class="ratio-pval" id="smh-p">--</div><div class="pchg" id="smh-c" style="font-size:12px;"></div></div>
+        <div class="ratio-p"><div class="ratio-sym">SMH (Infra)</div><div class="ratio-pval" id="smh-p">--</div><div class="pchg" id="smh-c" style="font-size:13px;"></div></div>
         <div class="ratio-vs">vs</div>
-        <div class="ratio-p"><div class="ratio-sym">IGV (Software)</div><div class="ratio-pval" id="igv-p">--</div><div class="pchg" id="igv-c" style="font-size:12px;"></div></div>
+        <div class="ratio-p"><div class="ratio-sym">IGV (Software)</div><div class="ratio-pval" id="igv-p">--</div><div class="pchg" id="igv-c" style="font-size:13px;"></div></div>
       </div>
       <div class="ratio-bar-bg"><div class="ratio-fill fg" id="ratio-fill" style="width:50%"></div></div>
-      <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:10px;"><span style="color:var(--red);">Software leading</span><span style="color:var(--green);">Infra leading</span></div>
-      <div class="cc-status" id="ratio-signal" style="margin-top:8px;font-size:13px;"></div>
+      <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:11px;"><span style="color:var(--red);">Software leading</span><span style="color:var(--green);">Infra leading</span></div>
+      <div class="cc-status" id="ratio-signal" style="margin-top:8px;font-size:14px;"></div>
       <div id="ratio-signal-banner"></div>
     </div>
     <div class="cc" id="pltr-ratio-card">
       <div class="cc-lbl">PLTR / MSFT — Visser Validation</div>
       <div class="ratio-num" id="pltr-msft-ratio">--</div>
-      <div class="pchg" id="pltr-msft-chg" style="font-size:12px;margin-top:4px;"></div>
-      <div id="pltr-msft-trend" style="font-size:13px;margin-top:4px;"></div>
+      <div class="pchg" id="pltr-msft-chg" style="font-size:13px;margin-top:4px;"></div>
+      <div id="pltr-msft-trend" style="font-size:14px;margin-top:4px;"></div>
       <div class="cc-sub">Confirmed uptrend since Apr 2025 (Visser March 19). Above 0.34 = bullish.</div>
       <div id="pltr-msft-signal"></div>
     </div>
   </div>
-  <div class="cc-row cc-row-2">
+  <!-- Row 3: SPX ROC — full width -->
+  <div class="cc-row" style="grid-template-columns:1fr;">
     <div class="cc" id="spx-roc-card">
       <div class="cc-lbl">SPX 126-Day Rate of Change — Momentum</div>
       <div class="roc-gauge">
         <div class="roc-val" id="spx-roc-val">--</div>
         <div style="flex:1;">
-          <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);margin-bottom:4px;">0% = no momentum. Negative = momentum lost. Positive = advancing.</div>
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-bottom:4px;">0% = no momentum. Negative = momentum lost. Positive = advancing.</div>
           <div class="roc-bar-bg"><div class="roc-fill fg" id="spx-roc-bar" style="width:50%"></div></div>
-          <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:10px;margin-top:3px;"><span style="color:var(--red);">Bearish</span><span style="color:var(--muted);">Zero</span><span style="color:var(--green);">Bullish</span></div>
+          <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:11px;margin-top:3px;"><span style="color:var(--red);">Bearish</span><span style="color:var(--muted);">Zero</span><span style="color:var(--green);">Bullish</span></div>
         </div>
       </div>
-      <div class="cc-status" id="spx-roc-status" style="margin-top:8px;font-size:13px;"></div>
+      <div class="cc-status" id="spx-roc-status" style="margin-top:8px;font-size:14px;"></div>
       <div class="cc-sub">Visser March 19: ROC at zero = six months of going nowhere. Negative = negative macro.</div>
       <div id="spx-roc-signal"></div>
-    </div>
-    <div class="cc">
-      <div class="cc-lbl">Dry Powder Deployment Checklist — $25K USDC</div>
-      <div class="deploy-grid">
-        <div class="deploy-item"><div class="deploy-dot dd-off" id="dot-hyg78"></div><span class="deploy-txt" id="txt-hyg78">HYG below $78</span></div>
-        <div class="deploy-item"><div class="deploy-dot dd-off" id="dot-hyg76"></div><span class="deploy-txt" id="txt-hyg76">HYG below $76</span></div>
-        <div class="deploy-item"><div class="deploy-dot dd-off" id="dot-fg"></div><span class="deploy-txt" id="txt-fg">Fear &amp; Greed below 25</span></div>
-        <div class="deploy-item"><div class="deploy-dot dd-off" id="dot-ratio"></div><span class="deploy-txt" id="txt-ratio">Infrastructure leading software</span></div>
-        <div class="deploy-item"><div class="deploy-dot dd-off" id="dot-vix"></div><span class="deploy-txt" id="txt-vix">VIX above 25</span></div>
-        <div class="deploy-item"><div class="deploy-dot dd-off" id="dot-xlf"></div><span class="deploy-txt" id="txt-xlf">XLF below 200-day MA</span></div>
-        <div class="deploy-item"><div class="deploy-dot dd-off" id="dot-rsi"></div><span class="deploy-txt" id="txt-rsi">% SPX RSI&lt;30 above 20%</span></div>
-        <div class="deploy-item"><div class="deploy-dot dd-off" id="dot-roc"></div><span class="deploy-txt" id="txt-roc">SPX 126-day ROC negative</span></div>
-      </div>
-      <div class="deploy-score" id="deploy-score">Loading triggers...</div>
     </div>
   </div>
   <div class="ai-macro-wrap">
@@ -393,7 +420,7 @@ footer{margin-top:36px;padding-top:16px;border-top:1.5px solid var(--border);fon
 const W='https://financialdashboard.practicemanager.workers.dev';
 const WL={
   t1:[
-    {t:'PLTR',n:'Palantir Technologies',tier:'TIER 1',bc:'bt1',el:'Under $100',lo:80,hi:100,st:'wait',sl:'Wait for Dip',vt:0,vc:0,rv:'',th:'AI Operating System of the West. AIP Bootcamp flywheel — ~75% conversion rate, 5-day sales cycle. Ontology layer moat — 20 years institutional trust, Five Eyes clearances. PLTR/MSFT ratio in confirmed uptrend (Visser March 19 validation). FY2026 guide: 61% revenue growth, Rule of 40 = 127%.'},
+    {t:'PLTR',n:'Palantir Technologies',tier:'TIER 1',bc:'bt1',el:'Under $100',lo:80,hi:100,st:'wait',sl:'Wait for Dip',vt:0,vc:0,rv:'',th:'AI Operating System of the West. AIP Bootcamp flywheel — ~75% conversion rate, 5-day sales cycle. Ontology layer moat — 20 years institutional trust, Five Eyes clearances. PLTR/MSFT ratio in confirmed uptrend (Visser March 19 validation). FY2026 guide: 61% revenue growth, Rule of 40 = 127%. Maven smart system awarded program of record status (March 22, 2026) — largest US Army AI contract, deeply embedded in defense architecture.'},
     {t:'TSLA',n:'Tesla Inc.',tier:'TIER 1',bc:'bt1',el:'Weekly $180 DCA · Block re-entry under $400',lo:300,hi:400,st:'watch',sl:'DCA Active',vt:0,vc:0,rv:'',th:'Musk ecosystem proxy: xAI, SpaceX, Optimus robotics, Starlink, energy. Weekly $180 DCA is the single best-performing active strategy — 18.9 shares accumulated. Never stop the DCA regardless of short-term price action.'},
   ],
   rack:[
@@ -430,6 +457,23 @@ function allStocks(){return[...WL.t1,...WL.rack,...WL.pwr,...WL.mac];}
 
 function sb(type,verdict,explain){
   return`<div class="signal-banner sb-${type}"><div class="sb-dot sbd-${type}"></div><div class="sb-content"><div class="sb-verdict sv-${type}">${verdict}</div><div class="sb-explain">${explain}</div></div></div>`;
+}
+
+// FIX 2: Market hours check — Mon–Fri 9:30–16:00 ET
+function isMarketHours(){
+  const now=new Date();
+  // Convert to ET
+  const etStr=now.toLocaleString('en-US',{timeZone:'America/New_York'});
+  const et=new Date(etStr);
+  const day=et.getDay(); // 0=Sun, 6=Sat
+  if(day===0||day===6)return false; // weekend
+  const h=et.getHours(),m=et.getMinutes();
+  const mins=h*60+m;
+  return mins>=570&&mins<960; // 9:30=570, 16:00=960
+}
+
+function mktClosedBadge(){
+  return`<div class="mkt-closed-badge">Market Closed — Data Unavailable</div>`;
 }
 
 function switchTab(name,btn){
@@ -565,10 +609,25 @@ function updBTC(q){
   }
 }
 
+// FIX 2: VIX — show market-closed badge when data is null/market closed
 function updVIX(q){
-  if(!q||!q.c)return;
+  const card=document.getElementById('vix-card');
+  const ve=document.getElementById('vix-val');
+  const vixSig=document.getElementById('vix-signal');
+
+  if(!q||!q.c){
+    if(ve)ve.innerHTML=`<span style="font-size:22px;color:var(--muted);">--</span>`;
+    if(vixSig)vixSig.innerHTML=mktClosedBadge();
+    const strip=document.getElementById('vix-strip');if(strip)strip.textContent='--';
+    const st=document.getElementById('vix-status');if(st){st.textContent='';st.className='cc-status';}
+    if(card)card.className='cc';
+    return;
+  }
+
   const p=q.c,ch=q.d,cp=q.dp;
-  const ve=document.getElementById('vix-val');if(ve)ve.textContent=p.toFixed(2);
+  // Clear any closed badge
+  if(vixSig)vixSig.innerHTML='';
+  if(ve)ve.textContent=p.toFixed(2);
   const ce=document.getElementById('vix-chg');
   if(ce){const sg=ch>=0?'+':'';ce.textContent=`${sg}${ch.toFixed(2)} (${sg}${cp.toFixed(2)}%)`;ce.className=`pchg ${ch>0?'up':'dn'}`;}
   const strip=document.getElementById('vix-strip');if(strip)strip.textContent=p.toFixed(1);
@@ -577,8 +636,7 @@ function updVIX(q){
   else if(p>=25){cls='warn';txt='⚠️ Elevated — monitor closely';scls='c-w';}
   else{cls='ok';txt=`Calm — ${(25-p).toFixed(1)} below watch level`;scls='c-ok';}
   const st=document.getElementById('vix-status');if(st){st.textContent=txt;st.className=`cc-status ${scls}`;}
-  const card=document.getElementById('vix-card');if(card)card.className=`cc ${cls}`;
-  const vixSig=document.getElementById('vix-signal');
+  if(card)card.className=`cc ${cls}`;
   if(vixSig){
     if(p>=35)vixSig.innerHTML=sb('danger','PANIC — DEPLOY TRIGGER ACTIVE','VIX above 35 signals institutional fear. One of your 8 deployment triggers. Check the full checklist.');
     else if(p>=25)vixSig.innerHTML=sb('warn','ELEVATED — WATCH CLOSELY','Volatility rising. Markets pricing in uncertainty. Early warning zone — not yet a deploy trigger.');
@@ -589,30 +647,46 @@ function updVIX(q){
   updateChecklist();
 }
 
+// FIX 2: XLF 200MA — show market-closed badge when candle data fails
 async function loadXLF(){
+  const xlfSig=document.getElementById('xlf-signal');
+  const card=document.getElementById('xlf-card');
   try{
     const[q,candleRes]=await Promise.all([
       gq('XLF'),
       fetch(`${W}/candle?symbol=XLF&resolution=D&days=220`).then(r=>r.json()).catch(()=>null)
     ]);
-    if(!q||!q.c)return;
-    const p=q.c,ch=q.d,cp=q.dp;
-    let ma=0;
-    if(candleRes&&candleRes.c&&candleRes.c.length>=200){
-      const last200=candleRes.c.slice(-200);
-      ma=last200.reduce((a,b)=>a+b,0)/200;
-      xlf200ma=ma;
+    if(!q||!q.c){
+      // Quote itself failed
+      if(xlfSig)xlfSig.innerHTML=mktClosedBadge();
+      return;
     }
+    const p=q.c,ch=q.d,cp=q.dp;
     const pe=document.getElementById('xlf-price');if(pe)pe.textContent=`$${p.toFixed(2)}`;
     const ce=document.getElementById('xlf-chg');
     if(ce){const sg=ch>=0?'+':'';ce.textContent=`${sg}${ch.toFixed(2)} (${sg}${cp.toFixed(2)}%)`;ce.className=`xlf-diff ${ch>=0?'up':'dn'}`;}
-    const mae=document.getElementById('xlf-ma');if(mae)mae.textContent=ma>0?`$${ma.toFixed(2)}`:'--';
     const strip=document.getElementById('xlf-strip');if(strip)strip.textContent=`$${p.toFixed(2)}`;
+
+    // Candle data needed for 200MA — may fail on weekends/after hours
+    if(!candleRes||!candleRes.c||candleRes.c.length<200){
+      const mae=document.getElementById('xlf-ma');if(mae)mae.textContent='--';
+      const vse=document.getElementById('xlf-vs-ma');if(vse)vse.textContent='--';
+      const st=document.getElementById('xlf-status');if(st){st.textContent='200-day MA unavailable';st.className='cc-status';}
+      if(xlfSig)xlfSig.innerHTML=mktClosedBadge();
+      prices['XLF']={p,ma:0};
+      return;
+    }
+
+    let ma=0;
+    const last200=candleRes.c.slice(-200);
+    ma=last200.reduce((a,b)=>a+b,0)/200;
+    xlf200ma=ma;
+    const mae=document.getElementById('xlf-ma');if(mae)mae.textContent=`$${ma.toFixed(2)}`;
+    const stripSt=document.getElementById('xlf-strip-status');
     if(ma>0){
       const diff=((p-ma)/ma*100).toFixed(1);const above=p>=ma;
       const vse=document.getElementById('xlf-vs-ma');if(vse){vse.textContent=`${above?'+':''}${diff}%`;vse.className=`xlf-val ${above?'c-ok':'c-d'}`;}
-      const stripSt=document.getElementById('xlf-strip-status');
-      const st=document.getElementById('xlf-status');const card=document.getElementById('xlf-card');
+      const st=document.getElementById('xlf-status');
       let txt,cls;
       if(!above){
         txt='⚠️ BELOW 200-day MA — Visser warning ACTIVE';cls='warn';
@@ -623,7 +697,6 @@ async function loadXLF(){
       }
       if(st){st.textContent=txt;st.className=`cc-status ${!above?'c-w':'c-ok'}`;}
       if(card)card.className=`cc ${cls}`;
-      const xlfSig=document.getElementById('xlf-signal');
       if(xlfSig){
         if(!above)xlfSig.innerHTML=sb('warn','WARNING — FINANCIALS BELOW 200-DAY MA','Visser\'s #1 leading indicator. Financials breaking down precedes broader market stress. Confirmed firing in March 19 webinar. Watch HYG closely.');
         else xlfSig.innerHTML=sb('ok','HEALTHY — FINANCIALS ABOVE 200-DAY MA','No systemic stress signal from financials today. Not contributing to deployment signal.');
@@ -631,7 +704,10 @@ async function loadXLF(){
     }
     prices['XLF']={p,ma};
     updateChecklist();
-  }catch(e){console.error('XLF error',e);}
+  }catch(e){
+    console.error('XLF error',e);
+    if(xlfSig)xlfSig.innerHTML=mktClosedBadge();
+  }
 }
 
 function updRatio(smhQ,igvQ){
@@ -682,11 +758,23 @@ function updPLTRMSFT(pltrQ,msftQ){
   prices['_pltr_msft']=ratio;
 }
 
+// FIX 2: SPX ROC — show market-closed badge when candle data fails
 async function loadSPXROC(){
+  const card=document.getElementById('spx-roc-card');
+  const rocSig=document.getElementById('spx-roc-signal');
   try{
     const r=await fetch(`${W}/candle?symbol=SPY&resolution=D&days=160`);
     const d=await r.json();
-    if(!d||!d.c||d.c.length<130){console.warn('SPX ROC: not enough data, got',d?.c?.length);return;}
+    if(!d||!d.c||d.c.length<130){
+      // Not enough data — market closed or API returned null
+      const ve=document.getElementById('spx-roc-val');if(ve){ve.textContent='--';ve.style.color='var(--muted)';}
+      const st=document.getElementById('spx-roc-status');if(st){st.textContent='';st.className='cc-status';}
+      if(rocSig)rocSig.innerHTML=mktClosedBadge();
+      if(card)card.className='cc';
+      return;
+    }
+    // Clear badge if present
+    if(rocSig)rocSig.innerHTML='';
     spxCandles=d.c;
     const roc=((d.c[d.c.length-1]-d.c[d.c.length-127])/d.c[d.c.length-127]*100);
     const ve=document.getElementById('spx-roc-val');
@@ -698,16 +786,18 @@ async function loadSPXROC(){
     else if(roc>0){txt=`Near-zero momentum — only +${roc.toFixed(1)}% over 126 days (Visser flags as bearish)`;cls='warn';}
     else{txt=`⚠️ Negative momentum — S&P down ${Math.abs(roc).toFixed(1)}% over 126 days`;cls='danger';}
     const st=document.getElementById('spx-roc-status');if(st){st.textContent=txt;st.className=`cc-status ${cls==='ok'?'c-ok':cls==='warn'?'c-w':'c-d'}`;}
-    const card=document.getElementById('spx-roc-card');if(card)card.className=`cc ${cls}`;
-    const sig=document.getElementById('spx-roc-signal');
-    if(sig){
-      if(roc>5)sig.innerHTML=sb('ok','STRONG MOMENTUM — MARKET ADVANCING','S&P has real upward momentum over 6 months. Not a fear environment. Hold dry powder and wait for conditions to change.');
-      else if(roc>0)sig.innerHTML=sb('warn','NEAR-ZERO MOMENTUM — STALLING','Six months of going nowhere. Visser flagged this March 19 as a negative trend. Market fragile — watch for next catalyst.');
-      else sig.innerHTML=sb('danger','NEGATIVE MOMENTUM — DOWNTREND CONFIRMED','S&P 500 has lost ground over 6 months. One of your 8 deployment triggers. Combine with other signals to time entry.');
+    if(card)card.className=`cc ${cls}`;
+    if(rocSig){
+      if(roc>5)rocSig.innerHTML=sb('ok','STRONG MOMENTUM — MARKET ADVANCING','S&P has real upward momentum over 6 months. Not a fear environment. Hold dry powder and wait for conditions to change.');
+      else if(roc>0)rocSig.innerHTML=sb('warn','NEAR-ZERO MOMENTUM — STALLING','Six months of going nowhere. Visser flagged this March 19 as a negative trend. Market fragile — watch for next catalyst.');
+      else rocSig.innerHTML=sb('danger','NEGATIVE MOMENTUM — DOWNTREND CONFIRMED','S&P 500 has lost ground over 6 months. One of your 8 deployment triggers. Combine with other signals to time entry.');
     }
     prices['_spx_roc']=roc;
     updateChecklist();
-  }catch(e){console.error('SPX ROC error',e);}
+  }catch(e){
+    console.error('SPX ROC error',e);
+    if(rocSig)rocSig.innerHTML=mktClosedBadge();
+  }
 }
 
 async function loadFG(){
@@ -737,15 +827,28 @@ async function loadFG(){
   }catch(e){const rl=document.getElementById('fg-rating');if(rl)rl.textContent='Unable to load';}
 }
 
+// FIX 2: HYG sparkline — show market-closed badge when candle data returns null/insufficient
 async function loadSparkline(){
+  const sparkSig=document.getElementById('hyg-spark-signal');
   try{
     const r=await fetch(`${W}/candle?symbol=HYG&resolution=D&days=40`);
     const d=await r.json();
     if(d&&d.c&&d.c.length>1){
+      // Clear any closed badge and draw
       hyg30=d.c;
+      // If sparkline signal currently shows a closed badge, let updHYG handle it after quote loads
       drawSpark();setTimeout(drawSpark,400);setTimeout(drawSpark,1200);
+    }else{
+      // No candle data returned (weekend/after hours)
+      if(sparkSig&&!document.getElementById('hyg-spark-signal').querySelector('.signal-banner')){
+        // Only show closed badge if no HYG quote data either
+        const hyg=prices['HYG'];
+        if(!hyg)sparkSig.innerHTML=mktClosedBadge();
+      }
     }
-  }catch{}
+  }catch{
+    if(sparkSig&&!sparkSig.querySelector('.signal-banner'))sparkSig.innerHTML=mktClosedBadge();
+  }
 }
 
 function drawSpark(){
@@ -801,6 +904,58 @@ function updateChecklist(){
     sc.style.color=fired>=5?'var(--red)':fired>=3?'var(--yellow)':'var(--muted)';
     sc.style.borderColor=fired>=5?'rgba(248,113,113,0.3)':fired>=3?'rgba(251,191,36,0.3)':'var(--border)';
   }
+  const banner=document.querySelector('.checklist-banner');
+  if(banner)banner.style.borderLeftColor=fired>=5?'var(--red)':fired>=3?'var(--yellow)':fired>=1?'var(--accent)':'var(--border2)';
+}
+
+// FIX 3: Scan each tab's stocks and update alert badges
+// Called after prices load. Checks each stock against entry zone and approaching zone.
+function updateTabAlerts(){
+  const tabMap=[
+    {tabId:'tab-t1', stocks:WL.t1},
+    {tabId:'tab-rack', stocks:WL.rack},
+    {tabId:'tab-pwr', stocks:WL.pwr},
+  ];
+  tabMap.forEach(({tabId,stocks})=>{
+    const btn=document.getElementById(tabId);
+    if(!btn)return;
+    // Remove existing alert badge if any
+    const existing=btn.querySelector('.tab-alert');
+    if(existing)existing.remove();
+
+    let level=0; // 0=none, 1=approaching (within 10%), 2=in zone
+    let inZoneTickers=[];
+    let approachingTickers=[];
+
+    stocks.forEach(s=>{
+      const pd=prices[s.t];
+      if(!pd||!pd.p)return;
+      const p=pd.p;
+      // In zone: price between lo and hi
+      if(p>=s.lo&&p<=s.hi){
+        level=Math.max(level,2);
+        inZoneTickers.push(s.t);
+      } else if(p>s.hi){
+        // Above zone — check if within 10% drop of hi
+        const pctAbove=(p-s.hi)/p*100;
+        if(pctAbove<=10){
+          level=Math.max(level,1);
+          approachingTickers.push(s.t);
+        }
+      }
+    });
+
+    if(level===0)return;
+
+    const badge=document.createElement('span');
+    badge.className=`tab-alert ${level===2?'tab-alert-fire':'tab-alert-warn'}`;
+    badge.textContent='!';
+    const tickers=level===2?inZoneTickers:approachingTickers;
+    badge.title=level===2
+      ? `In entry zone: ${tickers.join(', ')}`
+      : `Approaching entry zone (within 10%): ${tickers.join(', ')}`;
+    btn.appendChild(badge);
+  });
 }
 
 async function fetchAIMacro(){
@@ -808,8 +963,8 @@ async function fetchAIMacro(){
   const rsiEl=document.getElementById('rsi30-val'),rsiSub=document.getElementById('rsi30-sub');
   const dvolEl=document.getElementById('dvol-val'),dvolSub=document.getElementById('dvol-sub');
   if(rsiEl)rsiEl.textContent='--';if(dvolEl)dvolEl.textContent='--';
-  if(rsiSub)rsiSub.innerHTML='<span class="spin"></span><span style="font-size:13px;color:var(--muted)">Searching...</span>';
-  if(dvolSub)dvolSub.innerHTML='<span class="spin"></span><span style="font-size:13px;color:var(--muted)">Searching...</span>';
+  if(rsiSub)rsiSub.innerHTML='<span class="spin"></span><span style="font-size:14px;color:var(--muted)">Searching...</span>';
+  if(dvolSub)dvolSub.innerHTML='<span class="spin"></span><span style="font-size:14px;color:var(--muted)">Searching...</span>';
   const prompt=`Search the web for two specific market indicators as of today:
 1. The percentage of S&P 500 members with 14-day RSI below 30. Look on StockCharts, Barchart. Visser reference: 3.98% on March 19, 2026. Capitulation requires 40-80%.
 2. The DVOL/UVOL ratio — NYSE down volume divided by up volume. Visser reference: 4.07 vs 50-day avg 1.22 on March 18, 2026. Above 5x avg = panic.
@@ -884,20 +1039,31 @@ async function refreshAll(){
     gq('BINANCE:BTCUSDT'),gq('^VIX'),gq('SMH'),gq('IGV'),gq('PLTR'),gq('MSFT'),
   ]);
   if(btcQ&&btcQ.c)updBTC(btcQ);else{const b2=await gq('BTCUSDT');if(b2&&b2.c)updBTC(b2);}
-  if(vixQ&&vixQ.c)updVIX(vixQ);
-  else{for(const sym of ['CBOE:VIX','INDEX:VIX','VIX']){const v=await gq(sym);if(v&&v.c){updVIX(v);break;}}}
+  // FIX 2: updVIX now handles null gracefully (shows badge)
+  updVIX(vixQ&&vixQ.c?vixQ:null);
+  // Try fallback VIX symbols if primary failed
+  if(!vixQ||!vixQ.c){
+    let found=false;
+    for(const sym of['CBOE:VIX','INDEX:VIX','VIX']){
+      const v=await gq(sym);
+      if(v&&v.c){updVIX(v);found=true;break;}
+    }
+    // If no fallback found either, closed badge already shown by updVIX(null)
+  }
   updRatio(smhQ,igvQ);
   if(pltrQ&&msftQ&&pltrQ.c&&msftQ.c)updPLTRMSFT(pltrQ,msftQ);
   await loadXLF();
   await loadSPXROC();
   await loadSparkline();
+  // FIX 3: Update tab alert badges after all prices are loaded
+  updateTabAlerts();
   document.getElementById('vd-ref').textContent=`Updated: ${new Date().toLocaleTimeString()}`;
 }
 
 async function fetchNews(ticker){
   const btn=document.getElementById(`nb-${ticker}`),div=document.getElementById(`nw-${ticker}`);
   btn.disabled=true;
-  div.innerHTML=`<span class="spin"></span><span style="color:var(--muted);font-size:14px">Searching for recent news...</span>`;
+  div.innerHTML=`<span class="spin"></span><span style="color:var(--muted);font-size:15px">Searching for recent news...</span>`;
   const s=allStocks().find(x=>x.t===ticker);
   const pi=prices[ticker]?`Current price: $${prices[ticker].p.toFixed(2)} (${prices[ticker].cp>=0?'+':''}${prices[ticker].cp.toFixed(2)}% today).`:'';
   const ed=earningDates[ticker]?`Next earnings: ${earningDates[ticker]}.`:'';
