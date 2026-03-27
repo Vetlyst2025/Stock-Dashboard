@@ -666,37 +666,27 @@ async function loadXLF(){
     if(ce){const sg=ch>=0?'+':'';ce.textContent=`${sg}${ch.toFixed(2)} (${sg}${cp.toFixed(2)}%)`;ce.className=`xlf-diff ${ch>=0?'up':'dn'}`;}
     const strip=document.getElementById('xlf-strip');if(strip)strip.textContent=`$${p.toFixed(2)}`;
 
-    // Fetch XLF 200-day MA via Yahoo Finance (direct browser request)
+    // Fetch XLF 200-day MA via worker proxy (direct Yahoo always CORS-blocked from browsers)
     let ma=0;
     try{
       const period2=Math.floor(Date.now()/1000);
-      const period1=period2-(290*86400); // 290 calendar days ≈ 200+ trading days
-      let closes=null;
-      const xlf_urls=[
-        `https://query1.finance.yahoo.com/v8/finance/chart/XLF?interval=1d&period1=${period1}&period2=${period2}`,
-        `https://query2.finance.yahoo.com/v8/finance/chart/XLF?interval=1d&period1=${period1}&period2=${period2}`,
-      ];
-      for(const url of xlf_urls){
-        if(closes&&closes.length>=200)break;
-        try{
-          const yr=await fetch(url,{signal:AbortSignal.timeout(12000),headers:{'Accept':'application/json'}});
-          if(yr.ok){
-            const yraw=await yr.json();
-            const c=yraw?.chart?.result?.[0]?.indicators?.quote?.[0]?.close;
-            if(c&&c.length>=200){closes=c;console.log('XLF 200MA Yahoo OK: closes=',c.length);}
-            else console.log('XLF 200MA Yahoo: insufficient closes=',c?.length);
+      const period1=period2-(290*86400);
+      const yahooUrl=`https://query1.finance.yahoo.com/v8/finance/chart/XLF?interval=1d&period1=${period1}&period2=${period2}`;
+      const yr=await fetch(`${W}/fetch?url=${encodeURIComponent(yahooUrl)}`,{signal:AbortSignal.timeout(12000)});
+      if(yr.ok){
+        const yraw=await yr.json();
+        const closes=yraw?.chart?.result?.[0]?.indicators?.quote?.[0]?.close;
+        console.log('XLF 200MA worker proxy: closes=',closes?.length);
+        if(closes&&closes.length>=200){
+          const clean=closes.filter(v=>v!=null);
+          if(clean.length>=200){
+            ma=clean.slice(-200).reduce((a,b)=>a+b,0)/200;
+            xlf200ma=ma;
+            console.log('XLF 200MA computed:',ma.toFixed(2));
           }
-        }catch(ye){console.log('XLF 200MA Yahoo attempt failed:',ye.message);}
-      }
-      if(closes&&closes.length>=200){
-        const clean=closes.filter(v=>v!=null);
-        if(clean.length>=200){
-          ma=clean.slice(-200).reduce((a,b)=>a+b,0)/200;
-          xlf200ma=ma;
-          console.log('XLF 200MA computed:',ma.toFixed(2));
         }
-      }
-    }catch(ye){console.log('XLF 200MA outer error:',ye.message);}
+      }else{console.log('XLF 200MA worker proxy status:',yr.status);}
+    }catch(ye){console.log('XLF 200MA worker proxy failed:',ye.message);}
 
     const mae=document.getElementById('xlf-ma');
     if(ma>0){
@@ -782,44 +772,26 @@ function updPLTRMSFT(pltrQ,msftQ){
 }
 
 // FIX 2: SPX ROC — fetch historical SPY data from Yahoo Finance
-// Yahoo Finance v8 API allows browser CORS requests directly
+// Uses worker proxy to fetch Yahoo Finance data (direct browser fetch is CORS-blocked)
 async function loadSPXROC(){
   const card=document.getElementById('spx-roc-card');
   const rocSig=document.getElementById('spx-roc-signal');
   try{
     const period2=Math.floor(Date.now()/1000);
     const period1=period2-(230*86400); // 230 calendar days ≈ 160+ trading days
+    const yahooUrl=`https://query1.finance.yahoo.com/v8/finance/chart/SPY?interval=1d&period1=${period1}&period2=${period2}`;
     let closes=null;
 
-    // Try 1: Direct Yahoo Finance (works in most browsers, they allow CORS)
-    const yahooUrls=[
-      `https://query1.finance.yahoo.com/v8/finance/chart/SPY?interval=1d&period1=${period1}&period2=${period2}`,
-      `https://query2.finance.yahoo.com/v8/finance/chart/SPY?interval=1d&period1=${period1}&period2=${period2}`,
-    ];
-    for(const url of yahooUrls){
-      if(closes&&closes.length>=127)break;
-      try{
-        const r=await fetch(url,{signal:AbortSignal.timeout(12000),headers:{'Accept':'application/json'}});
-        if(r.ok){
-          const raw=await r.json();
-          const c=raw?.chart?.result?.[0]?.indicators?.quote?.[0]?.close;
-          if(c&&c.length>=127){closes=c;console.log('SPX ROC Yahoo direct OK: closes=',c.length);}
-          else console.log('SPX ROC Yahoo direct: insufficient closes=',c?.length,'from',url);
-        }
-      }catch(e2){console.log('SPX ROC Yahoo direct failed:',e2.message);}
-    }
-
-    // Try 2: Worker proxy (if worker has /fetch endpoint)
-    if(!closes||closes.length<127){
-      try{
-        const proxyR=await fetch(`${W}/fetch?url=${encodeURIComponent(yahooUrls[0])}`,{signal:AbortSignal.timeout(12000)});
-        if(proxyR.ok){
-          const raw=await proxyR.json();
-          const c=raw?.chart?.result?.[0]?.indicators?.quote?.[0]?.close;
-          if(c&&c.length>=127){closes=c;console.log('SPX ROC worker proxy OK: closes=',c.length);}
-        }
-      }catch(e3){console.log('SPX ROC worker proxy failed:',e3.message);}
-    }
+    // Worker proxy — avoids CORS block
+    try{
+      const proxyR=await fetch(`${W}/fetch?url=${encodeURIComponent(yahooUrl)}`,{signal:AbortSignal.timeout(12000)});
+      if(proxyR.ok){
+        const raw=await proxyR.json();
+        const c=raw?.chart?.result?.[0]?.indicators?.quote?.[0]?.close;
+        if(c&&c.length>=127){closes=c;console.log('SPX ROC worker proxy OK: closes=',c.length);}
+        else console.log('SPX ROC worker proxy: insufficient closes=',c?.length);
+      }else{console.log('SPX ROC worker proxy status:',proxyR.status);}
+    }catch(e3){console.log('SPX ROC worker proxy failed:',e3.message);}
 
     const clean=closes?closes.filter(v=>v!=null):[];
     const d=clean.length>=127?clean:null;
