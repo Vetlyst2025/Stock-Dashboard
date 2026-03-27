@@ -771,6 +771,29 @@ function updPLTRMSFT(pltrQ,msftQ){
   prices['_pltr_msft']=ratio;
 }
 
+// VIX — fetched via worker proxy from Yahoo Finance (^VIX not available on Finnhub free plan)
+async function loadVIX(){
+  try{
+    const yahooUrl='https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?interval=1d&range=5d';
+    const r=await fetch(`${W}/fetch?url=${encodeURIComponent(yahooUrl)}`,{signal:AbortSignal.timeout(10000)});
+    if(!r.ok){console.log('VIX worker proxy status:',r.status);updVIX(null);return;}
+    const raw=await r.json();
+    const meta=raw?.chart?.result?.[0]?.meta;
+    const quotes=raw?.chart?.result?.[0]?.indicators?.quote?.[0];
+    const closes=quotes?.close;
+    const p=meta?.regularMarketPrice||closes?.[closes.length-1];
+    const prev=closes?.[closes.length-2]||meta?.chartPreviousClose||meta?.previousClose;
+    console.log('VIX Yahoo proxy: price=',p,'prev=',prev);
+    if(!p){updVIX(null);return;}
+    const ch=prev?p-prev:0;
+    const cp=prev?(ch/prev*100):0;
+    updVIX({c:p,d:ch,dp:cp});
+  }catch(e){
+    console.log('VIX loadVIX failed:',e.message);
+    updVIX(null);
+  }
+}
+
 // FIX 2: SPX ROC — fetch historical SPY data from Yahoo Finance
 // Uses worker proxy to fetch Yahoo Finance data (direct browser fetch is CORS-blocked)
 async function loadSPXROC(){
@@ -1106,21 +1129,12 @@ async function refreshAll(){
     updCard(s,q);
     await new Promise(r=>setTimeout(r,120));
   }
-  const[btcQ,vixQ,smhQ,igvQ,pltrQ,msftQ]=await Promise.all([
-    gq('BINANCE:BTCUSDT'),gq('^VIX'),gq('SMH'),gq('IGV'),gq('PLTR'),gq('MSFT'),
+  const[btcQ,smhQ,igvQ,pltrQ,msftQ]=await Promise.all([
+    gq('BINANCE:BTCUSDT'),gq('SMH'),gq('IGV'),gq('PLTR'),gq('MSFT'),
   ]);
   if(btcQ&&btcQ.c)updBTC(btcQ);else{const b2=await gq('BTCUSDT');if(b2&&b2.c)updBTC(b2);}
-  // FIX 2: updVIX now handles null gracefully (shows badge)
-  updVIX(vixQ&&vixQ.c?vixQ:null);
-  // Try fallback VIX symbols if primary failed
-  if(!vixQ||!vixQ.c){
-    let found=false;
-    for(const sym of['CBOE:VIX','INDEX:VIX','VIX']){
-      const v=await gq(sym);
-      if(v&&v.c){updVIX(v);found=true;break;}
-    }
-    // If no fallback found either, closed badge already shown by updVIX(null)
-  }
+  // VIX — fetch via worker proxy from Yahoo Finance (Finnhub free plan blocks index quotes)
+  await loadVIX();
   updRatio(smhQ,igvQ);
   if(pltrQ&&msftQ&&pltrQ.c&&msftQ.c)updPLTRMSFT(pltrQ,msftQ);
   await loadXLF();
