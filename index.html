@@ -975,28 +975,49 @@ async function fetchAIMacro(){
   if(rsiEl)rsiEl.textContent='--';if(dvolEl)dvolEl.textContent='--';
   if(rsiSub)rsiSub.innerHTML='<span class="spin"></span><span style="font-size:14px;color:var(--muted)">Searching...</span>';
   if(dvolSub)dvolSub.innerHTML='<span class="spin"></span><span style="font-size:14px;color:var(--muted)">Searching...</span>';
-  const prompt=`Search the web for two specific market indicators as of today:
-1. The percentage of S&P 500 members with 14-day RSI below 30. Look on StockCharts, Barchart. Visser reference: 3.98% on March 19, 2026. Capitulation requires 40-80%.
-2. The DVOL/UVOL ratio — NYSE down volume divided by up volume. Visser reference: 4.07 vs 50-day avg 1.22 on March 18, 2026. Above 5x avg = panic.
-Return ONLY valid JSON with no markdown, no explanation, no preamble:
-{"rsi_below_30":{"value":3.98,"interpretation":"brief","source":"site","signal":"ok|warn|extreme"},"dvol_uvol":{"value":4.07,"avg_50day":1.22,"ratio_to_avg":3.3,"interpretation":"brief","source":"site","signal":"ok|warn|extreme"}}`;
+  // Two-message approach: first do the search, then force JSON output in a follow-up
+  const searchPrompt=`Search the web right now for these two market breadth indicators and report the most recent values you find:
+1. Percentage of S&P 500 stocks with RSI below 30 (check Barchart, StockCharts, or similar). 
+2. NYSE DVOL/UVOL ratio — down volume vs up volume today.
+After searching, report what you found in plain text.`;
+
+  const jsonPrompt=`Based on your search results, output ONLY a raw JSON object (no markdown, no explanation, nothing before or after the {). Use this exact structure:
+{"rsi_below_30":{"value":0,"interpretation":"what you found","source":"site name","signal":"ok"},"dvol_uvol":{"value":0,"avg_50day":0,"ratio_to_avg":0,"interpretation":"what you found","source":"site name","signal":"ok"}}
+Signal must be: "ok" if normal, "warn" if elevated, "extreme" if panic. If you could not find a value, use 0 and note it in interpretation. Output the JSON object now:`;
+
   try{
-    const res=await fetch(`${W}/news`,{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:1000,
+    // Step 1: search
+    const res1=await fetch(`${W}/news`,{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:1500,
         tools:[{type:'web_search_20250305',name:'web_search'}],
-        messages:[{role:'user',content:prompt}]})});
-    // Read as text first so we can debug if JSON parse fails
-    const rawText=await res.text();
-    console.log('AI Macro raw response status:',res.status);
-    console.log('AI Macro raw response (first 500 chars):',rawText.substring(0,500));
-    let data;
-    try{data=JSON.parse(rawText);}
-    catch(je){throw new Error(`Worker returned non-JSON (status ${res.status}): ${rawText.substring(0,200)}`);}
-    if(data.error){throw new Error(`API error: ${data.error.message||JSON.stringify(data.error)}`);}
-    const txt=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('');
-    if(!txt)throw new Error(`No text content in response. Content types: ${(data.content||[]).map(b=>b.type).join(', ')}`);
-    const m=txt.replace(/```json|```/g,'').trim().match(/\{[\s\S]*\}/);
-    if(!m)throw new Error(`Could not find JSON in response. Got: ${txt.substring(0,300)}`);
+        messages:[{role:'user',content:searchPrompt}]})});
+    const raw1=await res1.text();
+    console.log('AI Macro step1 status:',res1.status,'preview:',raw1.substring(0,300));
+    let d1;
+    try{d1=JSON.parse(raw1);}catch(je){throw new Error(`Step1 non-JSON (${res1.status}): ${raw1.substring(0,200)}`);}
+    if(d1.error)throw new Error(d1.error.message||JSON.stringify(d1.error));
+    const searchResult=(d1.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('');
+    console.log('AI Macro search result:',searchResult.substring(0,400));
+
+    // Step 2: force JSON from the search result
+    const res2=await fetch(`${W}/news`,{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:500,
+        messages:[
+          {role:'user',content:searchPrompt},
+          {role:'assistant',content:searchResult||'I searched but could not find specific values.'},
+          {role:'user',content:jsonPrompt}
+        ]})});
+    const raw2=await res2.text();
+    console.log('AI Macro step2 status:',res2.status,'preview:',raw2.substring(0,300));
+    let d2;
+    try{d2=JSON.parse(raw2);}catch(je){throw new Error(`Step2 non-JSON (${res2.status}): ${raw2.substring(0,200)}`);}
+    if(d2.error)throw new Error(d2.error.message||JSON.stringify(d2.error));
+    const txt=(d2.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('');
+    console.log('AI Macro step2 text:',txt.substring(0,400));
+    // Try to extract JSON — be very lenient
+    const cleaned=txt.replace(/```json|```/g,'').trim();
+    const m=cleaned.match(/\{[\s\S]*\}/);
+    if(!m)throw new Error(`Step2 no JSON found. Got: ${txt.substring(0,300)}`);
     const p=JSON.parse(m[0]);
     const ts=`Fetched: ${new Date().toLocaleTimeString()}`;
     if(p.rsi_below_30){
@@ -1094,48 +1115,3 @@ Include actual article URL. JSON only:
     const res=await fetch(`${W}/news`,{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:1200,
         tools:[{type:'web_search_20250305',name:'web_search'}],
-        messages:[{role:'user',content:prompt}]})});
-    const rawText=await res.text();
-    let data;
-    try{data=JSON.parse(rawText);}catch(je){throw new Error(`Worker error (${res.status}): ${rawText.substring(0,200)}`);}
-    if(data.error)throw new Error(data.error.message||JSON.stringify(data.error));
-    const txt=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('');
-    const m=txt.replace(/```json|```/g,'').trim().match(/\{[\s\S]*\}/);
-    if(!m)throw new Error(`No JSON found in response`);
-    const p=JSON.parse(m[0]);let h='';
-    if(p.summary)h+=`<div class="nsum">${p.summary}</div>`;
-    (p.items||[]).forEach((item,i)=>{
-      const sc=item.sentiment==='BULLISH'?'nbull':item.sentiment==='BEARISH'?'nbear':'nneut';
-      const hasU=item.url&&item.url.startsWith('http');
-      const bid=`cp-${ticker}-${i}`;
-      h+=`<div class="nitem">
-        <div class="nhl">${hasU?`<a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.headline} ↗</a>`:`<span class="nl">${item.headline}</span>`}</div>
-        <div class="nmeta"><span class="nb ${sc}">${item.sentiment}</span>${item.source?`<span class="nsrc">${item.source}</span>`:''}${hasU?`<button class="cpbtn" id="${bid}" onclick="cpLink('${item.url.replace(/'/g,"\\'")}','${bid}')">Copy Link</button>`:''}<span class="nrel">${item.relevance}</span></div>
-      </div>`;
-    });
-    if(!(p.items||[]).length)h+=`<span class="nph">No recent news found.</span>`;
-    div.innerHTML=h;btn.textContent='↻ Refresh';btn.disabled=false;
-  }catch(e){div.innerHTML=`<span class="errt">Error: ${e.message}</span>`;btn.textContent='Retry';btn.disabled=false;}
-}
-
-function fetchTabNews(){
-  const map={t1:WL.t1,rack:WL.rack,pwr:WL.pwr,mac:WL.mac,cmd:[]};
-  (map[activeTab]||[]).forEach((s,i)=>setTimeout(()=>fetchNews(s.t),i*800));
-}
-
-function cpLink(url,id){
-  const btn=document.getElementById(id);
-  const done=()=>{if(btn){const o=btn.textContent;btn.textContent='✓ Copied!';btn.classList.add('ok');setTimeout(()=>{btn.textContent=o;btn.classList.remove('ok');},2000);}};
-  if(navigator.clipboard)navigator.clipboard.writeText(url).then(done).catch(()=>{fbCopy(url);done();});
-  else{fbCopy(url);done();}
-}
-function fbCopy(url){const t=document.createElement('textarea');t.value=url;t.style.cssText='position:fixed;opacity:0';document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);}
-
-window.addEventListener('resize',()=>{if(hyg30.length>1)drawSpark();});
-renderAll();
-refreshAll();
-loadFG();
-loadEarnings();
-</script>
-</body>
-</html>
