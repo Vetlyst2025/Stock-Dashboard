@@ -652,9 +652,8 @@ async function loadXLF(){
   const xlfSig=document.getElementById('xlf-signal');
   const card=document.getElementById('xlf-card');
   try{
-    const[q,candleRes]=await Promise.all([
-      gq('XLF'),
-      fetch(`${W}/candle?symbol=XLF&resolution=D&days=220`).then(r=>r.json()).catch(()=>null)
+    const[q]=await Promise.all([
+      gq('XLF')
     ]);
     if(!q||!q.c){
       // Quote itself failed
@@ -667,26 +666,35 @@ async function loadXLF(){
     if(ce){const sg=ch>=0?'+':'';ce.textContent=`${sg}${ch.toFixed(2)} (${sg}${cp.toFixed(2)}%)`;ce.className=`xlf-diff ${ch>=0?'up':'dn'}`;}
     const strip=document.getElementById('xlf-strip');if(strip)strip.textContent=`$${p.toFixed(2)}`;
 
-    // Candle data needed for 200MA — may fail on weekends/after hours
-    if(!candleRes||!candleRes.c||candleRes.c.length<200){
-      const mae=document.getElementById('xlf-ma');if(mae)mae.textContent='--';
-      const vse=document.getElementById('xlf-vs-ma');if(vse)vse.textContent='--';
-      const st=document.getElementById('xlf-status');if(st){st.textContent='200-day MA unavailable';st.className='cc-status';}
-      if(xlfSig)xlfSig.innerHTML=mktClosedBadge();
-      prices['XLF']={p,ma:0};
-      return;
-    }
-
+    // Fetch XLF 200-day MA via Yahoo Finance (Finnhub candle requires paid plan)
     let ma=0;
-    const last200=candleRes.c.slice(-200);
-    ma=last200.reduce((a,b)=>a+b,0)/200;
-    xlf200ma=ma;
-    const mae=document.getElementById('xlf-ma');if(mae)mae.textContent=`$${ma.toFixed(2)}`;
-    const stripSt=document.getElementById('xlf-strip-status');
+    try{
+      const period2=Math.floor(Date.now()/1000);
+      const period1=period2-(290*86400); // ~290 calendar days = ~200 trading days
+      const yahooUrl=`https://query1.finance.yahoo.com/v8/finance/chart/XLF?interval=1d&period1=${period1}&period2=${period2}`;
+      const proxyUrl=`https://api.allorigins.win/get?url=${encodeURIComponent(yahooUrl)}`;
+      const yr=await fetch(proxyUrl,{signal:AbortSignal.timeout(8000)});
+      const yraw=await yr.json();
+      const inner=typeof yraw.contents==='string'?JSON.parse(yraw.contents):yraw.contents;
+      const closes=inner?.chart?.result?.[0]?.indicators?.quote?.[0]?.close;
+      if(closes&&closes.length>=200){
+        const clean=closes.filter(v=>v!=null);
+        if(clean.length>=200){
+          const last200=clean.slice(-200);
+          ma=last200.reduce((a,b)=>a+b,0)/200;
+          xlf200ma=ma;
+        }
+      }
+      console.log('XLF 200MA Yahoo: closes=',closes?.length,'ma=',ma?.toFixed(2));
+    }catch(ye){console.log('XLF 200MA Yahoo failed:',ye.message);}
+
+    const mae=document.getElementById('xlf-ma');
     if(ma>0){
+      if(mae)mae.textContent=`$${ma.toFixed(2)}`;
       const diff=((p-ma)/ma*100).toFixed(1);const above=p>=ma;
       const vse=document.getElementById('xlf-vs-ma');if(vse){vse.textContent=`${above?'+':''}${diff}%`;vse.className=`xlf-val ${above?'c-ok':'c-d'}`;}
       const st=document.getElementById('xlf-status');
+      const stripSt=document.getElementById('xlf-strip-status');
       let txt,cls;
       if(!above){
         txt='⚠️ BELOW 200-day MA — Visser warning ACTIVE';cls='warn';
@@ -701,6 +709,11 @@ async function loadXLF(){
         if(!above)xlfSig.innerHTML=sb('warn','WARNING — FINANCIALS BELOW 200-DAY MA','Visser\'s #1 leading indicator. Financials breaking down precedes broader market stress. Confirmed firing in March 19 webinar. Watch HYG closely.');
         else xlfSig.innerHTML=sb('ok','HEALTHY — FINANCIALS ABOVE 200-DAY MA','No systemic stress signal from financials today. Not contributing to deployment signal.');
       }
+    }else{
+      // Yahoo MA fetch failed — show price but badge on MA fields
+      if(mae)mae.textContent='--';
+      const st=document.getElementById('xlf-status');if(st){st.textContent='200-day MA unavailable';st.className='cc-status';}
+      if(xlfSig)xlfSig.innerHTML=mktClosedBadge();
     }
     prices['XLF']={p,ma};
     updateChecklist();
@@ -759,40 +772,46 @@ function updPLTRMSFT(pltrQ,msftQ){
 }
 
 // FIX 2: SPX ROC — show market-closed badge when candle data fails
+// Uses Yahoo Finance via a CORS proxy since Finnhub candle endpoint requires paid plan
 async function loadSPXROC(){
   const card=document.getElementById('spx-roc-card');
   const rocSig=document.getElementById('spx-roc-signal');
   try{
-    // Try SPY first, fall back to QQQ if Finnhub returns no_data
+    // Yahoo Finance: SPY daily OHLCV for past ~8 months (160 trading days ≈ 230 calendar days)
+    // Using allorigins CORS proxy to avoid CORS block on Yahoo Finance
+    const period2=Math.floor(Date.now()/1000);
+    const period1=period2-(230*86400); // 230 calendar days back
+    const yahooUrl=`https://query1.finance.yahoo.com/v8/finance/chart/SPY?interval=1d&period1=${period1}&period2=${period2}`;
+    const proxyUrl=`https://api.allorigins.win/get?url=${encodeURIComponent(yahooUrl)}`;
+
     let d=null;
-    for(const sym of['SPY','QQQ']){
-      try{
-        const r=await fetch(`${W}/candle?symbol=${encodeURIComponent(sym)}&resolution=D&days=160`);
-        const raw=await r.json();
-        // Log full structure on first attempt so we can see what the worker returns
-        if(sym==='SPY')console.log('SPX ROC SPY raw keys:',Object.keys(raw||{}),'sample:',JSON.stringify(raw).substring(0,300));
-        // Worker may nest data — unwrap if needed
-        const cd=raw?.c?raw:(raw?.result?.c?raw.result:(raw?.data?.c?raw.data:null));
-        // Finnhub returns {s:'ok'} when data is available; s may be absent if worker reformats
-        const hasData=cd&&cd.c&&cd.c.length>=127;
-        const statusOk=!cd?.s||(cd.s==='ok'); // treat absent s as ok (worker may strip it)
-        if(hasData&&statusOk){d=cd;break;}
-        console.log(`SPX ROC: ${sym} — s=${cd?.s}, c.length=${cd?.c?.length}, keys=${Object.keys(raw||{}).join(',')}`);
-      }catch(e2){console.log(`SPX ROC: ${sym} fetch failed`,e2);}
-    }
-    if(!d||!d.c||d.c.length<127){
-      // Not enough data — market closed or API returned no_data
+    try{
+      const r=await fetch(proxyUrl,{signal:AbortSignal.timeout(8000)});
+      const raw=await r.json();
+      // allorigins wraps in {contents: "...json string..."}
+      const inner=typeof raw.contents==='string'?JSON.parse(raw.contents):raw.contents;
+      const closes=inner?.chart?.result?.[0]?.indicators?.quote?.[0]?.close;
+      if(closes&&closes.length>=127){
+        // Filter out null values (market holidays)
+        const clean=closes.filter(v=>v!=null);
+        if(clean.length>=127)d=clean;
+      }
+      console.log('SPX ROC Yahoo: closes length=',closes?.length,'clean=',d?.length);
+    }catch(e2){console.log('SPX ROC Yahoo fetch failed:',e2.message);}
+
+    if(!d||d.length<127){
       const ve=document.getElementById('spx-roc-val');if(ve){ve.textContent='--';ve.style.color='var(--muted)';}
       const st=document.getElementById('spx-roc-status');if(st){st.textContent='';st.className='cc-status';}
       if(rocSig)rocSig.innerHTML=mktClosedBadge();
       if(card)card.className='cc';
-      console.log('SPX ROC: all symbols failed or no_data — showing closed badge');
+      console.log('SPX ROC: insufficient data, length=',d?.length);
       return;
     }
-    // Clear badge if present
+    // Clear badge
     if(rocSig)rocSig.innerHTML='';
-    spxCandles=d.c;
-    const roc=((d.c[d.c.length-1]-d.c[d.c.length-127])/d.c[d.c.length-127]*100);
+    spxCandles=d;
+    // 126-day ROC: compare most recent close to close 126 trading days ago
+    const roc=((d[d.length-1]-d[d.length-127])/d[d.length-127]*100);
     const ve=document.getElementById('spx-roc-val');
     if(ve){ve.textContent=`${roc>=0?'+':''}${roc.toFixed(2)}%`;ve.style.color=roc>5?'var(--green)':roc>0?'var(--accent)':roc>-5?'var(--yellow)':'var(--red)';}
     const bar=document.getElementById('spx-roc-bar');
