@@ -666,27 +666,37 @@ async function loadXLF(){
     if(ce){const sg=ch>=0?'+':'';ce.textContent=`${sg}${ch.toFixed(2)} (${sg}${cp.toFixed(2)}%)`;ce.className=`xlf-diff ${ch>=0?'up':'dn'}`;}
     const strip=document.getElementById('xlf-strip');if(strip)strip.textContent=`$${p.toFixed(2)}`;
 
-    // Fetch XLF 200-day MA via Yahoo Finance (Finnhub candle requires paid plan)
+    // Fetch XLF 200-day MA via Yahoo Finance (direct browser request)
     let ma=0;
     try{
       const period2=Math.floor(Date.now()/1000);
-      const period1=period2-(290*86400); // ~290 calendar days = ~200 trading days
-      const yahooUrl=`https://query1.finance.yahoo.com/v8/finance/chart/XLF?interval=1d&period1=${period1}&period2=${period2}`;
-      const proxyUrl=`https://api.allorigins.win/get?url=${encodeURIComponent(yahooUrl)}`;
-      const yr=await fetch(proxyUrl,{signal:AbortSignal.timeout(8000)});
-      const yraw=await yr.json();
-      const inner=typeof yraw.contents==='string'?JSON.parse(yraw.contents):yraw.contents;
-      const closes=inner?.chart?.result?.[0]?.indicators?.quote?.[0]?.close;
+      const period1=period2-(290*86400); // 290 calendar days ≈ 200+ trading days
+      let closes=null;
+      const xlf_urls=[
+        `https://query1.finance.yahoo.com/v8/finance/chart/XLF?interval=1d&period1=${period1}&period2=${period2}`,
+        `https://query2.finance.yahoo.com/v8/finance/chart/XLF?interval=1d&period1=${period1}&period2=${period2}`,
+      ];
+      for(const url of xlf_urls){
+        if(closes&&closes.length>=200)break;
+        try{
+          const yr=await fetch(url,{signal:AbortSignal.timeout(12000),headers:{'Accept':'application/json'}});
+          if(yr.ok){
+            const yraw=await yr.json();
+            const c=yraw?.chart?.result?.[0]?.indicators?.quote?.[0]?.close;
+            if(c&&c.length>=200){closes=c;console.log('XLF 200MA Yahoo OK: closes=',c.length);}
+            else console.log('XLF 200MA Yahoo: insufficient closes=',c?.length);
+          }
+        }catch(ye){console.log('XLF 200MA Yahoo attempt failed:',ye.message);}
+      }
       if(closes&&closes.length>=200){
         const clean=closes.filter(v=>v!=null);
         if(clean.length>=200){
-          const last200=clean.slice(-200);
-          ma=last200.reduce((a,b)=>a+b,0)/200;
+          ma=clean.slice(-200).reduce((a,b)=>a+b,0)/200;
           xlf200ma=ma;
+          console.log('XLF 200MA computed:',ma.toFixed(2));
         }
       }
-      console.log('XLF 200MA Yahoo: closes=',closes?.length,'ma=',ma?.toFixed(2));
-    }catch(ye){console.log('XLF 200MA Yahoo failed:',ye.message);}
+    }catch(ye){console.log('XLF 200MA outer error:',ye.message);}
 
     const mae=document.getElementById('xlf-ma');
     if(ma>0){
@@ -771,46 +781,58 @@ function updPLTRMSFT(pltrQ,msftQ){
   prices['_pltr_msft']=ratio;
 }
 
-// FIX 2: SPX ROC — show market-closed badge when candle data fails
-// Uses Yahoo Finance via a CORS proxy since Finnhub candle endpoint requires paid plan
+// FIX 2: SPX ROC — fetch historical SPY data from Yahoo Finance
+// Yahoo Finance v8 API allows browser CORS requests directly
 async function loadSPXROC(){
   const card=document.getElementById('spx-roc-card');
   const rocSig=document.getElementById('spx-roc-signal');
   try{
-    // Yahoo Finance: SPY daily OHLCV for past ~8 months (160 trading days ≈ 230 calendar days)
-    // Using allorigins CORS proxy to avoid CORS block on Yahoo Finance
     const period2=Math.floor(Date.now()/1000);
-    const period1=period2-(230*86400); // 230 calendar days back
-    const yahooUrl=`https://query1.finance.yahoo.com/v8/finance/chart/SPY?interval=1d&period1=${period1}&period2=${period2}`;
-    const proxyUrl=`https://api.allorigins.win/get?url=${encodeURIComponent(yahooUrl)}`;
+    const period1=period2-(230*86400); // 230 calendar days ≈ 160+ trading days
+    let closes=null;
 
-    let d=null;
-    try{
-      const r=await fetch(proxyUrl,{signal:AbortSignal.timeout(8000)});
-      const raw=await r.json();
-      // allorigins wraps in {contents: "...json string..."}
-      const inner=typeof raw.contents==='string'?JSON.parse(raw.contents):raw.contents;
-      const closes=inner?.chart?.result?.[0]?.indicators?.quote?.[0]?.close;
-      if(closes&&closes.length>=127){
-        // Filter out null values (market holidays)
-        const clean=closes.filter(v=>v!=null);
-        if(clean.length>=127)d=clean;
-      }
-      console.log('SPX ROC Yahoo: closes length=',closes?.length,'clean=',d?.length);
-    }catch(e2){console.log('SPX ROC Yahoo fetch failed:',e2.message);}
+    // Try 1: Direct Yahoo Finance (works in most browsers, they allow CORS)
+    const yahooUrls=[
+      `https://query1.finance.yahoo.com/v8/finance/chart/SPY?interval=1d&period1=${period1}&period2=${period2}`,
+      `https://query2.finance.yahoo.com/v8/finance/chart/SPY?interval=1d&period1=${period1}&period2=${period2}`,
+    ];
+    for(const url of yahooUrls){
+      if(closes&&closes.length>=127)break;
+      try{
+        const r=await fetch(url,{signal:AbortSignal.timeout(12000),headers:{'Accept':'application/json'}});
+        if(r.ok){
+          const raw=await r.json();
+          const c=raw?.chart?.result?.[0]?.indicators?.quote?.[0]?.close;
+          if(c&&c.length>=127){closes=c;console.log('SPX ROC Yahoo direct OK: closes=',c.length);}
+          else console.log('SPX ROC Yahoo direct: insufficient closes=',c?.length,'from',url);
+        }
+      }catch(e2){console.log('SPX ROC Yahoo direct failed:',e2.message);}
+    }
 
-    if(!d||d.length<127){
+    // Try 2: Worker proxy (if worker has /fetch endpoint)
+    if(!closes||closes.length<127){
+      try{
+        const proxyR=await fetch(`${W}/fetch?url=${encodeURIComponent(yahooUrls[0])}`,{signal:AbortSignal.timeout(12000)});
+        if(proxyR.ok){
+          const raw=await proxyR.json();
+          const c=raw?.chart?.result?.[0]?.indicators?.quote?.[0]?.close;
+          if(c&&c.length>=127){closes=c;console.log('SPX ROC worker proxy OK: closes=',c.length);}
+        }
+      }catch(e3){console.log('SPX ROC worker proxy failed:',e3.message);}
+    }
+
+    const clean=closes?closes.filter(v=>v!=null):[];
+    const d=clean.length>=127?clean:null;
+    if(!d){
       const ve=document.getElementById('spx-roc-val');if(ve){ve.textContent='--';ve.style.color='var(--muted)';}
       const st=document.getElementById('spx-roc-status');if(st){st.textContent='';st.className='cc-status';}
       if(rocSig)rocSig.innerHTML=mktClosedBadge();
       if(card)card.className='cc';
-      console.log('SPX ROC: insufficient data, length=',d?.length);
+      console.log('SPX ROC: no data after all attempts, clean.length=',clean.length);
       return;
     }
-    // Clear badge
     if(rocSig)rocSig.innerHTML='';
     spxCandles=d;
-    // 126-day ROC: compare most recent close to close 126 trading days ago
     const roc=((d[d.length-1]-d[d.length-127])/d[d.length-127]*100);
     const ve=document.getElementById('spx-roc-val');
     if(ve){ve.textContent=`${roc>=0?'+':''}${roc.toFixed(2)}%`;ve.style.color=roc>5?'var(--green)':roc>0?'var(--accent)':roc>-5?'var(--yellow)':'var(--red)';}
@@ -1051,11 +1073,12 @@ Signal must be: "ok" if normal, "warn" if elevated, "extreme" if panic. If you c
     if(d2.error)throw new Error(d2.error.message||JSON.stringify(d2.error));
     const txt=(d2.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('');
     console.log('AI Macro step2 text:',txt.substring(0,400));
-    // Try to extract JSON — be very lenient
-    const cleaned=txt.replace(/```json|```/g,'').trim();
+    // Strip ALL markdown fencing variants before extracting JSON
+    const cleaned=txt.replace(/```[\w]*\n?/g,'').replace(/```/g,'').trim();
     const m=cleaned.match(/\{[\s\S]*\}/);
     if(!m)throw new Error(`Step2 no JSON found. Got: ${txt.substring(0,300)}`);
-    const p=JSON.parse(m[0]);
+    let p;
+    try{p=JSON.parse(m[0]);}catch(je){throw new Error(`Step2 JSON parse failed: ${je.message}. Raw: ${m[0].substring(0,200)}`);}
     const ts=`Fetched: ${new Date().toLocaleTimeString()}`;
     if(p.rsi_below_30){
       const v=p.rsi_below_30;rsiBelow30=v.value;
