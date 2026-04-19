@@ -16,7 +16,6 @@
   --font-sans:'Inter',system-ui,sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-/* FIX 1: Base font bumped to 17px — minimum 16px everywhere */
 body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-size:17px;line-height:1.6;min-height:100vh;}
 .app{max-width:1440px;margin:0 auto;padding:20px 24px;}
 .hdr{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:14px;}
@@ -37,13 +36,11 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-si
 .mval{font-family:var(--font-mono);font-size:14px;font-weight:700;}
 .c-w{color:var(--yellow);}.c-d{color:var(--red);}.c-ok{color:var(--green);}.c-i{color:var(--accent);}
 .tabs{display:flex;gap:4px;margin-bottom:22px;border-bottom:1.5px solid var(--border);flex-wrap:wrap;}
-/* FIX 3: Tab alert badge styles */
 .tab{font-family:var(--font-sans);font-size:15px;font-weight:500;padding:10px 20px;border-radius:8px 8px 0 0;border:1.5px solid transparent;border-bottom:none;background:transparent;color:var(--muted);cursor:pointer;transition:all 0.18s;white-space:nowrap;position:relative;bottom:-1.5px;}
 .tab:hover{color:var(--text);background:var(--surface);}
 .tab.active{color:var(--accent);background:var(--surface);border-color:var(--border);border-bottom-color:var(--surface);}
 .tcnt{display:inline-flex;align-items:center;justify-content:center;background:var(--surface2);color:var(--muted);font-family:var(--font-mono);font-size:12px;font-weight:700;width:22px;height:22px;border-radius:50%;margin-left:6px;vertical-align:middle;}
 .tab.active .tcnt{background:rgba(56,189,248,0.15);color:var(--accent);}
-/* Alert badge on tab — pulsing dot + ! for in-zone, yellow for approaching */
 .tab-alert{display:inline-flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:11px;font-weight:700;width:20px;height:20px;border-radius:50%;margin-left:5px;vertical-align:middle;position:relative;top:-1px;}
 .tab-alert-fire{background:rgba(248,113,113,0.2);color:var(--red);border:1.5px solid rgba(248,113,113,0.5);animation:pulse-red 1.4s ease-in-out infinite;}
 .tab-alert-warn{background:rgba(251,191,36,0.15);color:var(--yellow);border:1.5px solid rgba(251,191,36,0.4);animation:pulse-yellow 1.8s ease-in-out infinite;}
@@ -120,39 +117,43 @@ canvas.spark{width:100%;height:48px;display:block;border-radius:4px;}
 .dd-off{background:var(--border2);}.dd-warn{background:var(--yellow);}.dd-fire{background:var(--red);}
 .deploy-txt{font-family:var(--font-mono);font-size:12px;line-height:1.5;color:var(--text);}
 .deploy-score{font-family:var(--font-mono);font-size:14px;font-weight:700;margin-top:12px;padding:11px 14px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);}
-.ai-macro-wrap{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:12px;}
-.ai-macro-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;}
-.ai-macro-title{font-family:var(--font-mono);font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
-.ai-macro-btn{font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--accent);background:transparent;border:1.5px solid rgba(56,189,248,0.3);padding:5px 14px;border-radius:6px;cursor:pointer;text-transform:uppercase;letter-spacing:0.06em;transition:all 0.18s;}
-.ai-macro-btn:hover{background:rgba(56,189,248,0.08);}
-.ai-macro-btn:disabled{opacity:0.4;cursor:not-allowed;}
-.ai-macro-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-@media(max-width:600px){.ai-macro-grid{grid-template-columns:1fr;}}
-.ai-indicator{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px 14px;}
-.ai-ind-lbl{font-family:var(--font-mono);font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;}
-.ai-ind-val{font-family:var(--font-mono);font-size:24px;font-weight:700;}
-.ai-ind-sub{font-size:14px;margin-top:4px;}
-.ai-ind-ts{font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:6px;}
-.ai-ph{color:var(--muted);font-size:14px;font-style:italic;}
+/* Manual input cards */
+.manual-card{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:16px 18px;}
+.manual-row{display:flex;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap;}
+.manual-input{font-family:var(--font-mono);font-size:18px;font-weight:700;background:var(--surface2);border:1.5px solid var(--border2);border-radius:7px;padding:8px 12px;color:var(--text);width:120px;}
+.manual-input:focus{outline:none;border-color:var(--accent);}
+.manual-btn{font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--accent);background:transparent;border:1.5px solid rgba(56,189,248,0.3);padding:8px 14px;border-radius:6px;cursor:pointer;text-transform:uppercase;letter-spacing:0.06em;transition:all 0.18s;}
+.manual-btn:hover{background:rgba(56,189,248,0.08);}
+.manual-ts{font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:6px;}
+.manual-link{font-size:12px;color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent);}
+.manual-link:hover{opacity:0.8;}
 .cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:18px;}
 .card{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color 0.2s,transform 0.15s,box-shadow 0.2s;}
 .card:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.3);}
 .mcard{border-color:rgba(251,191,36,0.35);}
+.pcard{border-color:rgba(192,132,252,0.25);opacity:0.85;}
 .ctop{padding:18px 20px 14px;border-bottom:1.5px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
 .cid{flex:1;min-width:0;}
 .trow{display:flex;align-items:center;gap:10px;margin-bottom:4px;flex-wrap:wrap;}
 .ticker{font-family:var(--font-mono);font-size:22px;font-weight:700;color:var(--accent);letter-spacing:0.04em;}
 .mcard .ticker{color:var(--yellow);}
+.pcard .ticker{color:var(--purple);}
 .cbadge{font-family:var(--font-mono);font-size:10px;font-weight:700;padding:3px 9px;border-radius:5px;text-transform:uppercase;letter-spacing:0.06em;}
 .bt1{background:rgba(52,211,153,0.12);color:var(--green);border:1.5px solid rgba(52,211,153,0.3);}
 .bt2{background:rgba(56,189,248,0.1);color:var(--accent);border:1.5px solid rgba(56,189,248,0.25);}
 .bm{background:rgba(251,191,36,0.1);color:var(--yellow);border:1.5px solid rgba(251,191,36,0.3);}
 .bh{background:rgba(192,132,252,0.1);color:var(--purple);border:1.5px solid rgba(192,132,252,0.3);}
+.bp{background:rgba(192,132,252,0.12);color:var(--purple);border:1.5px solid rgba(192,132,252,0.3);}
 .coname{font-size:15px;color:var(--muted);}
 .earn-badge{font-family:var(--font-mono);font-size:10px;font-weight:700;padding:3px 8px;border-radius:5px;text-transform:uppercase;}
 .eb-ok{background:rgba(52,211,153,0.12);color:var(--green);border:1px solid rgba(52,211,153,0.3);}
 .eb-soon{background:rgba(251,191,36,0.12);color:var(--yellow);border:1px solid rgba(251,191,36,0.3);}
 .eb-close{background:rgba(248,113,113,0.12);color:var(--red);border:1px solid rgba(248,113,113,0.3);}
+.score-badge{font-family:var(--font-mono);font-size:10px;font-weight:700;padding:3px 8px;border-radius:5px;text-transform:uppercase;}
+.sb-hot{background:rgba(52,211,153,0.12);color:var(--green);border:1px solid rgba(52,211,153,0.3);}
+.sb-warm{background:rgba(56,189,248,0.1);color:var(--accent);border:1px solid rgba(56,189,248,0.25);}
+.sb-cool{background:rgba(251,191,36,0.1);color:var(--yellow);border:1px solid rgba(251,191,36,0.3);}
+.sb-cold{background:rgba(248,113,113,0.1);color:var(--red);border:1px solid rgba(248,113,113,0.3);}
 .pblock{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0;}
 .lprice{font-family:var(--font-mono);font-size:26px;font-weight:700;color:var(--text);line-height:1;}
 .pchg{font-family:var(--font-mono);font-size:14px;font-weight:700;}
@@ -207,10 +208,8 @@ canvas.spark{width:100%;height:48px;display:block;border-radius:4px;}
 .spin{display:inline-block;width:13px;height:13px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin 0.7s linear infinite;margin-right:8px;vertical-align:middle;}
 @keyframes spin{to{transform:rotate(360deg)}}
 .errt{color:var(--red);font-size:14px;font-style:italic;}
-/* FIX 2: Market-closed badge */
 .mkt-closed-badge{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border-radius:7px;background:rgba(122,144,168,0.1);border:1.5px solid rgba(122,144,168,0.25);font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--muted);letter-spacing:0.04em;margin-top:6px;}
 .mkt-closed-badge::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--muted);display:inline-block;flex-shrink:0;}
-/* FULL-WIDTH DEPLOYMENT CHECKLIST BANNER */
 .checklist-banner{background:var(--surface);border:1.5px solid var(--border);border-left:4px solid var(--accent);border-radius:12px;padding:14px 18px;margin-bottom:12px;}
 .checklist-hdr{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px;}
 .checklist-title{font-family:var(--font-mono);font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);}
@@ -218,6 +217,14 @@ canvas.spark{width:100%;height:48px;display:block;border-radius:4px;}
 .checklist-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;}
 @media(max-width:900px){.checklist-grid{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:500px){.checklist-grid{grid-template-columns:1fr 1fr;}}
+/* Silver placeholder */
+.silver-ph{background:var(--surface);border:1.5px solid rgba(192,132,252,0.25);border-left:4px solid var(--purple);border-radius:12px;padding:14px 18px;}
+.silver-ph-hdr{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:8px;}
+.silver-ph-title{font-family:var(--font-mono);font-size:13px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--purple);}
+.silver-ph-badge{font-family:var(--font-mono);font-size:10px;font-weight:700;padding:3px 10px;border-radius:5px;background:rgba(192,132,252,0.1);color:var(--purple);border:1px solid rgba(192,132,252,0.3);text-transform:uppercase;}
+.silver-ph-body{font-size:14px;color:var(--muted);line-height:1.6;}
+.silver-ph-options{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;}
+.silver-ph-opt{font-family:var(--font-mono);font-size:11px;padding:3px 10px;border-radius:5px;background:var(--surface2);border:1px solid var(--border);color:var(--text);}
 
 footer{margin-top:36px;padding-top:16px;border-top:1.5px solid var(--border);font-family:var(--font-mono);font-size:13px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
 </style>
@@ -227,7 +234,7 @@ footer{margin-top:36px;padding-top:16px;border-top:1.5px solid var(--border);fon
 <div class="hdr">
   <div>
     <div class="hdr-title">▸ Visser Framework — Live Infrastructure Watchlist</div>
-    <div class="hdr-sub">AI Macro Nexus / Mike Brewer &middot; <span id="vd-date"></span></div>
+    <div class="hdr-sub">AI Macro Nexus / Mike Brewer · Thesis v April 19, 2026 · <span id="vd-date"></span></div>
   </div>
   <div class="hdr-right">
     <div class="live-pill"><div class="ldot"></div>LIVE PRICES</div>
@@ -246,17 +253,19 @@ footer{margin-top:36px;padding-top:16px;border-top:1.5px solid var(--border);fon
   <div class="mitem"><span class="mname">VIX</span><span class="mval" id="vix-strip">--</span></div>
   <div class="mitem"><span class="mname">XLF</span><span class="mval" id="xlf-strip">--</span><span class="mname" id="xlf-strip-status" style="margin-left:4px;"></span></div>
   <div class="mitem"><span class="mname">F&amp;G</span><span class="mval" id="fg-strip">--</span></div>
-  <div class="mitem" style="margin-left:auto;"><span class="mname" style="font-size:12px;">All signals required &middot; no single trigger</span></div>
+  <div class="mitem"><span class="mname">BAML OAS</span><span class="mval" id="baml-strip">--</span></div>
+  <div class="mitem" style="margin-left:auto;"><span class="mname" style="font-size:12px;">All signals required · no single trigger</span></div>
 </div>
 <div class="tabs">
   <button class="tab active" onclick="switchTab('cmd',this)">📊 Command Center</button>
   <button class="tab" id="tab-t1" onclick="switchTab('t1',this)">High Conviction <span class="tcnt">2</span></button>
-  <button class="tab" id="tab-rack" onclick="switchTab('rack',this)">Inside the Rack <span class="tcnt">5</span></button>
+  <button class="tab" id="tab-rack" onclick="switchTab('rack',this)">Inside the Rack <span class="tcnt">6</span></button>
   <button class="tab" id="tab-pwr" onclick="switchTab('pwr',this)">Power &amp; Grid <span class="tcnt">7</span></button>
-  <button class="tab" onclick="switchTab('mac',this)">Macro Monitor <span class="tcnt">1</span></button>
+  <button class="tab" onclick="switchTab('research',this)">🔬 Research Pipeline <span class="tcnt">6</span></button>
+  <button class="tab" onclick="switchTab('mac',this)">Macro Monitor <span class="tcnt">2</span></button>
 </div>
 <div class="panel active" id="panel-cmd">
-  <div class="panel-desc">Daily morning briefing. All indicators auto-load on open. Use "AI Macro Fetch" once daily for the indicators that require a web search.</div>
+  <div class="panel-desc">Daily morning briefing. Live data auto-loads on open. Two manual inputs below refresh from StockCharts/Barchart (1-click weekly).</div>
 
   <!-- DEPLOYMENT CHECKLIST — full width banner -->
   <div class="checklist-banner">
@@ -310,6 +319,8 @@ footer{margin-top:36px;padding-top:16px;border-top:1.5px solid var(--border);fon
       <div id="hyg-spark-signal"></div>
     </div>
   </div>
+
+  <!-- Row 2: VIX · XLF · Ratio · PLTR/MSFT -->
   <div class="cc-row cc-row-4">
     <div class="cc" id="vix-card">
       <div class="cc-lbl">VIX — Volatility Index</div>
@@ -355,6 +366,7 @@ footer{margin-top:36px;padding-top:16px;border-top:1.5px solid var(--border);fon
       <div id="pltr-msft-signal"></div>
     </div>
   </div>
+
   <!-- Row 3: SPX ROC — full width -->
   <div class="cc-row" style="grid-template-columns:1fr;">
     <div class="cc" id="spx-roc-card">
@@ -372,109 +384,172 @@ footer{margin-top:36px;padding-top:16px;border-top:1.5px solid var(--border);fon
       <div id="spx-roc-signal"></div>
     </div>
   </div>
-  <div class="ai-macro-wrap">
-    <div class="ai-macro-hdr">
-      <span class="ai-macro-title">⚡ AI Macro Indicators — Requires Web Search (Fetch Once Daily)</span>
-      <button class="ai-macro-btn" id="ai-macro-btn" onclick="fetchAIMacro()">Fetch Indicators</button>
+
+  <!-- Row 4: BAML OAS (FRED, auto) · Manual: RSI<30 · Manual: DVOL/UVOL -->
+  <div class="cc-row cc-row-3">
+    <div class="cc" id="baml-card">
+      <div class="cc-lbl">BAML US High Yield OAS — Credit Spread</div>
+      <div class="cc-row-inline">
+        <div class="cc-big" id="baml-val">--</div>
+        <div class="pchg" id="baml-chg" style="font-size:14px;"></div>
+      </div>
+      <div class="spark-wrap">
+        <div class="spark-lbl"><span>30-day OAS history</span><span>FRED · daily lag 1d</span></div>
+        <canvas class="spark" id="baml-spark" height="48"></canvas>
+      </div>
+      <div class="cc-status" id="baml-status" style="margin-top:8px;font-size:14px;"></div>
+      <div class="cc-sub">CCC/BB acceleration = credit cascade warning. Visser April 5: reading ~8.0%.</div>
+      <div id="baml-signal"></div>
     </div>
-    <div class="ai-macro-grid">
-      <div class="ai-indicator">
-        <div class="ai-ind-lbl">% of S&amp;P 500 Members with RSI &lt; 30</div>
-        <div class="ai-ind-val" id="rsi30-val">--</div>
-        <div class="ai-ind-sub" id="rsi30-sub"><span class="ai-ph">Click "Fetch Indicators" →</span></div>
-        <div class="ai-ind-ts" id="rsi30-ts"></div>
-        <div class="cc-sub" style="margin-top:6px;">Visser: 3.98% on March 19 — need 40-80% for capitulation. Most important deployment timing signal.</div>
+
+    <div class="manual-card">
+      <div class="cc-lbl">% SPX RSI &lt; 30 — Manual Input</div>
+      <div class="cc-big" id="rsi30-display">--</div>
+      <div class="cc-sub">Visser: capitulation 40–80%. March 19 reading was 3.98%.</div>
+      <div class="manual-row">
+        <input type="number" class="manual-input" id="rsi30-input" placeholder="e.g. 12.5" step="0.1" min="0" max="100">
+        <button class="manual-btn" onclick="saveManual('rsi30')">Save</button>
       </div>
-      <div class="ai-indicator">
-        <div class="ai-ind-lbl">DVOL / UVOL — Down vs Up Volume Ratio</div>
-        <div class="ai-ind-val" id="dvol-val">--</div>
-        <div class="ai-ind-sub" id="dvol-sub"><span class="ai-ph">Click "Fetch Indicators" →</span></div>
-        <div class="ai-ind-ts" id="dvol-ts"></div>
-        <div class="cc-sub" style="margin-top:6px;">Visser: 4.07 vs avg 1.22 on March 18. Above 5x average = panic selling.</div>
+      <div class="manual-ts" id="rsi30-ts">No value saved yet</div>
+      <div style="margin-top:6px;"><a class="manual-link" href="https://www.barchart.com/stocks/indices/sp-sectors/overview" target="_blank" rel="noopener">→ Source: Barchart S&amp;P sectors</a></div>
+      <div id="rsi30-signal"></div>
+    </div>
+
+    <div class="manual-card">
+      <div class="cc-lbl">DVOL / UVOL Ratio — Manual Input</div>
+      <div class="cc-big" id="dvol-display">--</div>
+      <div class="cc-sub">Visser ref: 4.07 vs avg 1.22 = panic. &gt;5x avg = capitulation.</div>
+      <div class="manual-row">
+        <input type="number" class="manual-input" id="dvol-input" placeholder="e.g. 2.3" step="0.01" min="0">
+        <button class="manual-btn" onclick="saveManual('dvol')">Save</button>
       </div>
+      <div class="manual-ts" id="dvol-ts">No value saved yet</div>
+      <div style="margin-top:6px;"><a class="manual-link" href="https://stockcharts.com/sc3/ui/?s=%24NYUPV%3A%24NYDNV" target="_blank" rel="noopener">→ Source: StockCharts $NYUPV:$NYDNV</a></div>
+      <div id="dvol-signal"></div>
     </div>
   </div>
 </div>
+
 <div class="panel" id="panel-t1">
-  <div class="panel-desc">Tier 1 — Deep conviction positions. DCA through pain. Never stop the weekly TSLA DCA regardless of price.</div>
+  <div class="panel-desc">Tier 1 — Deep conviction positions. DCA through pain. Never stop the weekly DCA regardless of price.</div>
   <div class="cgrid" id="g-t1"></div>
 </div>
+
 <div class="panel" id="panel-rack">
-  <div class="panel-desc">Inside the Rack — Visser Whole Rack Framework (March 2026). Correction entry only. Wait for pullback then weekly trend confirmation.</div>
+  <div class="panel-desc">Inside the Rack — Visser Whole Rack Framework. Correction entry only. Wait for pullback then weekly trend confirmation.</div>
   <div class="cgrid" id="g-rack"></div>
 </div>
+
 <div class="panel" id="panel-pwr">
   <div class="panel-desc">Power &amp; Grid — Original Visser expression. Physical infrastructure outside the data center. Entry on 15–20% pullbacks only.</div>
   <div class="cgrid" id="g-pwr"></div>
 </div>
+
+<div class="panel" id="panel-research">
+  <div class="panel-desc">Research Pipeline — highest-conviction quadrant names from Visser Edge AI Investment Universe (April 14). Live prices only. No entry target or watchlist status until research complete.</div>
+  <div class="cgrid" id="g-research"></div>
+</div>
+
 <div class="panel" id="panel-mac">
   <div class="panel-desc">Macro Monitor — HYG is the primary deployment trigger. All signals must fire simultaneously before deploying dry powder.</div>
+  <div class="silver-ph" style="margin-bottom:14px;">
+    <div class="silver-ph-hdr">
+      <span class="silver-ph-title">◈ Silver — Visser Thesis-Adjacent</span>
+      <span class="silver-ph-badge">Vehicle TBD · No Position</span>
+    </div>
+    <div class="silver-ph-body">
+      Visser April 6 paper: silver as critical mineral for AI inference era. Highest electrical/thermal conductivity of any metal. Structural deficit 148.9M oz (2024); 4 consecutive record-demand years. Added to 2025 US critical minerals list. No current position — vehicle decision pending before watchlist entry.
+    </div>
+    <div class="silver-ph-options">
+      <span class="silver-ph-opt">PSLV (physical ETF — preferred)</span>
+      <span class="silver-ph-opt">SLV (unallocated ETF)</span>
+      <span class="silver-ph-opt">WPM (streaming/royalty)</span>
+      <span class="silver-ph-opt">PAAS (miner, high leverage)</span>
+      <span class="silver-ph-opt">AG (miner, high leverage)</span>
+    </div>
+  </div>
   <div class="cgrid" id="g-mac"></div>
 </div>
+
 <footer>
-  <span>Visser AI Macro Nexus &middot; Personal reference only &middot; Not financial advice &middot; Prices: Finnhub &middot; Sentiment: CNN</span>
+  <span>Visser AI Macro Nexus · Personal reference only · Not financial advice · Prices: Finnhub · Sentiment: CNN · Credit: FRED · Thesis v April 19, 2026</span>
   <span id="vd-ref">Not refreshed</span>
 </footer>
 </div>
 <script>
 const W='https://financialdashboard.practicemanager.workers.dev';
+
+// WATCHLIST — updated to April 19, 2026 thesis.
+// Added: vsc (Visser dashboard Score from April 18 Sunday Technical Dashboard).
 const WL={
   t1:[
-    {t:'PLTR',n:'Palantir Technologies',tier:'TIER 1',bc:'bt1',el:'Under $100',lo:80,hi:100,st:'wait',sl:'Wait for Dip',vt:0,vc:0,rv:'',th:'AI Operating System of the West. AIP Bootcamp flywheel — ~75% conversion rate, 5-day sales cycle. Ontology layer moat — 20 years institutional trust, Five Eyes clearances. PLTR/MSFT ratio in confirmed uptrend (Visser March 19 validation). FY2026 guide: 61% revenue growth, Rule of 40 = 127%. Maven smart system awarded program of record status (March 22, 2026) — largest US Army AI contract, deeply embedded in defense architecture.'},
-    {t:'TSLA',n:'Tesla Inc.',tier:'TIER 1',bc:'bt1',el:'Weekly $180 DCA · Block re-entry under $400',lo:300,hi:400,st:'watch',sl:'DCA Active',vt:0,vc:0,rv:'',th:'Musk ecosystem proxy: xAI, SpaceX, Optimus robotics, Starlink, energy. Weekly $180 DCA is the single best-performing active strategy — 18.9 shares accumulated. Never stop the DCA regardless of short-term price action.'},
+    {t:'PLTR',n:'Palantir Technologies',tier:'TIER 1',bc:'bt1',el:'Under $100 + weekly trend flip',lo:80,hi:100,st:'wait',sl:'Wait for Dip',vt:0,vc:0,rv:'',vsc:45,
+     th:'AI Operating System of the West. Maven designated Pentagon program of record (March 22, 2026) — largest US Army AI contract, embedded defense architecture. FY2026 guide: 61% revenue growth, Rule of 40 = 127%. Dashboard (Apr 18): Score 45, Weakening — "Reduce if loses 50D." Entry unchanged at $100; currently $146 still 46% above target.'},
+    {t:'TSLA',n:'Tesla Inc.',tier:'TIER 1',bc:'bt1',el:'Weekly $250 DCA · Block re-entry sub-$400',lo:300,hi:400,st:'watch',sl:'DCA Active',vt:0,vc:0,rv:'',vsc:null,
+     th:'Musk ecosystem proxy: xAI, SpaceX, Optimus, Starlink, Terrafab. Weekly DCA bumped from $180 → $250/week (April 6, 2026) after pension cash-flow reframe. 18.9 shares accumulated. Never stop DCA regardless of short-term action. Visser April 19: "I still love Tesla. Looking for the next catalyst to get more involved from a trading perspective."'}
   ],
   rack:[
-    {t:'VRT',n:'Vertiv Holdings',tier:'TOP PRIORITY',bc:'bt2',el:'$150–180 after pullback + Larsson flip',lo:150,hi:180,st:'wait',sl:'Do Not Chase',vt:4,vc:4,rv:'+',th:'Purest power/cooling play. Liquid cooling, UPS, thermal management for AI data centers. Agentic AI runs 24/7 — forces wholesale shift to liquid cooling. OpenClaw at 797B tokens/day proves always-on demand. Currently ~$269. DO NOT CHASE.'},
-    {t:'MRVL',n:'Marvell Technology',tier:'TIER 2',bc:'bt2',el:'$65–70 primary · $55–60 opportunistic',lo:65,hi:70,st:'wait',sl:'Alert at $70',vt:4,vc:4,rv:'+',th:'Connective tissue of AI data centers. Custom ASICs, optical interconnects, switching fabric. Co-architect on Amazon Trainium and Microsoft Maia. FY2028 guide: ~$15B revenue, $5+ EPS. At $65 = ~13x FY2028 EPS.'},
-    {t:'MU',n:'Micron Technology',tier:'TIER 2',bc:'bt2',el:'Price alert at $280 — no action until then',lo:260,hi:280,st:'wait',sl:'Alert Set $280',vt:4,vc:4,rv:'+',th:'HBM and advanced packaging — upstream choke points governing AI system availability. No action until price reaches $280.'},
-    {t:'CSCO',n:'Cisco Systems',tier:'TIER 2',bc:'bt2',el:'Buy on meaningful pullbacks',lo:60,hi:72,st:'watch',sl:'Monitor',vt:4,vc:3,rv:'+',th:'Repositioning around agentic AI security and network orchestration. East-west networking traffic beneficiary — agentic workflows multiply internal data center hops dramatically.'},
-    {t:'PSTG',n:'Everpure (Pure Storage)',tier:'MONITOR',bc:'bh',el:'Wait for confirmed weekly trend flip',lo:55,hi:65,st:'watch',sl:'Chart Not Ready',vt:1,vc:4,rv:'+',th:'Visser commentary 4/4 with positive revision. Crucial for RAG-driven agentic workflows — flash storage latency is the bottleneck for AI agents. Technical score 1/4 means chart not confirmed. Rebranded March 2026.'},
+    {t:'VRT',n:'Vertiv Holdings',tier:'TOP PRIORITY',bc:'bt2',el:'$150–180 after pullback + Larsson flip',lo:150,hi:180,st:'wait',sl:'Do Not Chase',vt:4,vc:4,rv:'+',vsc:100,
+     th:'Purest power/cooling play. Liquid cooling, UPS, thermal management for AI data centers. Agentic AI runs 24/7 — forces wholesale shift to liquid cooling. Water/cooling constraint escalating to High by 2028 (DC Model). Dashboard Score 100 "Strong Uptrend / Buyable" — but price at $307 is 70%+ above $150–180 target. DO NOT CHASE.'},
+    {t:'MRVL',n:'Marvell Technology',tier:'TIER 2',bc:'bt2',el:'$65–70 primary · $55–60 opportunistic',lo:65,hi:70,st:'wait',sl:'Alert at $70',vt:4,vc:4,rv:'+',vsc:100,
+     th:'Custom ASICs + optical interconnects + switching fabric. Co-architect on Amazon Trainium and Microsoft Maia. Dashboard (Apr 18): Score 100, RSI 67.5, +59.5% in 1M — triggers Rule #1 momentum veto. Visser note: "Hold." FY2028 guide ~$15B revenue, $5+ EPS. At $65 = 13x FY2028 EPS.'},
+    {t:'MU',n:'Micron Technology',tier:'TIER 2',bc:'bt2',el:'Price alert at $280 — no action until then',lo:260,hi:280,st:'wait',sl:'Alert Set $280',vt:4,vc:4,rv:'+',vsc:85,
+     th:'HBM and advanced packaging — upstream choke points for AI system availability. DRAM contract prices could rise 60% QoQ; NAND similar (Visser April 19). Dashboard Score 85. Price at $455 far above $280 alert; unlikely to hit without major credit cascade. No action until then.'},
+    {t:'CSCO',n:'Cisco Systems',tier:'TIER 2',bc:'bt2',el:'Buy on meaningful pullbacks',lo:60,hi:72,st:'watch',sl:'Monitor',vt:4,vc:3,rv:'+',vsc:100,
+     th:'Agentic AI security + east-west networking. Agentic workflows multiply internal data center hops. CPU orchestration vertical (Visser/Patel April 14). Dashboard Score 100 in uptrend. Wait for pullback.'},
+    {t:'PSTG',n:'Pure Storage',tier:'MONITOR',bc:'bh',el:'Wait for confirmed weekly trend flip',lo:55,hi:65,st:'watch',sl:'Chart Not Ready',vt:1,vc:4,rv:'+',vsc:45,
+     th:'RAG-driven agentic workflows make flash storage latency the bottleneck. Visser commentary 4/4 positive revision but technical score 1/4 — chart not confirmed. Dashboard (Apr 18): Score 45, Weakening — "Reduce if loses 50D." No action.'},
+    {t:'AMKR',n:'Amkor Technology',tier:'NEW · RACK',bc:'bt2',el:'$48–52 (20–25% pullback from current)',lo:48,hi:52,st:'wait',sl:'Running Hot',vt:0,vc:0,rv:'',vsc:100,
+     th:'NEW addition (April 19, 2026). Visser Edge AI Universe highest-conviction quadrant (Opp 5/5, Concentration 5/5). 10-year TSMC capacity reservation, $7B Arizona facility. Advanced packaging — cleaner infrastructure exposure than AVGO without ASIC customer concentration. Dashboard Score 100 but +43.7% 1M triggers momentum veto. Wait for $48–52 pullback.'}
   ],
   pwr:[
-    {t:'GEV',n:'GE Vernova',tier:'TIER 2',bc:'bt2',el:'~$720–750 (15–20% pullback needed)',lo:720,hi:750,st:'wait',sl:'Wait for Dip',vt:0,vc:0,rv:'',th:'Purest original Visser expression. Power generation, gas turbines, grid equipment. Currently ~$880 — needs correction to $720–750 entry zone.'},
-    {t:'PWR',n:'Quanta Services',tier:'TIER 2',bc:'bt2',el:'~$300s on pullbacks',lo:280,hi:320,st:'wait',sl:'Wait for Dip',vt:0,vc:0,rv:'',th:'Electrical grid buildout and utility infrastructure. Currently ~$576 — well above entry zone.'},
-    {t:'CEG',n:'Constellation Energy',tier:'TIER 2',bc:'bt2',el:'~$200s on pullbacks',lo:190,hi:230,st:'wait',sl:'Wait for Dip',vt:0,vc:0,rv:'',th:'Nuclear power with landmark data center energy contracts including Microsoft deal. Currently ~$314 — above entry zone.'},
-    {t:'VST',n:'Vistra Corp',tier:'TIER 2',bc:'bt2',el:'~$150s on pullbacks',lo:145,hi:170,st:'watch',sl:'Approaching Target',vt:0,vc:0,rv:'',th:'Power generation with natural gas and nuclear mix. Currently ~$164 — approaching the entry range. Watch closely.'},
-    {t:'ETN',n:'Eaton Corporation',tier:'TIER 2',bc:'bt2',el:'15–20% pullbacks from recent highs',lo:290,hi:320,st:'watch',sl:'Lower Priority',vt:2,vc:3,rv:'−',th:'⚠️ Visser negative revision (March 2026). Diversified industrial with loose thesis fit. Deprioritize relative to VRT and GEV.'},
-    {t:'GLW',n:'Corning Inc.',tier:'TIER 2',bc:'bt2',el:'$125–130 support zone',lo:125,hi:133,st:'watch',sl:'Near Target',vt:0,vc:0,rv:'',th:'Fiber optics and specialty glass. Currently ~$133 — approaching $125–130 target zone. Monitor insider selling before entry.'},
-    {t:'SMH',n:'VanEck Semiconductor ETF',tier:'TIER 2',bc:'bt2',el:'Buy on meaningful pullbacks',lo:200,hi:230,st:'watch',sl:'Monitor',vt:0,vc:0,rv:'',th:'Broad ETF expression of the infrastructure and hardware long thesis. Diversified semiconductor exposure for the AI buildout.'},
+    {t:'GEV',n:'GE Vernova',tier:'TIER 2',bc:'bt2',el:'~$720–750 (15–20% pullback needed)',lo:720,hi:750,st:'wait',sl:'Wait for Dip',vt:0,vc:0,rv:'',vsc:100,
+     th:'Purest original Visser expression. Power gen + gas turbines + grid equipment. Gas Turbine Supply Wall now ACUTE through 2028 (upgraded from 2027). GEV+Siemens 142 GW backlog. Meta-Entergy 10-plant template signals demand acceleration. Dashboard Score 100 but price at $1,002 is 33%+ above $720–750 target. DO NOT CHASE.'},
+    {t:'PWR',n:'Quanta Services',tier:'TIER 2',bc:'bt2',el:'~$300s on pullbacks',lo:280,hi:320,st:'wait',sl:'Wait for Dip',vt:0,vc:0,rv:'',vsc:100,
+     th:'Electrical grid buildout + utility infrastructure. Entergy building 240 miles of new 500kV transmission for Meta Hyperion alone. DC Model Transmission/Grid constraint ACUTE. Dashboard Score 100, currently $602 — nearly 2x above entry zone. DO NOT CHASE.'},
+    {t:'CEG',n:'Constellation Energy',tier:'TIER 2',bc:'bt2',el:'~$200s on pullbacks',lo:190,hi:230,st:'wait',sl:'Near Zone · Chart Weak',vt:0,vc:0,rv:'',vsc:20,
+     th:'Nuclear + Microsoft data center contracts. CyrusOne/Constellation 760 MW TX deal confirms thesis. Currently $296 near upper entry zone BUT Dashboard Score 20 "Breakdown Risk — Avoid until base forms." Near zone but chart not confirming. Hold off.'},
+    {t:'VST',n:'Vistra Corp',tier:'TIER 2',bc:'bt2',el:'~$150s on pullbacks',lo:145,hi:170,st:'watch',sl:'In Zone · Chart Weak',vt:0,vc:0,rv:'',vsc:25,
+     th:'Gas + nuclear mix for data centers. Meta Hyperion 7.5 GW gas + 2.5 GW solar/battery = exact VST thesis. Currently $163 in entry zone BUT Dashboard Score 25 "Breakdown Risk." Visser April 19: power names on the dip are a gift — but chart must confirm first.'},
+    {t:'ETN',n:'Eaton Corporation',tier:'TIER 2',bc:'bt2',el:'15–20% pullbacks from recent highs',lo:290,hi:320,st:'watch',sl:'Lower Priority',vt:2,vc:3,rv:'−',vsc:100,
+     th:'⚠️ Visser negative revision (March 2026) — lower priority vs. GEV/VRT. Dashboard Score 100, RSI 38.9 — running hot on momentum but not overbought. Diversified industrial with looser thesis fit. Deprioritize.'},
+    {t:'GLW',n:'Corning Inc.',tier:'TIER 2',bc:'bt2',el:'$125–130 support zone',lo:125,hi:133,st:'watch',sl:'Insider Flag Pending',vt:0,vc:0,rv:'',vsc:100,
+     th:'Fiber optics + specialty glass. Dashboard Score 100, +26.6% 1M — running strong. BUT: insider selling flag remains unresolved. Do not act until insider activity resolves regardless of price action.'},
+    {t:'SMH',n:'VanEck Semiconductor ETF',tier:'TIER 2',bc:'bt2',el:'Buy on meaningful pullbacks',lo:200,hi:230,st:'watch',sl:'Monitor',vt:0,vc:0,rv:'',vsc:null,
+     th:'Broad ETF expression of infrastructure + hardware long thesis. Diversified semiconductor exposure for the AI buildout. Cleaner than single-name risk if thesis broadens further.'}
+  ],
+  research:[
+    {t:'ASML',n:'ASML Holding',tier:'PIPELINE',bc:'bp',sub:'EUV lithography monopoly',vsc:100},
+    {t:'KLAC',n:'KLA Corp',tier:'PIPELINE',bc:'bp',sub:'Metrology & inspection oligopoly',vsc:100},
+    {t:'LSCC',n:'Lattice Semiconductor',tier:'PIPELINE',bc:'bp',sub:'Low-power FPGA edge compute',vsc:100},
+    {t:'ARM',n:'Arm Holdings',tier:'PIPELINE',bc:'bp',sub:'Universal edge IP toll road',vsc:null},
+    {t:'SNPS',n:'Synopsys',tier:'PIPELINE',bc:'bp',sub:'EDA duopoly — Jensen-named',vsc:null},
+    {t:'CDNS',n:'Cadence Design Systems',tier:'PIPELINE',bc:'bp',sub:'EDA duopoly — Jensen-named',vsc:null}
   ],
   mac:[
-    {t:'HYG',n:'iShares High Yield Bond ETF',tier:'MACRO',bc:'bm',el:'$78 Early Warning · $76 Action Trigger',lo:76,hi:78,st:'trigger',sl:'Monitor Daily',vt:0,vc:0,rv:'',th:'Primary deployment trigger for $25K dry powder. $78 = early warning. $76 = action trigger. Require multiple signals simultaneously.'},
+    {t:'HYG',n:'iShares High Yield Bond ETF',tier:'MACRO',bc:'bm',el:'$78 Early Warning · $76 Action Trigger',lo:76,hi:78,st:'trigger',sl:'Monitor Daily',vt:0,vc:0,rv:'',vsc:null,
+     th:'Primary deployment trigger for $25K dry powder. $78 = early warning. $76 = action trigger. Require multiple signals simultaneously. CCC/BB spread acceleration is now the leading edge per Visser — see BAML card on Command Center.'}
   ]
 };
+
 const prices={};
 const earningDates={};
 let hyg30=[];
+let baml30=[];
 let fgData={};
 let activeTab='cmd';
 let xlf200ma=0;
 let spxCandles=[];
-let rsiBelow30=null;
-let dvolUvol=null;
+let rsi30Manual=null;
+let dvolManual=null;
 
-function allStocks(){return[...WL.t1,...WL.rack,...WL.pwr,...WL.mac];}
+function allStocks(){return[...WL.t1,...WL.rack,...WL.pwr,...WL.research,...WL.mac];}
 
 function sb(type,verdict,explain){
   return`<div class="signal-banner sb-${type}"><div class="sb-dot sbd-${type}"></div><div class="sb-content"><div class="sb-verdict sv-${type}">${verdict}</div><div class="sb-explain">${explain}</div></div></div>`;
 }
 
-// FIX 2: Market hours check — Mon–Fri 9:30–16:00 ET
-function isMarketHours(){
-  const now=new Date();
-  // Convert to ET
-  const etStr=now.toLocaleString('en-US',{timeZone:'America/New_York'});
-  const et=new Date(etStr);
-  const day=et.getDay(); // 0=Sun, 6=Sat
-  if(day===0||day===6)return false; // weekend
-  const h=et.getHours(),m=et.getMinutes();
-  const mins=h*60+m;
-  return mins>=570&&mins<960; // 9:30=570, 16:00=960
-}
-
-function mktClosedBadge(){
-  return`<div class="mkt-closed-badge">Market Closed — Data Unavailable</div>`;
-}
+function mktClosedBadge(){return`<div class="mkt-closed-badge">Market Closed — Data Unavailable</div>`;}
 
 function switchTab(name,btn){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
@@ -482,7 +557,10 @@ function switchTab(name,btn){
   btn.classList.add('active');
   document.getElementById('panel-'+name).classList.add('active');
   activeTab=name;
-  if(name==='cmd'&&hyg30.length>1)setTimeout(drawSpark,100);
+  if(name==='cmd'){
+    if(hyg30.length>1)setTimeout(drawHYGSpark,100);
+    if(baml30.length>1)setTimeout(drawBAMLSpark,100);
+  }
 }
 
 function dist(s,p){
@@ -506,7 +584,34 @@ function earnBadge(ticker){
   return`<span class="earn-badge eb-ok">Earnings ${days}d</span>`;
 }
 
-function mkCard(s,macro=false){
+function scoreBadge(score){
+  if(score===null||score===undefined)return'';
+  let cls='sb-cold',lbl='Cold';
+  if(score>=85){cls='sb-hot';lbl='Hot';}
+  else if(score>=60){cls='sb-warm';lbl='Warm';}
+  else if(score>=40){cls='sb-cool';lbl='Cool';}
+  return`<span class="score-badge ${cls}" title="Visser Dashboard Score (April 18, 2026)">Score ${score}</span>`;
+}
+
+function mkCard(s,variant='normal'){
+  const macro=variant==='macro',pipeline=variant==='pipeline';
+  if(pipeline){
+    // Compact card — no entry zone, no thesis
+    return`<div class="card pcard" id="cd-${s.t}">
+      <div class="ctop">
+        <div class="cid">
+          <div class="trow"><span class="ticker">${s.t}</span><span class="cbadge ${s.bc}">${s.tier}</span>${scoreBadge(s.vsc)}</div>
+          <div class="coname">${s.n}</div>
+        </div>
+        <div class="pblock"><span class="lprice" id="pr-${s.t}">--</span><span class="pchg" id="ch-${s.t}">--</span></div>
+      </div>
+      <div class="thesis" style="font-size:13px;padding:12px 20px;">${s.sub}</div>
+      <div class="nsec">
+        <div class="nhdr"><span class="ntitle">▸ News</span><button class="nbtn" id="nb-${s.t}" onclick="fetchNews('${s.t}')">Fetch News</button></div>
+        <div class="ncontent" id="nw-${s.t}"><span class="nph">Research only — no position. Click fetch for news →</span></div>
+      </div>
+    </div>`;
+  }
   const hs=s.vt>0;let sc='';
   if(hs){
     let td='',cd='';
@@ -518,7 +623,7 @@ function mkCard(s,macro=false){
   const scls=s.st==='wait'?'sw':s.st==='trigger'?'st':'swt';
   return`<div class="${macro?'card mcard':'card'}" id="cd-${s.t}">
     <div class="ctop">
-      <div class="cid"><div class="trow"><span class="ticker">${s.t}</span><span class="cbadge ${s.bc}">${s.tier}</span><span id="eb-${s.t}"></span></div><div class="coname">${s.n}</div></div>
+      <div class="cid"><div class="trow"><span class="ticker">${s.t}</span><span class="cbadge ${s.bc}">${s.tier}</span>${scoreBadge(s.vsc)}<span id="eb-${s.t}"></span></div><div class="coname">${s.n}</div></div>
       <div class="pblock"><span class="lprice" id="pr-${s.t}">--</span><span class="pchg" id="ch-${s.t}">--</span></div>
     </div>
     <div class="esec">
@@ -539,12 +644,11 @@ function renderAll(){
   document.getElementById('g-t1').innerHTML=WL.t1.map(s=>mkCard(s)).join('');
   document.getElementById('g-rack').innerHTML=WL.rack.map(s=>mkCard(s)).join('');
   document.getElementById('g-pwr').innerHTML=WL.pwr.map(s=>mkCard(s)).join('');
-  document.getElementById('g-mac').innerHTML=WL.mac.map(s=>mkCard(s,true)).join('');
+  document.getElementById('g-research').innerHTML=WL.research.map(s=>mkCard(s,'pipeline')).join('');
+  document.getElementById('g-mac').innerHTML=WL.mac.map(s=>mkCard(s,'macro')).join('');
 }
 
-async function gq(sym){
-  try{const r=await fetch(`${W}/quote?symbol=${sym}`);return await r.json();}catch{return null;}
-}
+async function gq(sym){try{const r=await fetch(`${W}/quote?symbol=${sym}`);return await r.json();}catch{return null;}}
 
 function updCard(s,q){
   if(!q||!q.c)return;
@@ -552,12 +656,14 @@ function updCard(s,q){
   const pe=document.getElementById(`pr-${s.t}`);if(pe)pe.textContent=`$${p.toFixed(2)}`;
   const ce=document.getElementById(`ch-${s.t}`);
   if(ce){const sg=ch>=0?'+':'';ce.textContent=`${sg}${ch.toFixed(2)} (${sg}${cp.toFixed(2)}%)`;ce.className=`pchg ${ch>0?'up':ch<0?'dn':'fl'}`;}
-  const di=dist(s,p);
-  if(di){
-    const be=document.getElementById(`db-${s.t}`);const de=document.getElementById(`dp-${s.t}`);const se=document.getElementById(`es-${s.t}`);
-    if(be){be.className=`dfill ${di.cls}`;be.style.width=`${di.pct}%`;}
-    if(de){de.textContent=di.lbl;de.style.color=di.tc;}
-    if(se&&di.zone){se.textContent='In Entry Zone';se.className='estatus sz';}
+  if(s.lo!==undefined){
+    const di=dist(s,p);
+    if(di){
+      const be=document.getElementById(`db-${s.t}`);const de=document.getElementById(`dp-${s.t}`);const se=document.getElementById(`es-${s.t}`);
+      if(be){be.className=`dfill ${di.cls}`;be.style.width=`${di.pct}%`;}
+      if(de){de.textContent=di.lbl;de.style.color=di.tc;}
+      if(se&&di.zone){se.textContent='In Entry Zone';se.className='estatus sz';}
+    }
   }
   prices[s.t]={p,ch,cp};
 }
@@ -603,18 +709,16 @@ function updBTC(q){
   const btcSig=document.getElementById('btc-signal');
   if(btcSig){
     const coldPct=(p-42000)/42000*100;
-    if(coldPct>100)btcSig.innerHTML=sb('ok','COLD STORAGE 2X+ COST BASIS','Never trade this position. Patience and cold storage is the entire strategy. Let it compound.');
-    else if(p>=42000)btcSig.innerHTML=sb('ok','ABOVE ALL COST BASES — HOLD','All three BTC positions are in profit. Cold storage never trades. Hold until thesis changes.');
+    if(coldPct>100)btcSig.innerHTML=sb('ok','COLD STORAGE 2X+ COST BASIS','Never trade this position. Weekly MACD buy signal fired April 19. Negative real rates approaching. Let it compound.');
+    else if(p>=42000)btcSig.innerHTML=sb('ok','ABOVE ALL COST BASES — HOLD','All three BTC positions in profit. Cold storage never trades. Hold until thesis changes.');
     else btcSig.innerHTML=sb('warn','ROBINHOOD BTC UNDERWATER','RH position below $76K cost basis. Normal BTC volatility. Never panic sell. Scarcity thesis is multi-year.');
   }
 }
 
-// FIX 2: VIX — show market-closed badge when data is null/market closed
 function updVIX(q){
   const card=document.getElementById('vix-card');
   const ve=document.getElementById('vix-val');
   const vixSig=document.getElementById('vix-signal');
-
   if(!q||!q.c){
     if(ve)ve.innerHTML=`<span style="font-size:22px;color:var(--muted);">--</span>`;
     if(vixSig)vixSig.innerHTML=mktClosedBadge();
@@ -623,9 +727,7 @@ function updVIX(q){
     if(card)card.className='cc';
     return;
   }
-
   const p=q.c,ch=q.d,cp=q.dp;
-  // Clear any closed badge
   if(vixSig)vixSig.innerHTML='';
   if(ve)ve.textContent=p.toFixed(2);
   const ce=document.getElementById('vix-chg');
@@ -647,26 +749,17 @@ function updVIX(q){
   updateChecklist();
 }
 
-// FIX 2: XLF 200MA — show market-closed badge when candle data fails
 async function loadXLF(){
   const xlfSig=document.getElementById('xlf-signal');
   const card=document.getElementById('xlf-card');
   try{
-    const[q]=await Promise.all([
-      gq('XLF')
-    ]);
-    if(!q||!q.c){
-      // Quote itself failed
-      if(xlfSig)xlfSig.innerHTML=mktClosedBadge();
-      return;
-    }
+    const q=await gq('XLF');
+    if(!q||!q.c){if(xlfSig)xlfSig.innerHTML=mktClosedBadge();return;}
     const p=q.c,ch=q.d,cp=q.dp;
     const pe=document.getElementById('xlf-price');if(pe)pe.textContent=`$${p.toFixed(2)}`;
     const ce=document.getElementById('xlf-chg');
     if(ce){const sg=ch>=0?'+':'';ce.textContent=`${sg}${ch.toFixed(2)} (${sg}${cp.toFixed(2)}%)`;ce.className=`xlf-diff ${ch>=0?'up':'dn'}`;}
     const strip=document.getElementById('xlf-strip');if(strip)strip.textContent=`$${p.toFixed(2)}`;
-
-    // Fetch XLF 200-day MA via worker proxy (direct Yahoo always CORS-blocked from browsers)
     let ma=0;
     try{
       const period2=Math.floor(Date.now()/1000);
@@ -676,18 +769,12 @@ async function loadXLF(){
       if(yr.ok){
         const yraw=await yr.json();
         const closes=yraw?.chart?.result?.[0]?.indicators?.quote?.[0]?.close;
-        console.log('XLF 200MA worker proxy: closes=',closes?.length);
         if(closes&&closes.length>=200){
           const clean=closes.filter(v=>v!=null);
-          if(clean.length>=200){
-            ma=clean.slice(-200).reduce((a,b)=>a+b,0)/200;
-            xlf200ma=ma;
-            console.log('XLF 200MA computed:',ma.toFixed(2));
-          }
+          if(clean.length>=200){ma=clean.slice(-200).reduce((a,b)=>a+b,0)/200;xlf200ma=ma;}
         }
-      }else{console.log('XLF 200MA worker proxy status:',yr.status);}
-    }catch(ye){console.log('XLF 200MA worker proxy failed:',ye.message);}
-
+      }
+    }catch(ye){console.log('XLF 200MA failed:',ye.message);}
     const mae=document.getElementById('xlf-ma');
     if(ma>0){
       if(mae)mae.textContent=`$${ma.toFixed(2)}`;
@@ -696,31 +783,22 @@ async function loadXLF(){
       const st=document.getElementById('xlf-status');
       const stripSt=document.getElementById('xlf-strip-status');
       let txt,cls;
-      if(!above){
-        txt='⚠️ BELOW 200-day MA — Visser warning ACTIVE';cls='warn';
-        if(stripSt){stripSt.textContent='BELOW MA';stripSt.className='mname c-w';}
-      }else{
-        txt=`✓ Above 200-day MA by ${diff}%`;cls='ok';
-        if(stripSt){stripSt.textContent='above MA';stripSt.className='mname c-ok';}
-      }
+      if(!above){txt='⚠️ BELOW 200-day MA — Visser warning ACTIVE';cls='warn';if(stripSt){stripSt.textContent='BELOW MA';stripSt.className='mname c-w';}}
+      else{txt=`✓ Above 200-day MA by ${diff}%`;cls='ok';if(stripSt){stripSt.textContent='above MA';stripSt.className='mname c-ok';}}
       if(st){st.textContent=txt;st.className=`cc-status ${!above?'c-w':'c-ok'}`;}
       if(card)card.className=`cc ${cls}`;
       if(xlfSig){
-        if(!above)xlfSig.innerHTML=sb('warn','WARNING — FINANCIALS BELOW 200-DAY MA','Visser\'s #1 leading indicator. Financials breaking down precedes broader market stress. Confirmed firing in March 19 webinar. Watch HYG closely.');
+        if(!above)xlfSig.innerHTML=sb('warn','WARNING — FINANCIALS BELOW 200-DAY MA','Visser\'s #1 leading indicator. Financials breaking down precedes broader market stress. Watch HYG closely.');
         else xlfSig.innerHTML=sb('ok','HEALTHY — FINANCIALS ABOVE 200-DAY MA','No systemic stress signal from financials today. Not contributing to deployment signal.');
       }
     }else{
-      // Yahoo MA fetch failed — show price but badge on MA fields
       if(mae)mae.textContent='--';
       const st=document.getElementById('xlf-status');if(st){st.textContent='200-day MA unavailable';st.className='cc-status';}
       if(xlfSig)xlfSig.innerHTML=mktClosedBadge();
     }
     prices['XLF']={p,ma};
     updateChecklist();
-  }catch(e){
-    console.error('XLF error',e);
-    if(xlfSig)xlfSig.innerHTML=mktClosedBadge();
-  }
+  }catch(e){if(xlfSig)xlfSig.innerHTML=mktClosedBadge();}
 }
 
 function updRatio(smhQ,igvQ){
@@ -764,67 +842,53 @@ function updPLTRMSFT(pltrQ,msftQ){
   else{if(te){te.textContent='Below reference — thesis weakening';te.className='c-d';}if(card)card.className='cc danger';}
   const sig=document.getElementById('pltr-msft-signal');
   if(sig){
-    if(ratio>=0.35)sig.innerHTML=sb('ok','UPTREND INTACT — PLTR GAINING ON MSFT','PLTR outperforming Microsoft on a ratio basis. Visser validated this chart March 19 as the software exception — orchestration layer on top of the whole rack.');
+    if(ratio>=0.35)sig.innerHTML=sb('ok','UPTREND INTACT — PLTR GAINING ON MSFT','PLTR outperforming Microsoft. Visser validated this chart March 19 as the software exception — orchestration layer on top of the whole rack.');
     else if(ratio>=0.30)sig.innerHTML=sb('warn','APPROACHING SUPPORT — WATCH CAREFULLY','PLTR/MSFT ratio near Visser reference level. If breaks below 0.30, re-evaluate the $100 entry thesis.');
     else sig.innerHTML=sb('danger','RATIO WEAKENING — THESIS UNDER REVIEW','PLTR losing ground to Microsoft. Review thesis before committing to entry. Wait for ratio to stabilize.');
   }
   prices['_pltr_msft']=ratio;
 }
 
-// VIX — fetched via worker proxy from Yahoo Finance (^VIX not available on Finnhub free plan)
 async function loadVIX(){
   try{
     const yahooUrl='https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?interval=1d&range=5d';
     const r=await fetch(`${W}/fetch?url=${encodeURIComponent(yahooUrl)}`,{signal:AbortSignal.timeout(10000)});
-    if(!r.ok){console.log('VIX worker proxy status:',r.status);updVIX(null);return;}
+    if(!r.ok){updVIX(null);return;}
     const raw=await r.json();
     const meta=raw?.chart?.result?.[0]?.meta;
     const quotes=raw?.chart?.result?.[0]?.indicators?.quote?.[0];
     const closes=quotes?.close;
     const p=meta?.regularMarketPrice||closes?.[closes.length-1];
     const prev=closes?.[closes.length-2]||meta?.chartPreviousClose||meta?.previousClose;
-    console.log('VIX Yahoo proxy: price=',p,'prev=',prev);
     if(!p){updVIX(null);return;}
-    const ch=prev?p-prev:0;
-    const cp=prev?(ch/prev*100):0;
+    const ch=prev?p-prev:0;const cp=prev?(ch/prev*100):0;
     updVIX({c:p,d:ch,dp:cp});
-  }catch(e){
-    console.log('VIX loadVIX failed:',e.message);
-    updVIX(null);
-  }
+  }catch(e){updVIX(null);}
 }
 
-// FIX 2: SPX ROC — fetch historical SPY data from Yahoo Finance
-// Uses worker proxy to fetch Yahoo Finance data (direct browser fetch is CORS-blocked)
 async function loadSPXROC(){
   const card=document.getElementById('spx-roc-card');
   const rocSig=document.getElementById('spx-roc-signal');
   try{
     const period2=Math.floor(Date.now()/1000);
-    const period1=period2-(230*86400); // 230 calendar days ≈ 160+ trading days
+    const period1=period2-(230*86400);
     const yahooUrl=`https://query1.finance.yahoo.com/v8/finance/chart/SPY?interval=1d&period1=${period1}&period2=${period2}`;
     let closes=null;
-
-    // Worker proxy — avoids CORS block
     try{
       const proxyR=await fetch(`${W}/fetch?url=${encodeURIComponent(yahooUrl)}`,{signal:AbortSignal.timeout(12000)});
       if(proxyR.ok){
         const raw=await proxyR.json();
         const c=raw?.chart?.result?.[0]?.indicators?.quote?.[0]?.close;
-        if(c&&c.length>=127){closes=c;console.log('SPX ROC worker proxy OK: closes=',c.length);}
-        else console.log('SPX ROC worker proxy: insufficient closes=',c?.length);
-      }else{console.log('SPX ROC worker proxy status:',proxyR.status);}
-    }catch(e3){console.log('SPX ROC worker proxy failed:',e3.message);}
-
+        if(c&&c.length>=127)closes=c;
+      }
+    }catch(e){}
     const clean=closes?closes.filter(v=>v!=null):[];
     const d=clean.length>=127?clean:null;
     if(!d){
       const ve=document.getElementById('spx-roc-val');if(ve){ve.textContent='--';ve.style.color='var(--muted)';}
       const st=document.getElementById('spx-roc-status');if(st){st.textContent='';st.className='cc-status';}
       if(rocSig)rocSig.innerHTML=mktClosedBadge();
-      if(card)card.className='cc';
-      console.log('SPX ROC: no data after all attempts, clean.length=',clean.length);
-      return;
+      if(card)card.className='cc';return;
     }
     if(rocSig)rocSig.innerHTML='';
     spxCandles=d;
@@ -846,10 +910,7 @@ async function loadSPXROC(){
     }
     prices['_spx_roc']=roc;
     updateChecklist();
-  }catch(e){
-    console.error('SPX ROC error',e);
-    if(rocSig)rocSig.innerHTML=mktClosedBadge();
-  }
+  }catch(e){if(rocSig)rocSig.innerHTML=mktClosedBadge();}
 }
 
 async function loadFG(){
@@ -879,31 +940,17 @@ async function loadFG(){
   }catch(e){const rl=document.getElementById('fg-rating');if(rl)rl.textContent='Unable to load';}
 }
 
-// FIX 2: HYG sparkline — show market-closed badge when candle data returns null/insufficient
 async function loadSparkline(){
   const sparkSig=document.getElementById('hyg-spark-signal');
   try{
     const r=await fetch(`${W}/candle?symbol=HYG&resolution=D&days=40`);
     const d=await r.json();
-    if(d&&d.c&&d.c.length>1){
-      // Clear any closed badge and draw
-      hyg30=d.c;
-      // If sparkline signal currently shows a closed badge, let updHYG handle it after quote loads
-      drawSpark();setTimeout(drawSpark,400);setTimeout(drawSpark,1200);
-    }else{
-      // No candle data returned (weekend/after hours)
-      if(sparkSig&&!document.getElementById('hyg-spark-signal').querySelector('.signal-banner')){
-        // Only show closed badge if no HYG quote data either
-        const hyg=prices['HYG'];
-        if(!hyg)sparkSig.innerHTML=mktClosedBadge();
-      }
-    }
-  }catch{
-    if(sparkSig&&!sparkSig.querySelector('.signal-banner'))sparkSig.innerHTML=mktClosedBadge();
-  }
+    if(d&&d.c&&d.c.length>1){hyg30=d.c;drawHYGSpark();setTimeout(drawHYGSpark,400);setTimeout(drawHYGSpark,1200);}
+    else{const hyg=prices['HYG'];if(sparkSig&&!hyg)sparkSig.innerHTML=mktClosedBadge();}
+  }catch{if(sparkSig&&!sparkSig.querySelector('.signal-banner'))sparkSig.innerHTML=mktClosedBadge();}
 }
 
-function drawSpark(){
+function drawHYGSpark(){
   const cv=document.getElementById('hyg-spark');if(!cv||hyg30.length<2)return;
   const W2=cv.getBoundingClientRect().width||cv.parentElement?.getBoundingClientRect().width||300;
   const H=48;cv.width=Math.floor(W2);cv.height=H;if(cv.width<10)return;
@@ -926,6 +973,182 @@ function drawSpark(){
   ctx.stroke();
 }
 
+// =============================================================
+// BAML OAS — FRED API (requires /fred endpoint on Worker)
+// =============================================================
+async function loadBAML(){
+  const bamlSig=document.getElementById('baml-signal');
+  const card=document.getElementById('baml-card');
+  const valEl=document.getElementById('baml-val');
+  const chgEl=document.getElementById('baml-chg');
+  const statusEl=document.getElementById('baml-status');
+  const strip=document.getElementById('baml-strip');
+  try{
+    const r=await fetch(`${W}/fred?series=BAMLH0A0HYM2&limit=30`,{signal:AbortSignal.timeout(10000)});
+    if(!r.ok){
+      const errText=await r.text();
+      console.log('BAML fetch non-OK:',r.status,errText.substring(0,200));
+      // If Worker doesn't have /fred yet, show a setup message
+      if(r.status===404||errText.includes('FRED_API_KEY')){
+        if(valEl)valEl.innerHTML=`<span style="font-size:18px;color:var(--muted);">Setup needed</span>`;
+        if(statusEl){statusEl.textContent='Worker /fred endpoint not configured';statusEl.className='cc-status c-w';}
+        if(bamlSig)bamlSig.innerHTML=sb('neutral','FRED API NOT CONFIGURED','Add /fred endpoint to Worker + FRED_API_KEY env var. Register free at fredaccount.stlouisfed.org.');
+        if(strip)strip.textContent='setup';
+        return;
+      }
+      throw new Error(`FRED proxy ${r.status}`);
+    }
+    const data=await r.json();
+    const obs=(data.observations||[]).filter(o=>o.value!==null);
+    if(obs.length<2)throw new Error('Insufficient FRED data');
+    baml30=obs.map(o=>o.value);
+    const latest=obs[obs.length-1].value;
+    const prev=obs[obs.length-2].value;
+    const weekAgo=obs.length>=6?obs[obs.length-6].value:prev;
+    const chgDay=latest-prev;
+    const chgWeekPct=((latest-weekAgo)/weekAgo*100).toFixed(2);
+
+    if(valEl)valEl.textContent=`${latest.toFixed(2)}%`;
+    if(strip)strip.textContent=`${latest.toFixed(2)}%`;
+    const sg=chgDay>=0?'+':'';
+    if(chgEl){chgEl.textContent=`${sg}${chgDay.toFixed(2)} pts · 7d ${chgWeekPct>=0?'+':''}${chgWeekPct}%`;chgEl.className=`pchg ${chgDay>=0?'up':'dn'}`;}
+
+    // Signal levels. BAML OAS historical context:
+    //   <4.0 = calm / tight
+    //   4.0-6.0 = normal
+    //   6.0-8.0 = elevated stress
+    //   >8.0 = credit cascade warning (Visser April 5 reading)
+    //   >10 = acute stress (2020 peak ~10.87)
+    let cls,txt;
+    if(latest>=10){cls='danger';txt=`🚨 ACUTE CREDIT STRESS — ${latest.toFixed(2)}%`;}
+    else if(latest>=8){cls='danger';txt=`⚠️ Credit cascade warning — ${latest.toFixed(2)}% (Visser Apr 5 ref)`;}
+    else if(latest>=6){cls='warn';txt=`Elevated stress — ${latest.toFixed(2)}%`;}
+    else if(latest>=4){cls='ok';txt=`Normal range — ${latest.toFixed(2)}%`;}
+    else{cls='ok';txt=`Tight spreads — ${latest.toFixed(2)}% (complacency risk)`;}
+
+    if(statusEl){statusEl.textContent=txt;statusEl.className=`cc-status ${cls==='ok'?'c-ok':cls==='warn'?'c-w':'c-d'}`;}
+    if(card)card.className=`cc ${cls}`;
+    drawBAMLSpark();setTimeout(drawBAMLSpark,400);
+
+    if(bamlSig){
+      if(latest>=10)bamlSig.innerHTML=sb('danger','ACUTE CREDIT STRESS','CCC/BB spreads at crisis levels. 2020 COVID peak was ~10.87%. Deploy checklist likely firing on multiple indicators. Cross-check HYG and VIX.');
+      else if(latest>=8)bamlSig.innerHTML=sb('danger','CREDIT CASCADE — ABOVE VISSER REFERENCE','BAML OAS above 8% = the level Visser flagged April 5. Blue Owl/SoftBank/Oracle stress showing up in spreads. Watch HYG daily.');
+      else if(latest>=6)bamlSig.innerHTML=sb('warn','SPREADS WIDENING — MONITOR','Credit stress building but not at crisis level. Combined with other signals this becomes meaningful.');
+      else if(chgWeekPct>10)bamlSig.innerHTML=sb('warn','ACCELERATING','OAS up >10% this week. Even from low levels this can be an early warning.');
+      else bamlSig.innerHTML=sb('ok','SPREADS TIGHT — NO CREDIT STRESS','Credit markets calm. BAML OAS is Visser\'s preferred proxy for CCC/BB spread stress. When this breaks higher, attention shifts fast.');
+    }
+  }catch(e){
+    console.log('BAML error:',e.message);
+    if(valEl)valEl.innerHTML=`<span style="font-size:18px;color:var(--muted);">--</span>`;
+    if(statusEl){statusEl.textContent='Unable to load FRED data';statusEl.className='cc-status';}
+    if(bamlSig)bamlSig.innerHTML=mktClosedBadge();
+    if(strip)strip.textContent='--';
+  }
+}
+
+function drawBAMLSpark(){
+  const cv=document.getElementById('baml-spark');if(!cv||baml30.length<2)return;
+  const W2=cv.getBoundingClientRect().width||cv.parentElement?.getBoundingClientRect().width||300;
+  const H=48;cv.width=Math.floor(W2);cv.height=H;if(cv.width<10)return;
+  const ctx=cv.getContext('2d');
+  const mn=Math.min(...baml30),mx=Math.max(...baml30);
+  const range=Math.max(mx-mn,0.1);
+  const xS=(W2-6)/(baml30.length-1),yS=(H-10)/range;
+  ctx.clearRect(0,0,W2,H);
+  // 8% warning line if in range
+  if(mn<=8&&mx>=8){
+    const y8=H-5-(8-mn)*yS;
+    ctx.strokeStyle='rgba(248,113,113,0.4)';ctx.lineWidth=1;ctx.setLineDash([4,3]);
+    ctx.beginPath();ctx.moveTo(0,y8);ctx.lineTo(W2,y8);ctx.stroke();
+    ctx.setLineDash([]);
+  }
+  const last=baml30[baml30.length-1];
+  ctx.strokeStyle=last>=8?'#f87171':last>=6?'#fbbf24':'#34d399';
+  ctx.lineWidth=2.5;ctx.lineJoin='round';ctx.lineCap='round';
+  ctx.beginPath();
+  baml30.forEach((v,i)=>{const x=3+i*xS,y=H-5-(v-mn)*yS;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});
+  ctx.stroke();
+}
+
+// =============================================================
+// Manual input cards — localStorage persistence
+// =============================================================
+function loadManual(){
+  // RSI<30
+  const rsiRaw=localStorage.getItem('rsi30_data');
+  if(rsiRaw){
+    try{
+      const d=JSON.parse(rsiRaw);
+      rsi30Manual=d.value;
+      document.getElementById('rsi30-display').textContent=`${d.value}%`;
+      const input=document.getElementById('rsi30-input');if(input)input.value=d.value;
+      updateManualTS('rsi30',d.ts);
+      renderManualSignal('rsi30',d.value);
+    }catch{}
+  }
+  // DVOL/UVOL
+  const dvolRaw=localStorage.getItem('dvol_data');
+  if(dvolRaw){
+    try{
+      const d=JSON.parse(dvolRaw);
+      dvolManual=d.value;
+      document.getElementById('dvol-display').textContent=d.value.toFixed(2);
+      const input=document.getElementById('dvol-input');if(input)input.value=d.value;
+      updateManualTS('dvol',d.ts);
+      renderManualSignal('dvol',d.value);
+    }catch{}
+  }
+}
+
+function saveManual(which){
+  const input=document.getElementById(`${which}-input`);
+  if(!input||input.value===''){return;}
+  const val=parseFloat(input.value);
+  if(isNaN(val)||val<0)return;
+  const ts=Date.now();
+  localStorage.setItem(`${which}_data`,JSON.stringify({value:val,ts}));
+  if(which==='rsi30'){
+    rsi30Manual=val;
+    document.getElementById('rsi30-display').textContent=`${val}%`;
+  }else{
+    dvolManual=val;
+    document.getElementById('dvol-display').textContent=val.toFixed(2);
+  }
+  updateManualTS(which,ts);
+  renderManualSignal(which,val);
+  updateChecklist();
+}
+
+function updateManualTS(which,ts){
+  const el=document.getElementById(`${which}-ts`);if(!el)return;
+  const age=Date.now()-ts;
+  const hours=Math.floor(age/3600000);
+  const days=Math.floor(hours/24);
+  let txt;
+  if(hours<1)txt=`Updated just now`;
+  else if(hours<24)txt=`Updated ${hours}h ago`;
+  else if(days<7)txt=`Updated ${days}d ago`;
+  else txt=`Updated ${days}d ago — refresh soon`;
+  el.textContent=txt;
+  el.style.color=days>=7?'var(--yellow)':days>=3?'var(--accent)':'var(--muted)';
+}
+
+function renderManualSignal(which,val){
+  const sig=document.getElementById(`${which}-signal`);if(!sig)return;
+  if(which==='rsi30'){
+    if(val>=40)sig.innerHTML=sb('danger','CAPITULATION — DEPLOY NOW','40%+ of S&P 500 oversold. If HYG and F&G also firing, deploy dry powder into watchlist names.');
+    else if(val>=20)sig.innerHTML=sb('warn','APPROACHING CAPITULATION — PREPARE','Oversold breadth rising. Stage first entries if 3+ other signals firing.');
+    else if(val>=10)sig.innerHTML=sb('warn','STRESS BUILDING — NOT YET','More selling than normal. Visser reference 3.98% on March 19.');
+    else sig.innerHTML=sb('neutral','LOW — HOLD DRY POWDER','Very few stocks oversold. No capitulation signal.');
+  }else{
+    // DVOL/UVOL — above 1 = more down than up volume
+    if(val>=5)sig.innerHTML=sb('danger','PANIC SELLING','Down volume overwhelming up volume. Capitulation characteristics. Cross-reference other triggers.');
+    else if(val>=3)sig.innerHTML=sb('warn','ELEVATED SELLING','Visser ref: 4.07 vs avg 1.22. Significant selling pressure.');
+    else if(val>=1.5)sig.innerHTML=sb('neutral','MILDLY BEARISH','More down than up volume but not extreme.');
+    else sig.innerHTML=sb('ok','NO PANIC','Balanced volume. Not contributing to deployment signal.');
+  }
+}
+
 function updateChecklist(){
   const hyg=prices['HYG']?.p,fg=fgData?.score,smhp=prices['_smh'],igvp=prices['_igv'];
   const vix=prices['VIX']?.p,xlf=prices['XLF'],roc=prices['_spx_roc'];
@@ -943,7 +1166,7 @@ function updateChecklist(){
   if(smhp!==undefined&&igvp!==undefined)setT('dot-ratio','txt-ratio',smhp>igvp,false,`SMH ${smhp>igvp?'leading':'lagging'} IGV by ${Math.abs(smhp-igvp).toFixed(1)}%`);
   if(vix!==undefined)setT('dot-vix','txt-vix',vix>=35,vix>=25,`VIX ${vix.toFixed(1)} — ${vix>=35?'DEPLOY TRIGGER':vix>=25?'ELEVATED':'calm'}`);
   if(xlf&&xlf.ma)setT('dot-xlf','txt-xlf',xlf.p<xlf.ma,false,`XLF $${xlf.p.toFixed(2)} ${xlf.p<xlf.ma?'BELOW':'above'} 200MA $${xlf.ma.toFixed(2)}`);
-  if(rsiBelow30!==null)setT('dot-rsi','txt-rsi',rsiBelow30>=20,rsiBelow30>=10,`% SPX RSI<30: ${rsiBelow30.toFixed(1)}% — ${rsiBelow30>=40?'CAPITULATION':rsiBelow30>=20?'elevating':'low'}`);
+  if(rsi30Manual!==null)setT('dot-rsi','txt-rsi',rsi30Manual>=20,rsi30Manual>=10,`% SPX RSI<30: ${rsi30Manual.toFixed(1)}% — ${rsi30Manual>=40?'CAPITULATION':rsi30Manual>=20?'elevating':'low'}`);
   if(roc!==undefined)setT('dot-roc','txt-roc',roc<0,roc<2,`SPX 126-day ROC: ${roc>=0?'+':''}${roc.toFixed(2)}% — ${roc<0?'NEGATIVE':'positive'}`);
   const sc=document.getElementById('deploy-score');
   if(sc){
@@ -960,149 +1183,34 @@ function updateChecklist(){
   if(banner)banner.style.borderLeftColor=fired>=5?'var(--red)':fired>=3?'var(--yellow)':fired>=1?'var(--accent)':'var(--border2)';
 }
 
-// FIX 3: Scan each tab's stocks and update alert badges
-// Called after prices load. Checks each stock against entry zone and approaching zone.
 function updateTabAlerts(){
   const tabMap=[
-    {tabId:'tab-t1', stocks:WL.t1},
-    {tabId:'tab-rack', stocks:WL.rack},
-    {tabId:'tab-pwr', stocks:WL.pwr},
+    {tabId:'tab-t1',stocks:WL.t1},
+    {tabId:'tab-rack',stocks:WL.rack},
+    {tabId:'tab-pwr',stocks:WL.pwr},
   ];
   tabMap.forEach(({tabId,stocks})=>{
-    const btn=document.getElementById(tabId);
-    if(!btn)return;
-    // Remove existing alert badge if any
-    const existing=btn.querySelector('.tab-alert');
-    if(existing)existing.remove();
-
-    let level=0; // 0=none, 1=approaching (within 10%), 2=in zone
-    let inZoneTickers=[];
-    let approachingTickers=[];
-
+    const btn=document.getElementById(tabId);if(!btn)return;
+    const existing=btn.querySelector('.tab-alert');if(existing)existing.remove();
+    let level=0;let inZoneTickers=[];let approachingTickers=[];
     stocks.forEach(s=>{
-      const pd=prices[s.t];
-      if(!pd||!pd.p)return;
+      if(s.lo===undefined)return;
+      const pd=prices[s.t];if(!pd||!pd.p)return;
       const p=pd.p;
-      // In zone: price between lo and hi
-      if(p>=s.lo&&p<=s.hi){
-        level=Math.max(level,2);
-        inZoneTickers.push(s.t);
-      } else if(p>s.hi){
-        // Above zone — check if within 10% drop of hi
+      if(p>=s.lo&&p<=s.hi){level=Math.max(level,2);inZoneTickers.push(s.t);}
+      else if(p>s.hi){
         const pctAbove=(p-s.hi)/p*100;
-        if(pctAbove<=10){
-          level=Math.max(level,1);
-          approachingTickers.push(s.t);
-        }
+        if(pctAbove<=10){level=Math.max(level,1);approachingTickers.push(s.t);}
       }
     });
-
     if(level===0)return;
-
     const badge=document.createElement('span');
     badge.className=`tab-alert ${level===2?'tab-alert-fire':'tab-alert-warn'}`;
     badge.textContent='!';
     const tickers=level===2?inZoneTickers:approachingTickers;
-    badge.title=level===2
-      ? `In entry zone: ${tickers.join(', ')}`
-      : `Approaching entry zone (within 10%): ${tickers.join(', ')}`;
+    badge.title=level===2?`In entry zone: ${tickers.join(', ')}`:`Approaching entry zone (within 10%): ${tickers.join(', ')}`;
     btn.appendChild(badge);
   });
-}
-
-async function fetchAIMacro(){
-  const btn=document.getElementById('ai-macro-btn');btn.disabled=true;btn.textContent='Searching...';
-  const rsiEl=document.getElementById('rsi30-val'),rsiSub=document.getElementById('rsi30-sub');
-  const dvolEl=document.getElementById('dvol-val'),dvolSub=document.getElementById('dvol-sub');
-  if(rsiEl)rsiEl.textContent='--';if(dvolEl)dvolEl.textContent='--';
-  if(rsiSub)rsiSub.innerHTML='<span class="spin"></span><span style="font-size:14px;color:var(--muted)">Searching...</span>';
-  if(dvolSub)dvolSub.innerHTML='<span class="spin"></span><span style="font-size:14px;color:var(--muted)">Searching...</span>';
-  // Two-message approach: first do the search, then force JSON output in a follow-up
-  const searchPrompt=`Search the web right now for these two market breadth indicators and report the most recent values you find:
-1. Percentage of S&P 500 stocks with RSI below 30 (check Barchart, StockCharts, or similar). 
-2. NYSE DVOL/UVOL ratio — down volume vs up volume today.
-After searching, report what you found in plain text.`;
-
-  const jsonPrompt=`Based on your search results, output ONLY a raw JSON object (no markdown, no explanation, nothing before or after the {). Use this exact structure:
-{"rsi_below_30":{"value":0,"interpretation":"what you found","source":"site name","signal":"ok"},"dvol_uvol":{"value":0,"avg_50day":0,"ratio_to_avg":0,"interpretation":"what you found","source":"site name","signal":"ok"}}
-Signal must be: "ok" if normal, "warn" if elevated, "extreme" if panic. If you could not find a value, use 0 and note it in interpretation. Output the JSON object now:`;
-
-  try{
-    // Step 1: search
-    const res1=await fetch(`${W}/news`,{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:1500,
-        tools:[{type:'web_search_20250305',name:'web_search'}],
-        messages:[{role:'user',content:searchPrompt}]})});
-    const raw1=await res1.text();
-    console.log('AI Macro step1 status:',res1.status,'preview:',raw1.substring(0,300));
-    let d1;
-    try{d1=JSON.parse(raw1);}catch(je){throw new Error(`Step1 non-JSON (${res1.status}): ${raw1.substring(0,200)}`);}
-    if(d1.error)throw new Error(d1.error.message||JSON.stringify(d1.error));
-    // Extract text — worker may return server_tool_use and server_tool_result blocks too
-    const allBlocks=d1.content||[];
-    console.log('AI Macro step1 block types:',allBlocks.map(b=>b.type).join(', '));
-    // Grab all text blocks; also grab tool result content if text is empty
-    let searchResult=allBlocks.filter(b=>b.type==='text').map(b=>b.text).join('');
-    if(!searchResult){
-      // Fall back to extracting text from server_tool_result content
-      searchResult=allBlocks
-        .filter(b=>b.type==='server_tool_result'||b.type==='tool_result')
-        .flatMap(b=>Array.isArray(b.content)?b.content:[b.content])
-        .filter(c=>c&&c.type==='text')
-        .map(c=>c.text).join('');
-    }
-    console.log('AI Macro search result length:',searchResult.length,'preview:',searchResult.substring(0,400));
-
-    // Step 2: force JSON from the search result
-    const res2=await fetch(`${W}/news`,{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:500,
-        messages:[
-          {role:'user',content:searchPrompt},
-          {role:'assistant',content:searchResult||'I searched but could not find specific values.'},
-          {role:'user',content:jsonPrompt}
-        ]})});
-    const raw2=await res2.text();
-    console.log('AI Macro step2 status:',res2.status,'preview:',raw2.substring(0,300));
-    let d2;
-    try{d2=JSON.parse(raw2);}catch(je){throw new Error(`Step2 non-JSON (${res2.status}): ${raw2.substring(0,200)}`);}
-    if(d2.error)throw new Error(d2.error.message||JSON.stringify(d2.error));
-    const txt=(d2.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('');
-    console.log('AI Macro step2 text:',txt.substring(0,400));
-    // Strip ALL markdown fencing variants before extracting JSON
-    const cleaned=txt.replace(/```[\w]*\n?/g,'').replace(/```/g,'').trim();
-    const m=cleaned.match(/\{[\s\S]*\}/);
-    if(!m)throw new Error(`Step2 no JSON found. Got: ${txt.substring(0,300)}`);
-    let p;
-    try{p=JSON.parse(m[0]);}catch(je){throw new Error(`Step2 JSON parse failed: ${je.message}. Raw: ${m[0].substring(0,200)}`);}
-    const ts=`Fetched: ${new Date().toLocaleTimeString()}`;
-    if(p.rsi_below_30){
-      const v=p.rsi_below_30;rsiBelow30=v.value;
-      if(rsiEl){rsiEl.textContent=`${v.value}%`;rsiEl.style.color=`var(--${v.signal==='extreme'?'red':v.signal==='warn'?'yellow':'green'})`;}
-      let banner='';
-      if(v.value>=40)banner=sb('danger','CAPITULATION — DEPLOY NOW','40%+ of S&P 500 oversold. If HYG and F&G also firing, deploy dry powder into watchlist names immediately.');
-      else if(v.value>=20)banner=sb('warn','APPROACHING CAPITULATION — PREPARE','Oversold breadth rising. Stage first entries if 3+ other signals firing.');
-      else if(v.value>=10)banner=sb('warn','STRESS BUILDING — NOT YET','More selling than normal. Visser reference was 3.98% on March 19. Current reading shows more stress.');
-      else banner=sb('neutral','LOW — HOLD DRY POWDER','Very few stocks oversold. No capitulation signal. Hold dry powder.');
-      if(rsiSub)rsiSub.innerHTML=`${banner}<div style="font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:6px;">Source: ${v.source||'web'} | ${v.interpretation||''}</div>`;
-      document.getElementById('rsi30-ts').textContent=ts;
-    }
-    if(p.dvol_uvol){
-      const v=p.dvol_uvol;dvolUvol=v.value;
-      const ratioTxt=v.ratio_to_avg?` (${v.ratio_to_avg.toFixed(1)}x avg)`:'';
-      if(dvolEl){dvolEl.textContent=`${v.value}${ratioTxt}`;dvolEl.style.color=`var(--${v.signal==='extreme'?'red':v.signal==='warn'?'yellow':'green'})`;}
-      const rx=v.ratio_to_avg||0;let banner='';
-      if(rx>=5||v.signal==='extreme')banner=sb('danger','PANIC SELLING — EXTREME','Down volume overwhelming up volume. This is what capitulation looks like. Cross-reference with other triggers.');
-      else if(rx>=3||v.signal==='warn')banner=sb('warn','ELEVATED SELLING — BUILDING','Visser reference: 4.07 vs avg 1.22. Significant selling pressure. Conditions developing.');
-      else banner=sb('neutral','NORMAL — NO PANIC SELLING','Down/up volume ratio is normal. Not contributing to deployment signal.');
-      if(dvolSub)dvolSub.innerHTML=`${banner}<div style="font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:6px;">50-day avg: ${v.avg_50day||'N/A'} | Source: ${v.source||'web'} | ${v.interpretation||''}</div>`;
-      document.getElementById('dvol-ts').textContent=ts;
-    }
-    updateChecklist();btn.textContent='↻ Refresh';btn.disabled=false;
-  }catch(e){
-    if(rsiSub)rsiSub.innerHTML=`<span class="errt">Error: ${e.message}</span>`;
-    if(dvolSub)dvolSub.innerHTML=`<span class="errt">Try again</span>`;
-    btn.textContent='Retry';btn.disabled=false;
-  }
 }
 
 async function loadEarnings(){
@@ -1130,17 +1238,16 @@ async function refreshAll(){
     await new Promise(r=>setTimeout(r,120));
   }
   const[btcQ,smhQ,igvQ,pltrQ,msftQ]=await Promise.all([
-    gq('BINANCE:BTCUSDT'),gq('SMH'),gq('IGV'),gq('PLTR'),gq('MSFT'),
+    gq('BINANCE:BTCUSDT'),gq('SMH'),gq('IGV'),gq('PLTR'),gq('MSFT')
   ]);
   if(btcQ&&btcQ.c)updBTC(btcQ);else{const b2=await gq('BTCUSDT');if(b2&&b2.c)updBTC(b2);}
-  // VIX — fetch via worker proxy from Yahoo Finance (Finnhub free plan blocks index quotes)
   await loadVIX();
   updRatio(smhQ,igvQ);
   if(pltrQ&&msftQ&&pltrQ.c&&msftQ.c)updPLTRMSFT(pltrQ,msftQ);
   await loadXLF();
   await loadSPXROC();
   await loadSparkline();
-  // FIX 3: Update tab alert badges after all prices are loaded
+  await loadBAML();
   updateTabAlerts();
   document.getElementById('vd-ref').textContent=`Updated: ${new Date().toLocaleTimeString()}`;
 }
@@ -1152,9 +1259,10 @@ async function fetchNews(ticker){
   const s=allStocks().find(x=>x.t===ticker);
   const pi=prices[ticker]?`Current price: $${prices[ticker].p.toFixed(2)} (${prices[ticker].cp>=0?'+':''}${prices[ticker].cp.toFixed(2)}% today).`:'';
   const ed=earningDates[ticker]?`Next earnings: ${earningDates[ticker]}.`:'';
+  const thesisTxt=s.th||s.sub||'Research pipeline name.';
   const prompt=`Financial research for Visser AI Macro Nexus investor (long physical AI infrastructure, cautious SaaS).
 Find 3 most recent relevant news for ${ticker} (${s.n}). ${pi} ${ed}
-Thesis: "${s.th}"
+Thesis: "${thesisTxt}"
 Include actual article URL. JSON only:
 {"items":[{"headline":"...","url":"https://...","source":"...","sentiment":"BULLISH|BEARISH|NEUTRAL","relevance":"one sentence"}],"summary":"one sentence overall"}`;
   try{
@@ -1163,8 +1271,7 @@ Include actual article URL. JSON only:
         tools:[{type:'web_search_20250305',name:'web_search'}],
         messages:[{role:'user',content:prompt}]})});
     const rawText=await res.text();
-    let data;
-    try{data=JSON.parse(rawText);}catch(je){throw new Error(`Worker error (${res.status}): ${rawText.substring(0,200)}`);}
+    let data;try{data=JSON.parse(rawText);}catch(je){throw new Error(`Worker error (${res.status}): ${rawText.substring(0,200)}`);}
     if(data.error)throw new Error(data.error.message||JSON.stringify(data.error));
     const txt=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('');
     const m=txt.replace(/```json|```/g,'').trim().match(/\{[\s\S]*\}/);
@@ -1186,7 +1293,7 @@ Include actual article URL. JSON only:
 }
 
 function fetchTabNews(){
-  const map={t1:WL.t1,rack:WL.rack,pwr:WL.pwr,mac:WL.mac,cmd:[]};
+  const map={t1:WL.t1,rack:WL.rack,pwr:WL.pwr,research:WL.research,mac:WL.mac,cmd:[]};
   (map[activeTab]||[]).forEach((s,i)=>setTimeout(()=>fetchNews(s.t),i*800));
 }
 
@@ -1198,8 +1305,18 @@ function cpLink(url,id){
 }
 function fbCopy(url){const t=document.createElement('textarea');t.value=url;t.style.cssText='position:fixed;opacity:0';document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);}
 
-window.addEventListener('resize',()=>{if(hyg30.length>1)drawSpark();});
+window.addEventListener('resize',()=>{if(hyg30.length>1)drawHYGSpark();if(baml30.length>1)drawBAMLSpark();});
+
+// Refresh manual timestamps every minute
+setInterval(()=>{
+  const rsiRaw=localStorage.getItem('rsi30_data');
+  if(rsiRaw){try{const d=JSON.parse(rsiRaw);updateManualTS('rsi30',d.ts);}catch{}}
+  const dvolRaw=localStorage.getItem('dvol_data');
+  if(dvolRaw){try{const d=JSON.parse(dvolRaw);updateManualTS('dvol',d.ts);}catch{}}
+},60000);
+
 renderAll();
+loadManual();
 refreshAll();
 loadFG();
 loadEarnings();
